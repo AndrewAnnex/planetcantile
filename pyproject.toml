@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "planetcantile"
+version = "0.1.0"
+description = "TMS tilesets for Planets"
+authors = ["Andrew Annex <ama6fy@virginia.edu>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+morecantile = "^3.2.1"
+click = "^8.1.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
