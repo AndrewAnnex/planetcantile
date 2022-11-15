@@ -19,6 +19,7 @@ jobs:
           poetry install
       - name: Run defaults script
         run: |
+          poetry shell
           cd planetcantile/data && python ./generate.py && cd -
       - name: show outputs
         run: |
