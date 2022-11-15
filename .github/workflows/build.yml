@@ -4,11 +4,11 @@ jobs:
     name: Run Planetcantile
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - name: setup git config
         run: |
           git config user.name "Andrew Annex's GitHub Actions Bot"
           git config user.email "<>"
-      - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
