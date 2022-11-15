@@ -16,7 +16,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           python -m pip install poetry
-          poetry init
+          poetry install
       - name: Run defaults script
         run: |
           cd planetcantile/data && python ./generate.py && cd -
