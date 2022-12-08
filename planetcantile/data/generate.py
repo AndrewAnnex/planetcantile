@@ -59,20 +59,23 @@ crss = []
 for crs in geocrss:
     crs_obj = CRS(crs)
     title = crs_obj.name
-    authority_version, code = crs_obj.to_authority(min_confidence=25)
-    authority, version = authority_version.split('_')
-    identifier = f'{authority}_{code}_{version}'
-
-    tmsp = Tmsparam(
-        crs=crs_obj,
-        extent=(-180.0, -90.0, 180.0, 90.0),  # Hardcoded domains, ever differ?
-        title=title,
-        identifier=identifier,
-        maxzoom=22,  # set lower for 200mpp MOLA
-        geographic_crs=crs_obj
-    )
-    
-    crss.append(tmsp)
+    auth = crs_obj.to_authority(min_confidence=25)
+    if auth is not None:
+        authority_version, code = auth
+        authority, version = authority_version.split('_')
+        identifier = f'{authority}_{code}_{version}'
+        
+        tmsp = Tmsparam(
+            crs=crs_obj,
+            extent=(-180.0, -90.0, 180.0, 90.0),  # Hardcoded domains, ever differ?
+            title=title,
+            identifier=identifier,
+            maxzoom=22,  # set lower for 200mpp MOLA
+            geographic_crs=crs_obj
+        )
+        crss.append(tmsp)
+    else:
+        print(f'Could not find authority for {crs_obj.to_wkt()}')
 
 for tmsp in crss:
     # create the tms object
