@@ -59,11 +59,9 @@ crss = []
 for crs in geocrss:
     crs_obj = CRS(crs)
     title = crs_obj.name
-    
-    # There has to be an easier way to get at the id?
-    crs_as_dict = json.loads(crs_obj.to_json())
-    i = crs_as_dict['id']
-    identifier = f'{i["authority"]}_{i["code"]}_{i["version"]}'
+    authority_version, code = crs_obj.to_authority()
+    authority, version = authority_version.split('_')
+    identifier = f'{authority}_{code}_{version}'
 
     tmsp = Tmsparam(
         crs=crs_obj,
