@@ -59,7 +59,6 @@ crss = []
 for crs in geocrss:
     crs_obj = CRS(crs)
     title = crs_obj.name
-    auth  
     authority_version, code = crs_obj.to_authority(min_confidence=25)
     authority, version = authority_version.split('_')
     identifier = f'{authority}_{code}_{version}'
