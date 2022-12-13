@@ -26,4 +26,4 @@ jobs:
           git status
       - name: run tests
         run: |
-          python -m pytest .
+          poetry run pytest .
