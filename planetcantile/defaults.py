@@ -1,8 +1,8 @@
 import importlib.resources as importlib_resources
-import pathlib
+from copy import copy
+from typing import Dict
 
-from morecantile import TileMatrixSet
-from morecantile import tms
+from morecantile import TileMatrixSet, TileMatrixSets
 
 
 def to_tms(path):
@@ -10,7 +10,10 @@ def to_tms(path):
         tms = TileMatrixSet.parse_file(src)
     return tms
 
-planet_tms_jsons = importlib_resources.files('planetcantile.data').glob('*.json')
-planet_tmss = map(to_tms, planet_tms_jsons)
 
-planetary_tms = tms.register(*planet_tms_jsons, overwrite=True)
+planetary_tms_jsons = importlib_resources.files('planetcantile.data').glob('*.json')
+planetary_tms_dict: Dict[str, TileMatrixSet] = {
+    p.stem: to_tms(p) for p in planetary_tms_jsons
+}
+
+planetary_tms = TileMatrixSets(copy(planetary_tms_dict))

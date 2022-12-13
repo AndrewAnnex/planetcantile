@@ -24,3 +24,6 @@ jobs:
         run: |
           cat ./planetcantile/data/*.json
           git status
+      - name: run tests
+        run: |
+          python -m pytest .
