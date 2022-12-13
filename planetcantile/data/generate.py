@@ -70,7 +70,7 @@ for crs in geocrss:
             extent=(-180.0, -90.0, 180.0, 90.0),  # Hardcoded domains, ever differ?
             title=title,
             identifier=identifier,
-            maxzoom=22,  # set lower for 200mpp MOLA
+            maxzoom=24,
             geographic_crs=crs_obj
         )
         crss.append(tmsp)
