@@ -1,13 +1,14 @@
 import json
 import os
 import urllib.request
+from dataclasses import dataclass, field, asdict
+import json
 
 from pyproj import CRS, Transformer
 WGS84_CRS = CRS.from_epsg(4326)
 import morecantile
+from morecantile.models import crs_axis_inverted
 
-from dataclasses import dataclass, field, asdict
-import json
 # try to add Area of Use to each CRS first
 # use the .name and .area_of_use.bounds
 
@@ -71,11 +72,8 @@ for crs in allcrss:
         extent = (0.0, -90.0, 360.0, 90.0) if 'clon = 180' in crs else (-180.0, -90.0, 180.0, 90.0)
         # do some work to get extent from projected CRSs
         if crs_obj.is_projected:
-            # todo: this doesn't work well with ographic geographic crss (those with inverse flattenings), fails ecq: Invalid latitude
-            # looks to be an issue where the x and y is swapped, if the inverse_flattening is not 0.0 we would have to swap
-            # this x and y swap is happening despite setting always_xy to True
-            # another way is to check the coordinate_system, I see westing instead of easting
-            if geographic_crs.coordinate_system.axis_list[0].abbrev == 'W':
+            # geographic crss tend to have inverted axis order (easting and northing)
+            if crs_axis_inverted(geographic_crs):
                 extent = (extent[1], extent[0], extent[3], extent[2])
             transformer = Transformer.from_crs(geographic_crs, crs_obj, authority='IAU', always_xy=True, allow_ballpark=False, accuracy=0.001)
             # todo this still fails errcheck=True
