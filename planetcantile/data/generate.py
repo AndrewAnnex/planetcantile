@@ -1,13 +1,14 @@
 import json
 import os
 import urllib.request
-
-from pyproj import CRS
-WGS84_CRS = CRS.from_epsg(4326)
-import morecantile
-
 from dataclasses import dataclass, field, asdict
 import json
+
+from pyproj import CRS, Transformer
+WGS84_CRS = CRS.from_epsg(4326)
+import morecantile
+from morecantile.models import crs_axis_inverted
+
 # try to add Area of Use to each CRS first
 # use the .name and .area_of_use.bounds
 
@@ -48,15 +49,17 @@ class Tmsparam(object):
 with urllib.request.urlopen('https://raw.githubusercontent.com/pdssp/planet_crs_registry/main/data/result.wkts') as response:
     resp = response.read().decode(response.headers.get_content_charset())
 
-# Parse all the GeoCRSs from the list
-geocrss = []
+# Parse all the CRSs from the list
+allcrss = []
+acceptable_projections = ('Equirectangular', 'North Polar', 'South Polar')
 for wkt_str in resp.split(os.linesep + os.linesep):
-    if 'GEOGCRS' in wkt_str[:7] and 'TRIAXIAL' not in wkt_str:  # insanely hacky
-        geocrss.append(wkt_str)
+    if 'TRIAXIAL' not in wkt_str:  # insanely hacky
+        if wkt_str.startswith('GEOGCRS') or any(_ in wkt_str for _ in acceptable_projections):
+            allcrss.append(wkt_str)
 
 # Build a dynamic crss list
 crss = []
-for crs in geocrss:
+for crs in allcrss:
     crs_obj = CRS(crs)
     title = crs_obj.name
     auth = crs_obj.to_authority(min_confidence=25)
@@ -64,14 +67,25 @@ for crs in geocrss:
         authority_version, code = auth
         authority, version = authority_version.split('_')
         identifier = f'{authority}_{code}_{version}'
+        geographic_crs = crs_obj.geodetic_crs
+        # get the extent, if clon == 180 we have a 0-360 longitude crs
+        extent = (0.0, -90.0, 360.0, 90.0) if 'clon = 180' in crs else (-180.0, -90.0, 180.0, 90.0)
+        # do some work to get extent from projected CRSs
+        if crs_obj.is_projected:
+            # geographic crss tend to have inverted axis order (easting and northing)
+            if crs_axis_inverted(geographic_crs):
+                extent = (extent[1], extent[0], extent[3], extent[2])
+            transformer = Transformer.from_crs(geographic_crs, crs_obj, authority='IAU', always_xy=True, allow_ballpark=False, accuracy=0.001)
+            # todo this still fails errcheck=True
+            extent = transformer.transform_bounds(*extent, densify_pts=51)
         
         tmsp = Tmsparam(
             crs=crs_obj,
-            extent=(-180.0, -90.0, 180.0, 90.0),  # Hardcoded domains, ever differ?
+            extent=extent,
             title=title,
             identifier=identifier,
             maxzoom=24,
-            geographic_crs=crs_obj
+            geographic_crs=geographic_crs
         )
         crss.append(tmsp)
     else:
