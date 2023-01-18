@@ -15,6 +15,34 @@ from morecantile.models import crs_axis_inverted
 matrix_scale_mercator = [1, 1]
 matrix_scale_platecur = [2, 1]
 
+
+def CRS_to_info(crs: CRS)-> tuple[str]:
+    """Convert CRS to URI."""
+    authority = "EPSG"
+    code = "4326"
+    version = "0"
+    # attempt to grab the authority, version, and code from the CRS
+    authority_code = crs.to_authority(min_confidence=20)
+    if authority_code is not None:
+        authority, code = authority_code
+        # if we have a version number in the authority, split it out
+        if "_" in authority:
+            authority, version = authority.split("_")
+    return authority, version, code
+
+
+def CRS_to_uri(crs: CRS) -> str:
+    """Convert CRS to URI."""
+    authority, version, code = CRS_to_info(crs)
+    return f"http://www.opengis.net/def/crs/{authority}/{version}/{code}"
+
+
+def CRS_to_urn(crs: CRS)-> str:
+    authority, version, code = CRS_to_info(crs)
+    if version == '0':
+        version = ''
+    return f"urn:ogc:def:crs:{authority}:{version}:{code}"
+
 @dataclass()
 class Tmsparam(object):
     # Bounding box of the Tile Matrix Set, (left, bottom, right, top).
@@ -43,7 +71,7 @@ class Tmsparam(object):
 
     def __post_init__(self):
         # try to get the geographic_crs
-        geographic_crs = self.crs.geodetic_crs
+        self.geographic_crs = self.crs.geodetic_crs
 
 # Grab the wkts that mirror the OCG source and parse out just the GeogCRS in a hacktastic way.
 with urllib.request.urlopen('https://raw.githubusercontent.com/pdssp/planet_crs_registry/main/data/result.wkts') as response:
@@ -91,10 +119,14 @@ for crs in allcrss:
     else:
         print(f'Could not find authority for {crs_obj.to_wkt()}')
 
+
 for tmsp in crss:
     # create the tms object
     tms = morecantile.TileMatrixSet.custom(**asdict(tmsp))
-    _d = json.loads(tms.json(exclude_none=True))  # get to pretty printed json
+    tmsj = tms.json(exclude_none=True)
+    tmsj = tmsj.replace(CRS_to_uri(tms.supportedCRS), CRS_to_urn(tms.supportedCRS), 1)
+    tmsj = tmsj.replace(CRS_to_uri(tms.boundingBox.crs), CRS_to_urn(tms.boundingBox.crs), 1)
+    _d = json.loads(tmsj)  # get to pretty printed json
     with open(f'./{tmsp.identifier}_tms.json', 'w') as dst:
         # dump to json
         json.dump(_d, dst, indent=4, ensure_ascii=False)
