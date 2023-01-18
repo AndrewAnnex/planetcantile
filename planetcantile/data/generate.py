@@ -38,6 +38,7 @@ def CRS_to_uri(crs: CRS) -> str:
 
 
 def CRS_to_urn(crs: CRS)-> str:
+    """Convert CRS to URN."""
     authority, version, code = CRS_to_info(crs)
     if version == '0':
         version = ''
