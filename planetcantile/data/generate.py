@@ -82,7 +82,7 @@ with urllib.request.urlopen('https://raw.githubusercontent.com/pdssp/planet_crs_
 allcrss = []
 acceptable_projections = ('Equirectangular', 'North Polar', 'South Polar')
 for wkt_str in resp.split(os.linesep + os.linesep):
-    if 'TRIAXIAL' not in wkt_str:  # insanely hacky
+    if 'TRIAXIAL' not in wkt_str and 'Westing' not in wkt_str:  # insanely hacky
         if wkt_str.startswith('GEOGCRS') or any(_ in wkt_str for _ in acceptable_projections):
             allcrss.append(wkt_str)
 
