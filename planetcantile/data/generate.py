@@ -97,8 +97,15 @@ for crs in allcrss:
         authority, version = authority_version.split('_')
         identifier = f'{authority}_{code}_{version}'
         geographic_crs = crs_obj.geodetic_crs
-        # get the extent, if clon == 180 we have a 0-360 longitude crs
-        extent = (0.0, -90.0, 360.0, 90.0) if 'clon = 180' in crs else (-180.0, -90.0, 180.0, 90.0)       
+        # Set the extent 
+        if "Polar" in crs:
+            if "North" in crs:
+                extent = (-180.0, 0.0, 180.0, 90.0)
+            else:
+                extent = (-180.0, -90.0, 180.0, 90.0)
+        else:
+            # if clon == 180 we have a 0-360 longitude crs
+            extent = (0.0, -90.0, 360.0, 90.0) if "clon = 180" in crs else (-180.0, -90.0, 180.0, 90.0)
         tmsp = Tmsparam(
             crs=crs_obj,
             extent=extent,
