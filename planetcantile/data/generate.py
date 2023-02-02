@@ -115,6 +115,8 @@ for crs in allcrss:
             maxzoom=24,
             geographic_crs=geographic_crs
         )
+        if "Polar" in crs:
+            tmsp.matrix_scale = [1, 1]
         crss.append(tmsp)
     else:
         print(f'Could not find authority for {crs_obj.to_wkt()}')
