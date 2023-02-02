@@ -102,7 +102,7 @@ for crs in allcrss:
             if "North" in crs:
                 extent = (-180.0, 0.0, 180.0, 90.0)
             else:
-                extent = (-180.0, -90.0, 180.0, 90.0)
+                extent = (-180.0, -90.0, 180.0, 0.0)
         else:
             # if clon == 180 we have a 0-360 longitude crs
             extent = (0.0, -90.0, 360.0, 90.0) if "clon = 180" in crs else (-180.0, -90.0, 180.0, 90.0)
