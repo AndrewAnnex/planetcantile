@@ -5,339 +5,339 @@
     "supportedCRS": "urn:ogc:def:crs:IAU:2015:80732",
     "boundingBox": {
         "type": "BoundingBoxType",
-        "crs": "urn:ogc:def:crs:IAU:2015:80732",
+        "crs": "urn:ogc:def:crs:IAU:2015:80702",
         "lowerCorner": [
-            -5.034165168010798e+21,
-            -308253.712969176
+            -180.0,
+            -90.0
         ],
         "upperCorner": [
-            5.034165168010798e+21,
-            0.0
+            180.0,
+            90.0
         ]
     },
     "tileMatrix": [
         {
             "type": "TileMatrixType",
             "identifier": "0",
-            "scaleDenominator": 7.0231098884079214e+22,
+            "scaleDenominator": 17487727.800293013,
             "topLeftCorner": [
-                -5.034165168010798e+21,
-                0.0
+                -2507040.6574500063,
+                -7.796151227386194e-13
             ],
-            "tileWidth": 256,
-            "tileHeight": 256,
+            "tileWidth": 512,
+            "tileHeight": 512,
             "matrixWidth": 2,
             "matrixHeight": 1
         },
         {
             "type": "TileMatrixType",
             "identifier": "1",
-            "scaleDenominator": 3.5115549442039607e+22,
+            "scaleDenominator": 8743863.900146507,
             "topLeftCorner": [
-                -5.034165168010798e+21,
-                0.0
+                -2507040.6574500063,
+                -7.796151227386194e-13
             ],
-            "tileWidth": 256,
-            "tileHeight": 256,
+            "tileWidth": 512,
+            "tileHeight": 512,
             "matrixWidth": 4,
             "matrixHeight": 2
         },
         {
             "type": "TileMatrixType",
             "identifier": "2",
-            "scaleDenominator": 1.7557774721019804e+22,
+            "scaleDenominator": 4371931.950073253,
             "topLeftCorner": [
-                -5.034165168010798e+21,
-                0.0
+                -2507040.6574500063,
+                -7.796151227386194e-13
             ],
-            "tileWidth": 256,
-            "tileHeight": 256,
+            "tileWidth": 512,
+            "tileHeight": 512,
             "matrixWidth": 8,
             "matrixHeight": 4
         },
         {
             "type": "TileMatrixType",
             "identifier": "3",
-            "scaleDenominator": 8.778887360509902e+21,
+            "scaleDenominator": 2185965.9750366267,
             "topLeftCorner": [
-                -5.034165168010798e+21,
-                0.0
+                -2507040.6574500063,
+                -7.796151227386194e-13
             ],
-            "tileWidth": 256,
-            "tileHeight": 256,
+            "tileWidth": 512,
+            "tileHeight": 512,
             "matrixWidth": 16,
             "matrixHeight": 8
         },
         {
             "type": "TileMatrixType",
             "identifier": "4",
-            "scaleDenominator": 4.389443680254951e+21,
+            "scaleDenominator": 1092982.9875183133,
             "topLeftCorner": [
-                -5.034165168010798e+21,
-                0.0
+                -2507040.6574500063,
+                -7.796151227386194e-13
             ],
-            "tileWidth": 256,
-            "tileHeight": 256,
+            "tileWidth": 512,
+            "tileHeight": 512,
             "matrixWidth": 32,
             "matrixHeight": 16
         },
         {
             "type": "TileMatrixType",
             "identifier": "5",
-            "scaleDenominator": 2.1947218401274754e+21,
+            "scaleDenominator": 546491.4937591567,
             "topLeftCorner": [
-                -5.034165168010798e+21,
-                0.0
+                -2507040.6574500063,
+                -7.796151227386194e-13
             ],
-            "tileWidth": 256,
-            "tileHeight": 256,
+            "tileWidth": 512,
+            "tileHeight": 512,
             "matrixWidth": 64,
             "matrixHeight": 32
         },
         {
             "type": "TileMatrixType",
             "identifier": "6",
-            "scaleDenominator": 1.0973609200637377e+21,
+            "scaleDenominator": 273245.74687957834,
             "topLeftCorner": [
-                -5.034165168010798e+21,
-                0.0
+                -2507040.6574500063,
+                -7.796151227386194e-13
             ],
-            "tileWidth": 256,
-            "tileHeight": 256,
+            "tileWidth": 512,
+            "tileHeight": 512,
             "matrixWidth": 128,
             "matrixHeight": 64
         },
         {
             "type": "TileMatrixType",
             "identifier": "7",
-            "scaleDenominator": 5.4868046003186886e+20,
+            "scaleDenominator": 136622.87343978917,
             "topLeftCorner": [
-                -5.034165168010798e+21,
-                0.0
+                -2507040.6574500063,
+                -7.796151227386194e-13
             ],
-            "tileWidth": 256,
-            "tileHeight": 256,
+            "tileWidth": 512,
+            "tileHeight": 512,
             "matrixWidth": 256,
             "matrixHeight": 128
         },
         {
             "type": "TileMatrixType",
             "identifier": "8",
-            "scaleDenominator": 2.7434023001593443e+20,
+            "scaleDenominator": 68311.43671989458,
             "topLeftCorner": [
-                -5.034165168010798e+21,
-                0.0
+                -2507040.6574500063,
+                -7.796151227386194e-13
             ],
-            "tileWidth": 256,
-            "tileHeight": 256,
+            "tileWidth": 512,
+            "tileHeight": 512,
             "matrixWidth": 512,
             "matrixHeight": 256
         },
         {
             "type": "TileMatrixType",
             "identifier": "9",
-            "scaleDenominator": 1.3717011500796722e+20,
+            "scaleDenominator": 34155.71835994729,
             "topLeftCorner": [
-                -5.034165168010798e+21,
-                0.0
+                -2507040.6574500063,
+                -7.796151227386194e-13
             ],
-            "tileWidth": 256,
-            "tileHeight": 256,
+            "tileWidth": 512,
+            "tileHeight": 512,
             "matrixWidth": 1024,
             "matrixHeight": 512
         },
         {
             "type": "TileMatrixType",
             "identifier": "10",
-            "scaleDenominator": 6.858505750398361e+19,
+            "scaleDenominator": 17077.859179973646,
             "topLeftCorner": [
-                -5.034165168010798e+21,
-                0.0
+                -2507040.6574500063,
+                -7.796151227386194e-13
             ],
-            "tileWidth": 256,
-            "tileHeight": 256,
+            "tileWidth": 512,
+            "tileHeight": 512,
             "matrixWidth": 2048,
             "matrixHeight": 1024
         },
         {
             "type": "TileMatrixType",
             "identifier": "11",
-            "scaleDenominator": 3.4292528751991804e+19,
+            "scaleDenominator": 8538.929589986823,
             "topLeftCorner": [
-                -5.034165168010798e+21,
-                0.0
+                -2507040.6574500063,
+                -7.796151227386194e-13
             ],
-            "tileWidth": 256,
-            "tileHeight": 256,
+            "tileWidth": 512,
+            "tileHeight": 512,
             "matrixWidth": 4096,
             "matrixHeight": 2048
         },
         {
             "type": "TileMatrixType",
             "identifier": "12",
-            "scaleDenominator": 1.7146264375995902e+19,
+            "scaleDenominator": 4269.4647949934115,
             "topLeftCorner": [
-                -5.034165168010798e+21,
-                0.0
+                -2507040.6574500063,
+                -7.796151227386194e-13
             ],
-            "tileWidth": 256,
-            "tileHeight": 256,
+            "tileWidth": 512,
+            "tileHeight": 512,
             "matrixWidth": 8192,
             "matrixHeight": 4096
         },
         {
             "type": "TileMatrixType",
             "identifier": "13",
-            "scaleDenominator": 8.573132187997951e+18,
+            "scaleDenominator": 2134.7323974967057,
             "topLeftCorner": [
-                -5.034165168010798e+21,
-                0.0
+                -2507040.6574500063,
+                -7.796151227386194e-13
             ],
-            "tileWidth": 256,
-            "tileHeight": 256,
+            "tileWidth": 512,
+            "tileHeight": 512,
             "matrixWidth": 16384,
             "matrixHeight": 8192
         },
         {
             "type": "TileMatrixType",
             "identifier": "14",
-            "scaleDenominator": 4.2865660939989755e+18,
+            "scaleDenominator": 1067.3661987483529,
             "topLeftCorner": [
-                -5.034165168010798e+21,
-                0.0
+                -2507040.6574500063,
+                -7.796151227386194e-13
             ],
-            "tileWidth": 256,
-            "tileHeight": 256,
+            "tileWidth": 512,
+            "tileHeight": 512,
             "matrixWidth": 32768,
             "matrixHeight": 16384
         },
         {
             "type": "TileMatrixType",
             "identifier": "15",
-            "scaleDenominator": 2.1432830469994877e+18,
+            "scaleDenominator": 533.6830993741764,
             "topLeftCorner": [
-                -5.034165168010798e+21,
-                0.0
+                -2507040.6574500063,
+                -7.796151227386194e-13
             ],
-            "tileWidth": 256,
-            "tileHeight": 256,
+            "tileWidth": 512,
+            "tileHeight": 512,
             "matrixWidth": 65536,
             "matrixHeight": 32768
         },
         {
             "type": "TileMatrixType",
             "identifier": "16",
-            "scaleDenominator": 1.0716415234997439e+18,
+            "scaleDenominator": 266.8415496870882,
             "topLeftCorner": [
-                -5.034165168010798e+21,
-                0.0
+                -2507040.6574500063,
+                -7.796151227386194e-13
             ],
-            "tileWidth": 256,
-            "tileHeight": 256,
+            "tileWidth": 512,
+            "tileHeight": 512,
             "matrixWidth": 131072,
             "matrixHeight": 65536
         },
         {
             "type": "TileMatrixType",
             "identifier": "17",
-            "scaleDenominator": 5.3582076174987194e+17,
+            "scaleDenominator": 133.4207748435441,
             "topLeftCorner": [
-                -5.034165168010798e+21,
-                0.0
+                -2507040.6574500063,
+                -7.796151227386194e-13
             ],
-            "tileWidth": 256,
-            "tileHeight": 256,
+            "tileWidth": 512,
+            "tileHeight": 512,
             "matrixWidth": 262144,
             "matrixHeight": 131072
         },
         {
             "type": "TileMatrixType",
             "identifier": "18",
-            "scaleDenominator": 2.6791038087493597e+17,
+            "scaleDenominator": 66.71038742177205,
             "topLeftCorner": [
-                -5.034165168010798e+21,
-                0.0
+                -2507040.6574500063,
+                -7.796151227386194e-13
             ],
-            "tileWidth": 256,
-            "tileHeight": 256,
+            "tileWidth": 512,
+            "tileHeight": 512,
             "matrixWidth": 524288,
             "matrixHeight": 262144
         },
         {
             "type": "TileMatrixType",
             "identifier": "19",
-            "scaleDenominator": 1.3395519043746798e+17,
+            "scaleDenominator": 33.35519371088603,
             "topLeftCorner": [
-                -5.034165168010798e+21,
-                0.0
+                -2507040.6574500063,
+                -7.796151227386194e-13
             ],
-            "tileWidth": 256,
-            "tileHeight": 256,
+            "tileWidth": 512,
+            "tileHeight": 512,
             "matrixWidth": 1048576,
             "matrixHeight": 524288
         },
         {
             "type": "TileMatrixType",
             "identifier": "20",
-            "scaleDenominator": 6.697759521873399e+16,
+            "scaleDenominator": 16.677596855443014,
             "topLeftCorner": [
-                -5.034165168010798e+21,
-                0.0
+                -2507040.6574500063,
+                -7.796151227386194e-13
             ],
-            "tileWidth": 256,
-            "tileHeight": 256,
+            "tileWidth": 512,
+            "tileHeight": 512,
             "matrixWidth": 2097152,
             "matrixHeight": 1048576
         },
         {
             "type": "TileMatrixType",
             "identifier": "21",
-            "scaleDenominator": 3.3488797609366996e+16,
+            "scaleDenominator": 8.338798427721507,
             "topLeftCorner": [
-                -5.034165168010798e+21,
-                0.0
+                -2507040.6574500063,
+                -7.796151227386194e-13
             ],
-            "tileWidth": 256,
-            "tileHeight": 256,
+            "tileWidth": 512,
+            "tileHeight": 512,
             "matrixWidth": 4194304,
             "matrixHeight": 2097152
         },
         {
             "type": "TileMatrixType",
             "identifier": "22",
-            "scaleDenominator": 1.6744398804683498e+16,
+            "scaleDenominator": 4.169399213860753,
             "topLeftCorner": [
-                -5.034165168010798e+21,
-                0.0
+                -2507040.6574500063,
+                -7.796151227386194e-13
             ],
-            "tileWidth": 256,
-            "tileHeight": 256,
+            "tileWidth": 512,
+            "tileHeight": 512,
             "matrixWidth": 8388608,
             "matrixHeight": 4194304
         },
         {
             "type": "TileMatrixType",
             "identifier": "23",
-            "scaleDenominator": 8372199402341749.0,
+            "scaleDenominator": 2.0846996069303767,
             "topLeftCorner": [
-                -5.034165168010798e+21,
-                0.0
+                -2507040.6574500063,
+                -7.796151227386194e-13
             ],
-            "tileWidth": 256,
-            "tileHeight": 256,
+            "tileWidth": 512,
+            "tileHeight": 512,
             "matrixWidth": 16777216,
             "matrixHeight": 8388608
         },
         {
             "type": "TileMatrixType",
             "identifier": "24",
-            "scaleDenominator": 4186099701170874.5,
+            "scaleDenominator": 1.0423498034651884,
             "topLeftCorner": [
-                -5.034165168010798e+21,
-                0.0
+                -2507040.6574500063,
+                -7.796151227386194e-13
             ],
-            "tileWidth": 256,
-            "tileHeight": 256,
+            "tileWidth": 512,
+            "tileHeight": 512,
             "matrixWidth": 33554432,
             "matrixHeight": 16777216
         }
