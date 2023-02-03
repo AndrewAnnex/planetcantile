@@ -98,14 +98,20 @@ for crs in allcrss:
         identifier = f'{authority}_{code}_{version}'
         geographic_crs = crs_obj.geodetic_crs
         # Set the extent 
-        if "Polar" in crs:
-            if "North" in crs:
+        clon_180 = "clon = 180" in crs
+        co = crs_obj.coordinate_operation
+        if co:
+            if co.name == "North Polar":
                 extent = (-180.0, 0.0, 180.0, 90.0)
-            else:
+            elif co.name == "South Polar":
                 extent = (-180.0, -90.0, 180.0, 0.0)
+            elif clon_180:
+                extent = (0.0, -90.0, 360.0, 90.0)
+            else:
+                extent = (-180.0, -90.0, 180.0, 90.0)
         else:
             # if clon == 180 we have a 0-360 longitude crs
-            extent = (0.0, -90.0, 360.0, 90.0) if "clon = 180" in crs else (-180.0, -90.0, 180.0, 90.0)
+            extent = (0.0, -90.0, 360.0, 90.0) if clon_180 else (-180.0, -90.0, 180.0, 90.0)
         tmsp = Tmsparam(
             crs=crs_obj,
             extent=extent,
@@ -119,7 +125,8 @@ for crs in allcrss:
             tmsp.matrix_scale = [1, 1]
         crss.append(tmsp)
     else:
-        print(f'Could not find authority for {crs_obj.to_wkt()}')
+        pass
+        #print(f'Could not find authority for {crs_obj.to_wkt()}')
 
 
 for tmsp in crss:

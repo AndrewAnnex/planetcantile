@@ -8,18 +8,18 @@
         "crs": "urn:ogc:def:crs:IAU:2015:63400",
         "lowerCorner": [
             -180.0,
-            0.0
+            -90.0
         ],
         "upperCorner": [
             180.0,
-            90.0
+            0.0
         ]
     },
     "tileMatrix": [
         {
             "type": "TileMatrixType",
             "identifier": "0",
-            "scaleDenominator": 525937.2168111992,
+            "scaleDenominator": 36272.32142857143,
             "topLeftCorner": [
                 -2573.5357488904247,
                 2599.9999999999995
@@ -32,7 +32,7 @@
         {
             "type": "TileMatrixType",
             "identifier": "1",
-            "scaleDenominator": 262968.6084055996,
+            "scaleDenominator": 18136.160714285714,
             "topLeftCorner": [
                 -2573.5357488904247,
                 2599.9999999999995
@@ -45,7 +45,7 @@
         {
             "type": "TileMatrixType",
             "identifier": "2",
-            "scaleDenominator": 131484.3042027998,
+            "scaleDenominator": 9068.080357142857,
             "topLeftCorner": [
                 -2573.5357488904247,
                 2599.9999999999995
@@ -58,7 +58,7 @@
         {
             "type": "TileMatrixType",
             "identifier": "3",
-            "scaleDenominator": 65742.1521013999,
+            "scaleDenominator": 4534.040178571428,
             "topLeftCorner": [
                 -2573.5357488904247,
                 2599.9999999999995
@@ -71,7 +71,7 @@
         {
             "type": "TileMatrixType",
             "identifier": "4",
-            "scaleDenominator": 32871.07605069995,
+            "scaleDenominator": 2267.020089285714,
             "topLeftCorner": [
                 -2573.5357488904247,
                 2599.9999999999995
@@ -84,7 +84,7 @@
         {
             "type": "TileMatrixType",
             "identifier": "5",
-            "scaleDenominator": 16435.538025349975,
+            "scaleDenominator": 1133.510044642857,
             "topLeftCorner": [
                 -2573.5357488904247,
                 2599.9999999999995
@@ -97,7 +97,7 @@
         {
             "type": "TileMatrixType",
             "identifier": "6",
-            "scaleDenominator": 8217.769012674988,
+            "scaleDenominator": 566.7550223214286,
             "topLeftCorner": [
                 -2573.5357488904247,
                 2599.9999999999995
@@ -110,7 +110,7 @@
         {
             "type": "TileMatrixType",
             "identifier": "7",
-            "scaleDenominator": 4108.884506337494,
+            "scaleDenominator": 283.3775111607143,
             "topLeftCorner": [
                 -2573.5357488904247,
                 2599.9999999999995
@@ -123,7 +123,7 @@
         {
             "type": "TileMatrixType",
             "identifier": "8",
-            "scaleDenominator": 2054.442253168747,
+            "scaleDenominator": 141.68875558035714,
             "topLeftCorner": [
                 -2573.5357488904247,
                 2599.9999999999995
@@ -136,7 +136,7 @@
         {
             "type": "TileMatrixType",
             "identifier": "9",
-            "scaleDenominator": 1027.2211265843735,
+            "scaleDenominator": 70.84437779017857,
             "topLeftCorner": [
                 -2573.5357488904247,
                 2599.9999999999995
@@ -149,7 +149,7 @@
         {
             "type": "TileMatrixType",
             "identifier": "10",
-            "scaleDenominator": 513.6105632921867,
+            "scaleDenominator": 35.422188895089285,
             "topLeftCorner": [
                 -2573.5357488904247,
                 2599.9999999999995
@@ -162,7 +162,7 @@
         {
             "type": "TileMatrixType",
             "identifier": "11",
-            "scaleDenominator": 256.80528164609336,
+            "scaleDenominator": 17.711094447544642,
             "topLeftCorner": [
                 -2573.5357488904247,
                 2599.9999999999995
@@ -175,7 +175,7 @@
         {
             "type": "TileMatrixType",
             "identifier": "12",
-            "scaleDenominator": 128.40264082304668,
+            "scaleDenominator": 8.855547223772321,
             "topLeftCorner": [
                 -2573.5357488904247,
                 2599.9999999999995
@@ -188,7 +188,7 @@
         {
             "type": "TileMatrixType",
             "identifier": "13",
-            "scaleDenominator": 64.20132041152334,
+            "scaleDenominator": 4.427773611886161,
             "topLeftCorner": [
                 -2573.5357488904247,
                 2599.9999999999995
@@ -201,7 +201,7 @@
         {
             "type": "TileMatrixType",
             "identifier": "14",
-            "scaleDenominator": 32.10066020576167,
+            "scaleDenominator": 2.2138868059430803,
             "topLeftCorner": [
                 -2573.5357488904247,
                 2599.9999999999995
@@ -214,7 +214,7 @@
         {
             "type": "TileMatrixType",
             "identifier": "15",
-            "scaleDenominator": 16.050330102880835,
+            "scaleDenominator": 1.1069434029715401,
             "topLeftCorner": [
                 -2573.5357488904247,
                 2599.9999999999995
@@ -227,7 +227,7 @@
         {
             "type": "TileMatrixType",
             "identifier": "16",
-            "scaleDenominator": 8.025165051440418,
+            "scaleDenominator": 0.5534717014857701,
             "topLeftCorner": [
                 -2573.5357488904247,
                 2599.9999999999995
@@ -240,7 +240,7 @@
         {
             "type": "TileMatrixType",
             "identifier": "17",
-            "scaleDenominator": 4.012582525720209,
+            "scaleDenominator": 0.27673585074288504,
             "topLeftCorner": [
                 -2573.5357488904247,
                 2599.9999999999995
@@ -253,7 +253,7 @@
         {
             "type": "TileMatrixType",
             "identifier": "18",
-            "scaleDenominator": 2.0062912628601044,
+            "scaleDenominator": 0.13836792537144252,
             "topLeftCorner": [
                 -2573.5357488904247,
                 2599.9999999999995
@@ -266,7 +266,7 @@
         {
             "type": "TileMatrixType",
             "identifier": "19",
-            "scaleDenominator": 1.0031456314300522,
+            "scaleDenominator": 0.06918396268572126,
             "topLeftCorner": [
                 -2573.5357488904247,
                 2599.9999999999995
@@ -279,7 +279,7 @@
         {
             "type": "TileMatrixType",
             "identifier": "20",
-            "scaleDenominator": 0.5015728157150261,
+            "scaleDenominator": 0.03459198134286063,
             "topLeftCorner": [
                 -2573.5357488904247,
                 2599.9999999999995
@@ -292,7 +292,7 @@
         {
             "type": "TileMatrixType",
             "identifier": "21",
-            "scaleDenominator": 0.25078640785751305,
+            "scaleDenominator": 0.017295990671430315,
             "topLeftCorner": [
                 -2573.5357488904247,
                 2599.9999999999995
@@ -305,7 +305,7 @@
         {
             "type": "TileMatrixType",
             "identifier": "22",
-            "scaleDenominator": 0.12539320392875652,
+            "scaleDenominator": 0.008647995335715157,
             "topLeftCorner": [
                 -2573.5357488904247,
                 2599.9999999999995
@@ -318,7 +318,7 @@
         {
             "type": "TileMatrixType",
             "identifier": "23",
-            "scaleDenominator": 0.06269660196437826,
+            "scaleDenominator": 0.004323997667857579,
             "topLeftCorner": [
                 -2573.5357488904247,
                 2599.9999999999995
@@ -331,7 +331,7 @@
         {
             "type": "TileMatrixType",
             "identifier": "24",
-            "scaleDenominator": 0.03134830098218913,
+            "scaleDenominator": 0.0021619988339287893,
             "topLeftCorner": [
                 -2573.5357488904247,
                 2599.9999999999995
