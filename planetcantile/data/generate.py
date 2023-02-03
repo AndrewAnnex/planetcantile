@@ -50,10 +50,10 @@ class Tmsparam(object):
     extent: tuple[float, float, float, float]
     # Tile Matrix Set coordinate reference system
     crs: CRS
-    # Width of each tile of this tile matrix in pixels (default is 256).
-    tile_width: int = 256
-    # Height of each tile of this tile matrix in pixels (default is 256).
-    tile_height: int = 256
+    # Width of each tile of this tile matrix in pixels (default is 512).
+    tile_width: int = 512
+    # Height of each tile of this tile matrix in pixels (default is 512).
+    tile_height: int = 512
     # Tiling schema coalescence coefficient, below you can just pass in either matrix_scale lists defined above
     matrix_scale: list = field(default_factory=lambda: matrix_scale_platecur)
     # Extent's coordinate reference system, as a pyproj CRS object.
@@ -97,28 +97,36 @@ for crs in allcrss:
         authority, version = authority_version.split('_')
         identifier = f'{authority}_{code}_{version}'
         geographic_crs = crs_obj.geodetic_crs
-        # get the extent, if clon == 180 we have a 0-360 longitude crs
-        extent = (0.0, -90.0, 360.0, 90.0) if 'clon = 180' in crs else (-180.0, -90.0, 180.0, 90.0)
-        # do some work to get extent from projected CRSs
-        if crs_obj.is_projected:
-            # geographic crss tend to have inverted axis order (easting and northing)
-            if crs_axis_inverted(geographic_crs):
-                extent = (extent[1], extent[0], extent[3], extent[2])
-            transformer = Transformer.from_crs(geographic_crs, crs_obj, authority='IAU', always_xy=True, allow_ballpark=False, accuracy=0.001)
-            # todo this still fails errcheck=True
-            extent = transformer.transform_bounds(*extent, densify_pts=51)
-        
+        # Set the extent 
+        clon_180 = "clon = 180" in crs
+        co = crs_obj.coordinate_operation
+        if co:
+            if co.name == "North Polar":
+                extent = (-180.0, 0.0, 180.0, 90.0)
+            elif co.name == "South Polar":
+                extent = (-180.0, -90.0, 180.0, 0.0)
+            elif clon_180:
+                extent = (0.0, -90.0, 360.0, 90.0)
+            else:
+                extent = (-180.0, -90.0, 180.0, 90.0)
+        else:
+            # if clon == 180 we have a 0-360 longitude crs
+            extent = (0.0, -90.0, 360.0, 90.0) if clon_180 else (-180.0, -90.0, 180.0, 90.0)
         tmsp = Tmsparam(
             crs=crs_obj,
             extent=extent,
+            extent_crs=geographic_crs,
             title=title,
             identifier=identifier,
             maxzoom=24,
             geographic_crs=geographic_crs
         )
+        if "Polar" in crs:
+            tmsp.matrix_scale = [1, 1]
         crss.append(tmsp)
     else:
-        print(f'Could not find authority for {crs_obj.to_wkt()}')
+        pass
+        #print(f'Could not find authority for {crs_obj.to_wkt()}')
 
 
 for tmsp in crss:
