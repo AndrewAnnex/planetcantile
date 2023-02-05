@@ -52,6 +52,10 @@ class TopographyQuantizer(BaseAlgorithm):
 
     # Parameters
     body: str = "anyrock"
+    # metadata
+    input_nbands: int = 1
+    output_nbands: int = 3
+    output_dtype: str = "uint8"
 
     def __call__(self, img: ImageData) -> ImageData:
         """Encode DEM into RGB"""
