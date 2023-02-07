@@ -8,12 +8,12 @@ from titiler.core.errors import DEFAULT_STATUS_CODES, add_exception_handlers
 from titiler.extensions import cogViewerExtension
 from titiler.core.algorithm import Algorithms
 from titiler.core.algorithm import algorithms as default_algorithms
+from fastapi import FastAPI
 
 
 algorithms: Algorithms = default_algorithms.register({"toporgb": TopographyQuantizer})
 PostProcessParams: Callable = algorithms.dependency
 
-from fastapi import FastAPI
 tms = TMSFactory(supported_tms=planetary_tms)
 algos = AlgorithmFactory(supported_algorithm=algorithms)
 cog = TilerFactory(
