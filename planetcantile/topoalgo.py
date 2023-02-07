@@ -60,7 +60,7 @@ class TopographyQuantizer(BaseAlgorithm):
     def __call__(self, img: ImageData) -> ImageData:
         """Encode DEM into RGB"""
         quantizer = quantizers.get(self.body, "anyrock")
-        z = img.data[0]
+        z = img.data[0].astype(float)
         z -= quantizer["min"]
         z /= quantizer["resolution"]
         d_z = z / 256
