@@ -4,7 +4,7 @@ from numpy import stack, uint8
 
 quantizers = {
     'anyrock': {
-        "min"       : -9000.0,
+        "min"       : -12000.0,
         "resolution": 0.00204682,
         "rScaler"   : 134.14039552,
         "gScaler"   : 0.52398592,
