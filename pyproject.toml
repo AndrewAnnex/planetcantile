@@ -4,6 +4,18 @@ version = "0.1.0"
 description = "TMS tilesets for Planets"
 authors = ["Andrew Annex <ama6fy@virginia.edu>"]
 readme = "README.md"
+keywords = ["morecantile", "TMS", "TileMatrixSet", "GIS",]
+include = ["planetcantile/data/*.json"]
+repository = "https://github.com/AndrewAnnex/planetcantile"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: GIS",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: BSD License"
+]
+
 
 [tool.poetry.dependencies]
 python = "^3.10"
