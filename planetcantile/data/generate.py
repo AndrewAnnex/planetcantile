@@ -136,7 +136,7 @@ for tmsp in crss:
     tmsj = tmsj.replace(CRS_to_uri(tms.supportedCRS), CRS_to_urn(tms.supportedCRS), 1)
     tmsj = tmsj.replace(CRS_to_uri(tms.boundingBox.crs), CRS_to_urn(tms.boundingBox.crs), 1)
     _d = json.loads(tmsj)  # get to pretty printed json
-    with open(f'./{tmsp.identifier}_tms.json', 'w') as dst:
+    with open(f'./{tmsp.identifier}.json', 'w') as dst:
         # dump to json
         json.dump(_d, dst, indent=4, ensure_ascii=False)
         print(f'wrote {dst.name}')
