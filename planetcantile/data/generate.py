@@ -95,7 +95,7 @@ for crs in allcrss:
     if auth is not None:
         authority_version, code = auth
         authority, version = authority_version.split('_')
-        identifier = f'{authority}_{code}_{version}'
+        identifier = f'{authority}_{version}_{code}'
         geographic_crs = crs_obj.geodetic_crs
         # Set the extent 
         clon_180 = "clon = 180" in crs
