@@ -100,10 +100,13 @@ for crs in allcrss:
         # Set the extent 
         clon_180 = "clon = 180" in crs
         co = crs_obj.coordinate_operation
+        matrix_scale = [2, 1]
         if co:
             if co.name == "North Polar":
+                matrix_scale = [1, 1]
                 extent = (-180.0, 0.0, 180.0, 90.0)
             elif co.name == "South Polar":
+                matrix_scale = [1, 1]
                 extent = (-180.0, -90.0, 180.0, 0.0)
             elif clon_180:
                 extent = (0.0, -90.0, 360.0, 90.0)
@@ -118,6 +121,7 @@ for crs in allcrss:
             extent_crs=geographic_crs,
             title=title,
             identifier=identifier,
+            matrix_scale=matrix_scale,
             maxzoom=24,
             geographic_crs=geographic_crs
         )
