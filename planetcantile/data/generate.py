@@ -132,15 +132,14 @@ for crs in allcrss:
         pass
         #print(f'Could not find authority for {crs_obj.to_wkt()}')
 
-
-for tmsp in crss:
+for tmsp in crss[10:]:
     # create the tms object
     tms = morecantile.TileMatrixSet.custom(**asdict(tmsp))
-    tmsj = tms.json(exclude_none=True)
-    tmsj = tmsj.replace(CRS_to_uri(tms.supportedCRS), CRS_to_urn(tms.supportedCRS), 1)
-    tmsj = tmsj.replace(CRS_to_uri(tms.boundingBox.crs), CRS_to_urn(tms.boundingBox.crs), 1)
-    _d = json.loads(tmsj)  # get to pretty printed json
+    tmsj = tms.dict()
+    # Include URN to the planetary projections; _geographic_crs is needed by downstream libs, e.g., morecantile 
+    tmsj['supportedCRS'] = tmsj['boundingBox']['crs'] = CRS_to_urn(tms.supportedCRS)
+    tmsj['_geographic_crs'] = CRS_to_urn(tms._geographic_crs)
+     
     with open(f'./{tmsp.identifier}.json', 'w') as dst:
-        # dump to json
-        json.dump(_d, dst, indent=4, ensure_ascii=False)
+        json.dump(tmsj, dst, indent=4, ensure_ascii=True)
         print(f'wrote {dst.name}')
