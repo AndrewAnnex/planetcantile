@@ -132,10 +132,10 @@ for crs in allcrss:
         pass
         #print(f'Could not find authority for {crs_obj.to_wkt()}')
 
-for tmsp in crss[10:]:
+for tmsp in crss:
     # create the tms object
     tms = morecantile.TileMatrixSet.custom(**asdict(tmsp))
-    tmsj = tms.dict()
+    tmsj = tms.dict(exclude_none=True)
     # Include URN to the planetary projections; _geographic_crs is needed by downstream libs, e.g., morecantile 
     tmsj['supportedCRS'] = tmsj['boundingBox']['crs'] = CRS_to_urn(tms.supportedCRS)
     tmsj['_geographic_crs'] = CRS_to_urn(tms._geographic_crs)
