@@ -5,7 +5,7 @@
     "supportedCRS": "urn:ogc:def:crs:IAU:2015:61810",
     "boundingBox": {
         "type": "BoundingBoxType",
-        "crs": "urn:ogc:def:crs:IAU:2015:61800",
+        "crs": "urn:ogc:def:crs:IAU:2015:61810",
         "lowerCorner": [
             -180.0,
             -90.0
@@ -341,5 +341,6 @@
             "matrixWidth": 33554432,
             "matrixHeight": 16777216
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:61800"
 }
