@@ -1,10 +1,11 @@
 import json
+import math
 import os
 import urllib.request
 from dataclasses import dataclass, field, asdict
 import json
 
-from pyproj import CRS, Transformer
+from pyproj import CRS, Transformer, Proj
 WGS84_CRS = CRS.from_epsg(4326)
 import morecantile
 from morecantile.models import crs_axis_inverted
@@ -102,31 +103,42 @@ for crs in allcrss:
         co = crs_obj.coordinate_operation
         matrix_scale = [2, 1]
         if co:
+            prj = Proj(crs_obj)
             if co.name == "North Polar":
+                minx, _ = prj(-90,0)
+                _, miny = prj(0,0)
+                maxx, _ = prj(90,0)
+                _, maxy = prj(180,0)
                 matrix_scale = [1, 1]
-                extent = (-180.0, 0.0, 180.0, 90.0)
+                extent = (minx, miny, maxx, maxy)
             elif co.name == "South Polar":
+                minx, _ = prj(-90, 0)
+                _, miny = prj(180, 0)
+                maxx, _ = prj(90, 0)
+                _, maxy = prj(0, 0)
                 matrix_scale = [1, 1]
-                extent = (-180.0, -90.0, 180.0, 0.0)
+                extent = (minx, miny, maxx, maxy)
             elif clon_180:
-                extent = (0.0, -90.0, 360.0, 90.0)
+                minx, miny = prj(0.0, -90.0)
+                maxx, maxy = prj(359.99999, 90.0)# todo 360.0 wraps to 0 long
+                extent = (minx, miny, math.fabs(minx), maxy)
             else:
-                extent = (-180.0, -90.0, 180.0, 90.0)
+                minx, miny = prj(-180, -90)
+                maxx, maxy = prj(180, 90)
+                extent = (minx, miny, maxx, maxy)
         else:
             # if clon == 180 we have a 0-360 longitude crs
             extent = (0.0, -90.0, 360.0, 90.0) if clon_180 else (-180.0, -90.0, 180.0, 90.0)
         tmsp = Tmsparam(
             crs=crs_obj,
             extent=extent,
-            extent_crs=geographic_crs,
+            extent_crs=crs_obj,
             title=title,
             identifier=identifier,
             matrix_scale=matrix_scale,
             maxzoom=24,
             geographic_crs=geographic_crs
         )
-        if "Polar" in crs:
-            tmsp.matrix_scale = [1, 1]
         crss.append(tmsp)
     else:
         pass
@@ -137,9 +149,8 @@ for tmsp in crss:
     tms = morecantile.TileMatrixSet.custom(**asdict(tmsp))
     tmsj = tms.dict(exclude_none=True)
     # Include URN to the planetary projections; _geographic_crs is needed by downstream libs, e.g., morecantile 
-    tmsj['supportedCRS'] = tmsj['boundingBox']['crs'] = CRS_to_urn(tms.supportedCRS)
+    tmsj['supportedCRS'] = tmsj['boundingBox']['crs'] = CRS_to_urn(tmsj['boundingBox']['crs'])
     tmsj['_geographic_crs'] = CRS_to_urn(tms._geographic_crs)
-     
     with open(f'./{tmsp.identifier}.json', 'w') as dst:
         json.dump(tmsj, dst, indent=4, ensure_ascii=True)
         print(f'wrote {dst.name}')
