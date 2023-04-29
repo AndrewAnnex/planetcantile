@@ -61,9 +61,9 @@ class Tmsparam(object):
     extent_crs: CRS | None = None
     # Tile Matrix Set minimum zoom level (default is 0).
     minzoom: int = 0
-    # Tile Matrix Set maximum zoom level (default is 24).
+    # Tile Matrix Set maximum zoom level (default is 30).
     # TODO: find doc page on going from min/max zoom to GSD/degree per pixel
-    maxzoom: int = 24
+    maxzoom: int = 30
     # Tile Matrix Set title (default is 'Custom TileMatrixSet')
     title: str = "Custom TileMatrixSet"
     # Tile Matrix Set identifier (default is 'Custom')
@@ -136,7 +136,6 @@ for crs in allcrss:
             title=title,
             identifier=identifier,
             matrix_scale=matrix_scale,
-            maxzoom=24,
             geographic_crs=geographic_crs
         )
         crss.append(tmsp)
