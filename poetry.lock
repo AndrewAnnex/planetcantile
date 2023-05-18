@@ -13,6 +13,14 @@ tests = ["cloudpickle", "coverage[toml] (>=5.0.2)", "hypothesis", "mypy (>=0.900
 tests-no-zope = ["cloudpickle", "coverage[toml] (>=5.0.2)", "hypothesis", "mypy (>=0.900,!=0.940)", "pympler", "pytest (>=4.3.0)", "pytest-mypy-plugins"]
 
 [[package]]
+name = "cachetools"
+version = "5.3.0"
+description = "Extensible memoizing collections and decorators"
+category = "main"
+optional = false
+python-versions = "~=3.7"
+
+[[package]]
 name = "certifi"
 version = "2022.12.7"
 description = "Python package for providing Mozilla's CA Bundle."
@@ -60,7 +68,7 @@ python-versions = "*"
 
 [[package]]
 name = "morecantile"
-version = "3.2.5"
+version = "3.4.0"
 description = "Construct and use map tile grids (a.k.a TileMatrixSet / TMS)."
 category = "main"
 optional = false
@@ -68,6 +76,7 @@ python-versions = ">=3.8"
 
 [package.dependencies]
 attrs = "*"
+cachetools = "*"
 pydantic = "*"
 pyproj = ">=3.1,<4.0"
 
@@ -75,7 +84,7 @@ pyproj = ">=3.1,<4.0"
 dev = ["pre-commit"]
 docs = ["mkdocs", "mkdocs-material", "pygments"]
 rasterio = ["rasterio (>=1.2.1)"]
-test = ["mercantile", "pytest", "pytest-cov"]
+test = ["mercantile", "pytest", "pytest-cov", "rasterio (>=1.2.1)"]
 
 [[package]]
 name = "packaging"
@@ -169,6 +178,10 @@ attrs = [
     {file = "attrs-22.1.0-py2.py3-none-any.whl", hash = "sha256:86efa402f67bf2df34f51a335487cf46b1ec130d02b8d39fd248abfd30da551c"},
     {file = "attrs-22.1.0.tar.gz", hash = "sha256:29adc2665447e5191d0e7c568fde78b21f9672d344281d0c6e1ab085429b22b6"},
 ]
+cachetools = [
+    {file = "cachetools-5.3.0-py3-none-any.whl", hash = "sha256:429e1a1e845c008ea6c85aa35d4b98b65d6a9763eeef3e37e92728a12d1de9d4"},
+    {file = "cachetools-5.3.0.tar.gz", hash = "sha256:13dfddc7b8df938c21a940dfa6557ce6e94a2f1cdfa58eb90c805721d58f2c14"},
+]
 certifi = [
     {file = "certifi-2022.12.7-py3-none-any.whl", hash = "sha256:4ad3232f5e926d6718ec31cfc1fcadfde020920e278684144551c91769c7bc18"},
     {file = "certifi-2022.12.7.tar.gz", hash = "sha256:35824b4c3a97115964b408844d64aa14db1cc518f6562e8d7261699d1350a9e3"},
@@ -190,8 +203,8 @@ iniconfig = [
     {file = "iniconfig-1.1.1.tar.gz", hash = "sha256:bc3af051d7d14b2ee5ef9969666def0cd1a000e121eaea580d4a313df4b37f32"},
 ]
 morecantile = [
-    {file = "morecantile-3.2.5-py3-none-any.whl", hash = "sha256:0490b452d7aa168717ef24d71e3fe727e14a38c8039e6b85938ce4819511e386"},
-    {file = "morecantile-3.2.5.tar.gz", hash = "sha256:c6ec1b9e63c3b074f34e17a9afd0a911c5186cf797bcb44b1903724f7cd36c35"},
+    {file = "morecantile-3.4.0-py3-none-any.whl", hash = "sha256:6c182df6f73a787df57e437a87ab6350fed8b6cd81262a5ddce3e7b716637866"},
+    {file = "morecantile-3.4.0.tar.gz", hash = "sha256:9ac34dca2da5fc202cbcdaba363a38391dc92708798f6d2eb05069065753bfcc"},
 ]
 packaging = [
     {file = "packaging-22.0-py3-none-any.whl", hash = "sha256:957e2148ba0e1a3b282772e791ef1d8083648bc131c8ab0c1feba110ce1146c3"},
