@@ -2,10 +2,12 @@ import json
 import math
 import os
 import urllib.request
+import warnings
 from pathlib import Path
 from dataclasses import dataclass, field, asdict
 import json
 
+import pyproj.exceptions
 from pyproj import CRS, Transformer, Proj
 
 WGS84_CRS = CRS.from_epsg(4326)
@@ -79,7 +81,7 @@ class Tmsparam(object):
         self.geographic_crs = self.crs.geodetic_crs
 
 
-def generate_v1():
+def generate_v2():
     # Grab the wkts that mirror the OCG source and parse out just the GeogCRS in a hacktastic way.
     with urllib.request.urlopen(
         "https://raw.githubusercontent.com/pdssp/planet_crs_registry/main/data/result.wkts"
@@ -103,8 +105,14 @@ def generate_v1():
         title = crs_obj.name
         auth = crs_obj.to_authority(min_confidence=25)
         if auth is not None:
-            authority_version, code = auth
-            authority, version = authority_version.split("_")
+            # auth is not always correct though so manually extract from the wkt instead
+            # authority_version, code = auth
+            authority = "IAU"
+            version = "2015"
+            code = crs_obj.to_wkt()[
+                crs_obj.to_wkt().rfind('ID["IAU",') : crs_obj.to_wkt().rfind(",2015]")
+            ].split(",")[1]
+            # authority_version.split("_")
             identifier = f"{authority}_{version}_{code}"
             geographic_crs = crs_obj.geodetic_crs
             # Set the extent
@@ -112,7 +120,11 @@ def generate_v1():
             co = crs_obj.coordinate_operation
             matrix_scale = [2, 1]
             if co:
-                prj = Proj(crs_obj)
+                try:
+                    prj = Proj(crs)
+                except pyproj.exceptions.ProjError as pe:
+                    warnings.warn(f"Ran into projection error with {crs_obj}, {pe}")
+                    continue
                 if co.name == "North Polar":
                     minx, _ = prj(-90, 0)
                     _, miny = prj(0, 0)
@@ -156,16 +168,17 @@ def generate_v1():
             pass
             # print(f'Could not find authority for {crs_obj.to_wkt()}')
 
-    for tmsp in crss:
+    for _tms in crss:
         # create the tms object
-        tms = morecantile.TileMatrixSet.custom(**asdict(tmsp))
+        tms = morecantile.TileMatrixSet.custom(**asdict(_tms))
+        tms.orderedAxes = [_.abbrev for _ in CRS.from_user_input(tms.crs).axis_info]
         tmsj = tms.dict(exclude_none=True)
         # Include URN to the planetary projections; _geographic_crs is needed by downstream libs, e.g., morecantile
-        tmsj["supportedCRS"] = tmsj["boundingBox"]["crs"] = CRS_to_urn(
-            tmsj["boundingBox"]["crs"]
-        )
-        tmsj["_geographic_crs"] = CRS_to_urn(tms._geographic_crs)
-        with open(f"./v1/{tmsp.identifier}.json", "w") as dst:
+        # tmsj["supportedCRS"] = tmsj["boundingBox"]["crs"] = CRS_to_urn(
+        # 3    tmsj["boundingBox"]["crs"]
+        # )
+        tmsj["_geographic_crs"] = CRS_to_urn(_tms.geographic_crs)
+        with open(f"./v2/{_tms.identifier}.json", "w") as dst:
             json.dump(tmsj, dst, indent=4, ensure_ascii=True)
             print(f"wrote {dst.name}")
 
@@ -183,7 +196,4 @@ def generate_v2_from_v1():
 
 
 if __name__ == "__main__":
-    try:
-        generate_v1()
-    finally:
-        generate_v2_from_v1()
+    generate_v2()
