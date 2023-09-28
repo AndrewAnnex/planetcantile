@@ -22,7 +22,7 @@ jobs:
           cd planetcantile/data && poetry run python ./generate.py && cd -
       - name: show outputs
         run: |
-          cat ./planetcantile/data/*.json
+          cat ./planetcantile/data/*/*.json
           git status
       - name: run tests
         run: |
