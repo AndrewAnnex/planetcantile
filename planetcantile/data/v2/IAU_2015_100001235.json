@@ -1,22 +1,10 @@
 {
     "title": "Churyumov-Gerasimenko (2015) - Sphere / Ocentric/ South Polar",
-    "id": "IAU_2015_100001235",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:100001235",
-    "boundingBox": {
-        "lowerLeft": [
-            -3299.9999999999995,
-            -3299.9999999999995
-        ],
-        "upperRight": [
-            3299.9999999999995,
-            3299.9999999999995
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:100001235"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/100001235",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 1073741824,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:100001200"
 }

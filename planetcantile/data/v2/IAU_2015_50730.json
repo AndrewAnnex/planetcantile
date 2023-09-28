@@ -1,22 +1,10 @@
 {
     "title": "Elara (2015) - Sphere / Ocentric/ North Polar",
-    "id": "IAU_2015_50730",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:50730",
-    "boundingBox": {
-        "lowerLeft": [
-            -79999.99999999999,
-            -79999.99999999999
-        ],
-        "upperRight": [
-            79999.99999999999,
-            79999.99999999999
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:50730"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/50730",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 1073741824,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:50700"
 }

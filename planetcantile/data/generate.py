@@ -183,17 +183,5 @@ def generate_v2():
             print(f"wrote {dst.name}")
 
 
-def generate_v2_from_v1():
-    tms_v1_jsons = Path("./v1/").glob("*.json")
-    for v1tms in tms_v1_jsons:
-        with open(v1tms) as f:
-            data = json.load(f)
-        v2tms: morecantile.TileMatrixSet = morecantile.TileMatrixSet.from_v1(data)
-        v2tms.orderedAxes = [_.abbrev for _ in CRS.from_user_input(v2tms.crs).axis_info]
-        with open(f"./v2/{v2tms.id}.json", "w") as dst:
-            json.dump(v2tms.dict(exclude_none=True), dst, indent=4, ensure_ascii=True)
-            print(f"wrote {dst.name}")
-
-
 if __name__ == "__main__":
     generate_v2()

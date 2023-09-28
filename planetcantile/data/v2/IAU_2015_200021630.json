@@ -1,22 +1,10 @@
 {
     "title": "Kleopatra (2015) - Sphere / Ocentric/ North Polar",
-    "id": "IAU_2015_200021630",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:200021630",
-    "boundingBox": {
-        "lowerLeft": [
-            -130666.66666666658,
-            -130666.66666666658
-        ],
-        "upperRight": [
-            130666.66666666658,
-            130666.66666666658
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:200021630"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/200021630",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 1073741824,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:200021600"
 }

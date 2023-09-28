@@ -1,27 +1,15 @@
 {
     "title": "Halley (2015) - Sphere / Ocentric",
-    "id": "IAU_2015_100003600",
     "orderedAxes": [
         "Lat",
         "Lon"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:100003600",
-    "boundingBox": {
-        "lowerLeft": [
-            -90.0,
-            -180.0
-        ],
-        "upperRight": [
-            90.0,
-            180.0
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:100003600"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/100003600",
     "tileMatrices": [
         {
             "id": "0",
             "scaleDenominator": 116874.72669604886,
-            "cellSize": 0.23437500000000003,
+            "cellSize": 0.3515625,
             "pointOfOrigin": [
                 90.0,
                 -180.0
@@ -34,7 +22,7 @@
         {
             "id": "1",
             "scaleDenominator": 58437.36334802443,
-            "cellSize": 0.11718750000000001,
+            "cellSize": 0.17578125,
             "pointOfOrigin": [
                 90.0,
                 -180.0
@@ -47,7 +35,7 @@
         {
             "id": "2",
             "scaleDenominator": 29218.681674012216,
-            "cellSize": 0.05859375000000001,
+            "cellSize": 0.087890625,
             "pointOfOrigin": [
                 90.0,
                 -180.0
@@ -60,7 +48,7 @@
         {
             "id": "3",
             "scaleDenominator": 14609.340837006108,
-            "cellSize": 0.029296875000000003,
+            "cellSize": 0.0439453125,
             "pointOfOrigin": [
                 90.0,
                 -180.0
@@ -73,7 +61,7 @@
         {
             "id": "4",
             "scaleDenominator": 7304.670418503054,
-            "cellSize": 0.014648437500000002,
+            "cellSize": 0.02197265625,
             "pointOfOrigin": [
                 90.0,
                 -180.0
@@ -86,7 +74,7 @@
         {
             "id": "5",
             "scaleDenominator": 3652.335209251527,
-            "cellSize": 0.007324218750000001,
+            "cellSize": 0.010986328125,
             "pointOfOrigin": [
                 90.0,
                 -180.0
@@ -99,7 +87,7 @@
         {
             "id": "6",
             "scaleDenominator": 1826.1676046257635,
-            "cellSize": 0.0036621093750000004,
+            "cellSize": 0.0054931640625,
             "pointOfOrigin": [
                 90.0,
                 -180.0
@@ -112,7 +100,7 @@
         {
             "id": "7",
             "scaleDenominator": 913.0838023128817,
-            "cellSize": 0.0018310546875000002,
+            "cellSize": 0.00274658203125,
             "pointOfOrigin": [
                 90.0,
                 -180.0
@@ -125,7 +113,7 @@
         {
             "id": "8",
             "scaleDenominator": 456.5419011564409,
-            "cellSize": 0.0009155273437500001,
+            "cellSize": 0.001373291015625,
             "pointOfOrigin": [
                 90.0,
                 -180.0
@@ -138,7 +126,7 @@
         {
             "id": "9",
             "scaleDenominator": 228.27095057822044,
-            "cellSize": 0.00045776367187500005,
+            "cellSize": 0.0006866455078125,
             "pointOfOrigin": [
                 90.0,
                 -180.0
@@ -151,7 +139,7 @@
         {
             "id": "10",
             "scaleDenominator": 114.13547528911022,
-            "cellSize": 0.00022888183593750003,
+            "cellSize": 0.00034332275390625,
             "pointOfOrigin": [
                 90.0,
                 -180.0
@@ -164,7 +152,7 @@
         {
             "id": "11",
             "scaleDenominator": 57.06773764455511,
-            "cellSize": 0.00011444091796875001,
+            "cellSize": 0.000171661376953125,
             "pointOfOrigin": [
                 90.0,
                 -180.0
@@ -177,7 +165,7 @@
         {
             "id": "12",
             "scaleDenominator": 28.533868822277555,
-            "cellSize": 5.722045898437501e-05,
+            "cellSize": 8.58306884765625e-05,
             "pointOfOrigin": [
                 90.0,
                 -180.0
@@ -190,7 +178,7 @@
         {
             "id": "13",
             "scaleDenominator": 14.266934411138777,
-            "cellSize": 2.8610229492187503e-05,
+            "cellSize": 4.291534423828125e-05,
             "pointOfOrigin": [
                 90.0,
                 -180.0
@@ -203,7 +191,7 @@
         {
             "id": "14",
             "scaleDenominator": 7.133467205569389,
-            "cellSize": 1.4305114746093752e-05,
+            "cellSize": 2.1457672119140625e-05,
             "pointOfOrigin": [
                 90.0,
                 -180.0
@@ -216,7 +204,7 @@
         {
             "id": "15",
             "scaleDenominator": 3.5667336027846943,
-            "cellSize": 7.152557373046876e-06,
+            "cellSize": 1.0728836059570312e-05,
             "pointOfOrigin": [
                 90.0,
                 -180.0
@@ -229,7 +217,7 @@
         {
             "id": "16",
             "scaleDenominator": 1.7833668013923472,
-            "cellSize": 3.576278686523438e-06,
+            "cellSize": 5.364418029785156e-06,
             "pointOfOrigin": [
                 90.0,
                 -180.0
@@ -242,7 +230,7 @@
         {
             "id": "17",
             "scaleDenominator": 0.8916834006961736,
-            "cellSize": 1.788139343261719e-06,
+            "cellSize": 2.682209014892578e-06,
             "pointOfOrigin": [
                 90.0,
                 -180.0
@@ -255,7 +243,7 @@
         {
             "id": "18",
             "scaleDenominator": 0.4458417003480868,
-            "cellSize": 8.940696716308595e-07,
+            "cellSize": 1.341104507446289e-06,
             "pointOfOrigin": [
                 90.0,
                 -180.0
@@ -268,7 +256,7 @@
         {
             "id": "19",
             "scaleDenominator": 0.2229208501740434,
-            "cellSize": 4.4703483581542974e-07,
+            "cellSize": 6.705522537231445e-07,
             "pointOfOrigin": [
                 90.0,
                 -180.0
@@ -281,7 +269,7 @@
         {
             "id": "20",
             "scaleDenominator": 0.1114604250870217,
-            "cellSize": 2.2351741790771487e-07,
+            "cellSize": 3.3527612686157227e-07,
             "pointOfOrigin": [
                 90.0,
                 -180.0
@@ -294,7 +282,7 @@
         {
             "id": "21",
             "scaleDenominator": 0.05573021254351085,
-            "cellSize": 1.1175870895385744e-07,
+            "cellSize": 1.6763806343078613e-07,
             "pointOfOrigin": [
                 90.0,
                 -180.0
@@ -307,7 +295,7 @@
         {
             "id": "22",
             "scaleDenominator": 0.027865106271755424,
-            "cellSize": 5.587935447692872e-08,
+            "cellSize": 8.381903171539307e-08,
             "pointOfOrigin": [
                 90.0,
                 -180.0
@@ -320,7 +308,7 @@
         {
             "id": "23",
             "scaleDenominator": 0.013932553135877712,
-            "cellSize": 2.793967723846436e-08,
+            "cellSize": 4.190951585769653e-08,
             "pointOfOrigin": [
                 90.0,
                 -180.0
@@ -333,7 +321,7 @@
         {
             "id": "24",
             "scaleDenominator": 0.006966276567938856,
-            "cellSize": 1.396983861923218e-08,
+            "cellSize": 2.0954757928848267e-08,
             "pointOfOrigin": [
                 90.0,
                 -180.0
@@ -346,7 +334,7 @@
         {
             "id": "25",
             "scaleDenominator": 0.003483138283969428,
-            "cellSize": 6.98491930961609e-09,
+            "cellSize": 1.0477378964424133e-08,
             "pointOfOrigin": [
                 90.0,
                 -180.0
@@ -359,7 +347,7 @@
         {
             "id": "26",
             "scaleDenominator": 0.001741569141984714,
-            "cellSize": 3.492459654808045e-09,
+            "cellSize": 5.238689482212067e-09,
             "pointOfOrigin": [
                 90.0,
                 -180.0
@@ -372,7 +360,7 @@
         {
             "id": "27",
             "scaleDenominator": 0.000870784570992357,
-            "cellSize": 1.7462298274040224e-09,
+            "cellSize": 2.6193447411060333e-09,
             "pointOfOrigin": [
                 90.0,
                 -180.0
@@ -385,7 +373,7 @@
         {
             "id": "28",
             "scaleDenominator": 0.0004353922854961785,
-            "cellSize": 8.731149137020112e-10,
+            "cellSize": 1.3096723705530167e-09,
             "pointOfOrigin": [
                 90.0,
                 -180.0
@@ -398,7 +386,7 @@
         {
             "id": "29",
             "scaleDenominator": 0.00021769614274808925,
-            "cellSize": 4.365574568510056e-10,
+            "cellSize": 6.548361852765083e-10,
             "pointOfOrigin": [
                 90.0,
                 -180.0
@@ -411,7 +399,7 @@
         {
             "id": "30",
             "scaleDenominator": 0.00010884807137404463,
-            "cellSize": 2.182787284255028e-10,
+            "cellSize": 3.2741809263825417e-10,
             "pointOfOrigin": [
                 90.0,
                 -180.0
@@ -421,5 +409,6 @@
             "matrixWidth": 2147483648,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:100003600"
 }

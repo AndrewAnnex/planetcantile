@@ -1,22 +1,10 @@
 {
     "title": "Mercury (2015) - Sphere / Ocentric/ Equirectangular, clon = 180",
-    "id": "IAU_2015_19915",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:19915",
-    "boundingBox": {
-        "lowerLeft": [
-            -7667151.118865497,
-            -3833575.5594327487
-        ],
-        "upperRight": [
-            7667151.118865497,
-            3833575.5594327487
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:19915"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/19915",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 2147483648,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:19900"
 }

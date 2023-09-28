@@ -1,22 +1,10 @@
 {
     "title": "Triton (2015) - Sphere / Ocentric/ Equirectangular, clon = 180",
-    "id": "IAU_2015_80115",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:80115",
-    "boundingBox": {
-        "lowerLeft": [
-            -4249318.223245555,
-            -2124659.1116227773
-        ],
-        "upperRight": [
-            4249318.223245555,
-            2124659.1116227773
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:80115"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/80115",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 2147483648,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:80100"
 }

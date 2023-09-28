@@ -1,22 +1,10 @@
 {
     "title": "Iapetus (2015) - Sphere / Ocentric/ South Polar",
-    "id": "IAU_2015_60835",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:60835",
-    "boundingBox": {
-        "lowerLeft": [
-            -1491399.9999999998,
-            -1491399.9999999998
-        ],
-        "upperRight": [
-            1491399.9999999998,
-            1491399.9999999998
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:60835"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/60835",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 1073741824,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:60800"
 }

@@ -1,22 +1,10 @@
 {
     "title": "Polydeuces (2015) - Sphere / Ocentric/ Equirectangular, clon = 180",
-    "id": "IAU_2015_63415",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:63415",
-    "boundingBox": {
-        "lowerLeft": [
-            -4084.070449666731,
-            -2042.0352248333654
-        ],
-        "upperRight": [
-            4084.070449666731,
-            2042.0352248333654
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:63415"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/63415",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 2147483648,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:63400"
 }

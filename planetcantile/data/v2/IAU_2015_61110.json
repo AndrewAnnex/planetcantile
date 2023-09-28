@@ -1,22 +1,10 @@
 {
     "title": "Epimetheus (2015) - Sphere / Ocentric/ Equirectangular, clon = 0",
-    "id": "IAU_2015_61110",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:61110",
-    "boundingBox": {
-        "lowerLeft": [
-            -182840.69243892597,
-            -91420.34621946298
-        ],
-        "upperRight": [
-            182840.69243892597,
-            91420.34621946298
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:61110"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/61110",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 2147483648,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:61100"
 }

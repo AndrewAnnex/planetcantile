@@ -1,22 +1,10 @@
 {
     "title": "Miranda (2015) - Sphere / Ocentric/ North Polar",
-    "id": "IAU_2015_70530",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:70530",
-    "boundingBox": {
-        "lowerLeft": [
-            -471599.99999999994,
-            -471599.99999999994
-        ],
-        "upperRight": [
-            471599.99999999994,
-            471599.99999999994
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:70530"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/70530",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 1073741824,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:70500"
 }

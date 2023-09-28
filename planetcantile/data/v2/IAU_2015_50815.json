@@ -1,22 +1,10 @@
 {
     "title": "Pasiphae (2015) - Sphere / Ocentric/ Equirectangular, clon = 180",
-    "id": "IAU_2015_50815",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:50815",
-    "boundingBox": {
-        "lowerLeft": [
-            -56548.66776461628,
-            -28274.33388230814
-        ],
-        "upperRight": [
-            56548.66776461628,
-            28274.33388230814
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:50815"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/50815",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 2147483648,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:50800"
 }

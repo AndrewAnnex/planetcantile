@@ -1,22 +1,10 @@
 {
     "title": "Ida (2015) - Sphere / Ocentric/ Equirectangular, clon = 0",
-    "id": "IAU_2015_243101010",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:243101010",
-    "boundingBox": {
-        "lowerLeft": [
-            -49165.92502868026,
-            -24582.96251434013
-        ],
-        "upperRight": [
-            49165.92502868026,
-            24582.96251434013
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:243101010"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/243101010",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 2147483648,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:243101000"
 }

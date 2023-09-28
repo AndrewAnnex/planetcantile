@@ -1,22 +1,10 @@
 {
     "title": "Ananke (2015) - Sphere / Ocentric/ Equirectangular, clon = 0",
-    "id": "IAU_2015_51210",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:51210",
-    "boundingBox": {
-        "lowerLeft": [
-            -31415.926535897932,
-            -15707.963267948966
-        ],
-        "upperRight": [
-            31415.926535897932,
-            15707.963267948966
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:51210"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/51210",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 2147483648,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:51200"
 }

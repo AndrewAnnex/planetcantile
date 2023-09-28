@@ -1,22 +1,10 @@
 {
     "title": "Thebe (2015) - Sphere / Ocentric/ South Polar",
-    "id": "IAU_2015_51435",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:51435",
-    "boundingBox": {
-        "lowerLeft": [
-            -98599.99999999999,
-            -98599.99999999999
-        ],
-        "upperRight": [
-            98599.99999999999,
-            98599.99999999999
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:51435"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/51435",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 1073741824,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:51400"
 }

@@ -1,22 +1,10 @@
 {
     "title": "Metis (2015) - Sphere / Ocentric/ North Polar",
-    "id": "IAU_2015_51630",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:51630",
-    "boundingBox": {
-        "lowerLeft": [
-            -42999.99999999999,
-            -42999.99999999999
-        ],
-        "upperRight": [
-            42999.99999999999,
-            42999.99999999999
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:51630"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/51630",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 1073741824,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:51600"
 }

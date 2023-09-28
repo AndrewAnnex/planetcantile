@@ -1,22 +1,10 @@
 {
     "title": "Saturn (2015) - Sphere / Ocentric/ North Polar",
-    "id": "IAU_2015_69930",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:69930",
-    "boundingBox": {
-        "lowerLeft": [
-            -120535999.99999999,
-            -120535999.99999999
-        ],
-        "upperRight": [
-            120535999.99999999,
-            120535999.99999999
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:69930"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/69930",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 1073741824,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:69900"
 }

@@ -1,22 +1,10 @@
 {
     "title": "Io (2015) - Sphere / Ocentric/ Equirectangular, clon = 180",
-    "id": "IAU_2015_50115",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:50115",
-    "boundingBox": {
-        "lowerLeft": [
-            -5722379.602587272,
-            -2861189.801293636
-        ],
-        "upperRight": [
-            5722379.602587272,
-            2861189.801293636
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:50115"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/50115",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 2147483648,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:50100"
 }

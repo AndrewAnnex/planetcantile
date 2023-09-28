@@ -1,22 +1,10 @@
 {
     "title": "Ganymede (2015) - Sphere / Ocentric/ South Polar",
-    "id": "IAU_2015_50335",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:50335",
-    "boundingBox": {
-        "lowerLeft": [
-            -5262399.999999999,
-            -5262399.999999999
-        ],
-        "upperRight": [
-            5262399.999999999,
-            5262399.999999999
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:50335"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/50335",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 1073741824,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:50300"
 }

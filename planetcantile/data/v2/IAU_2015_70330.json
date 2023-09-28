@@ -1,22 +1,10 @@
 {
     "title": "Titania (2015) - Sphere / Ocentric/ North Polar",
-    "id": "IAU_2015_70330",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:70330",
-    "boundingBox": {
-        "lowerLeft": [
-            -1577799.9999999998,
-            -1577799.9999999998
-        ],
-        "upperRight": [
-            1577799.9999999998,
-            1577799.9999999998
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:70330"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/70330",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 1073741824,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:70300"
 }

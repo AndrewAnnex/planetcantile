@@ -1,22 +1,10 @@
 {
     "title": "Borrelly (2015) - Sphere / Ocentric/ South Polar",
-    "id": "IAU_2015_100000535",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:100000535",
-    "boundingBox": {
-        "lowerLeft": [
-            -8439.999999999998,
-            -8439.999999999998
-        ],
-        "upperRight": [
-            8439.999999999998,
-            8439.999999999998
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:100000535"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/100000535",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 1073741824,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:100000500"
 }

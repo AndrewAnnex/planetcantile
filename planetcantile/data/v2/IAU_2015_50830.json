@@ -1,22 +1,10 @@
 {
     "title": "Pasiphae (2015) - Sphere / Ocentric/ North Polar",
-    "id": "IAU_2015_50830",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:50830",
-    "boundingBox": {
-        "lowerLeft": [
-            -35999.99999999999,
-            -35999.99999999999
-        ],
-        "upperRight": [
-            35999.99999999999,
-            35999.99999999999
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:50830"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/50830",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 1073741824,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:50800"
 }

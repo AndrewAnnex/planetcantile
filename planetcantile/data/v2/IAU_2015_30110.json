@@ -1,22 +1,10 @@
 {
     "title": "Moon (2015) - Sphere / Ocentric/ Equirectangular, clon = 0",
-    "id": "IAU_2015_30110",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:30110",
-    "boundingBox": {
-        "lowerLeft": [
-            -5458203.076346907,
-            -2729101.5381734534
-        ],
-        "upperRight": [
-            5458203.076346907,
-            2729101.5381734534
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:30110"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/30110",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 2147483648,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:30100"
 }

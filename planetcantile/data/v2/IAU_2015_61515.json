@@ -1,22 +1,10 @@
 {
     "title": "Atlas (2015) - Sphere / Ocentric/ Equirectangular, clon = 180",
-    "id": "IAU_2015_61515",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:61515",
-    "boundingBox": {
-        "lowerLeft": [
-            -47438.049069205874,
-            -23719.024534602937
-        ],
-        "upperRight": [
-            47438.049069205874,
-            23719.024534602937
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:61515"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/61515",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 2147483648,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:61500"
 }

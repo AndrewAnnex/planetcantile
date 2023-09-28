@@ -1,22 +1,10 @@
 {
     "title": "Deimos (2015) - Sphere / Ocentric/ Equirectangular, clon = 180",
-    "id": "IAU_2015_40215",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:40215",
-    "boundingBox": {
-        "lowerLeft": [
-            -19477.874452256718,
-            -9738.937226128359
-        ],
-        "upperRight": [
-            19477.874452256718,
-            9738.937226128359
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:40215"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/40215",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 2147483648,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:40200"
 }

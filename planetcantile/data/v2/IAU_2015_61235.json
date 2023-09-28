@@ -1,22 +1,10 @@
 {
     "title": "Helene (2015) - Sphere / Ocentric/ South Polar",
-    "id": "IAU_2015_61235",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:61235",
-    "boundingBox": {
-        "lowerLeft": [
-            -35999.99999999999,
-            -35999.99999999999
-        ],
-        "upperRight": [
-            35999.99999999999,
-            35999.99999999999
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:61235"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/61235",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 1073741824,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:61200"
 }

@@ -1,22 +1,10 @@
 {
     "title": "Methone (2015) - Sphere / Ocentric/ Equirectangular, clon = 0",
-    "id": "IAU_2015_63210",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:63210",
-    "boundingBox": {
-        "lowerLeft": [
-            -4555.3093477052,
-            -2277.6546738526
-        ],
-        "upperRight": [
-            4555.3093477052,
-            2277.6546738526
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:63210"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/63210",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 2147483648,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:63200"
 }

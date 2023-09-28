@@ -1,22 +1,10 @@
 {
     "title": "Mathilde (2015) - Sphere / Ocentric/ Equirectangular, clon = 0",
-    "id": "IAU_2015_200025310",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:200025310",
-    "boundingBox": {
-        "lowerLeft": [
-            -83252.20532012952,
-            -41626.10266006476
-        ],
-        "upperRight": [
-            83252.20532012952,
-            41626.10266006476
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:200025310"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/200025310",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 2147483648,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:200025300"
 }

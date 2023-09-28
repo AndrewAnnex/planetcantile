@@ -1,22 +1,10 @@
 {
     "title": "Daphnis (2015) - Sphere / Ocentric/ South Polar",
-    "id": "IAU_2015_63535",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:63535",
-    "boundingBox": {
-        "lowerLeft": [
-            -7599.999999999999,
-            -7599.999999999999
-        ],
-        "upperRight": [
-            7599.999999999999,
-            7599.999999999999
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:63535"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/63535",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 1073741824,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:63500"
 }

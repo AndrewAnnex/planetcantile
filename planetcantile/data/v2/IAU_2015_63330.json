@@ -1,22 +1,10 @@
 {
     "title": "Pallene (2015) - Sphere / Ocentric/ North Polar",
-    "id": "IAU_2015_63330",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:63330",
-    "boundingBox": {
-        "lowerLeft": [
-            -4459.999999999999,
-            -4459.999999999999
-        ],
-        "upperRight": [
-            4459.999999999999,
-            4459.999999999999
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:63330"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/63330",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 1073741824,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:63300"
 }

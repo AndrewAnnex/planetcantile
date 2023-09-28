@@ -1,22 +1,10 @@
 {
     "title": "Ida (2015) - Sphere / Ocentric/ South Polar",
-    "id": "IAU_2015_243101035",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:243101035",
-    "boundingBox": {
-        "lowerLeft": [
-            -31299.999999999996,
-            -31299.999999999996
-        ],
-        "upperRight": [
-            31299.999999999996,
-            31299.999999999996
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:243101035"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/243101035",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 1073741824,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:243101000"
 }

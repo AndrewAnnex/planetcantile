@@ -1,22 +1,10 @@
 {
     "title": "Cressida (2015) - Sphere / Ocentric/ North Polar",
-    "id": "IAU_2015_70930",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:70930",
-    "boundingBox": {
-        "lowerLeft": [
-            -61999.99999999999,
-            -61999.99999999999
-        ],
-        "upperRight": [
-            61999.99999999999,
-            61999.99999999999
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:70930"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/70930",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 1073741824,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:70900"
 }

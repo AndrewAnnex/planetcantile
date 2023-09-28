@@ -1,22 +1,10 @@
 {
     "title": "Hartley 2 (2015) - Sphere / Ocentric/ North Polar",
-    "id": "IAU_2015_100004130",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:100004130",
-    "boundingBox": {
-        "lowerLeft": [
-            -1159.9999999999998,
-            -1159.9999999999998
-        ],
-        "upperRight": [
-            1159.9999999999998,
-            1159.9999999999998
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:100004130"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/100004130",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 1073741824,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:100004100"
 }

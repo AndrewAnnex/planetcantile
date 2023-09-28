@@ -1,22 +1,10 @@
 {
     "title": "Hartley 2 (2015) - Sphere / Ocentric/ Equirectangular, clon = 180",
-    "id": "IAU_2015_100004115",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:100004115",
-    "boundingBox": {
-        "lowerLeft": [
-            -1822.12373908208,
-            -911.06186954104
-        ],
-        "upperRight": [
-            1822.12373908208,
-            911.06186954104
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:100004115"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/100004115",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 2147483648,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:100004100"
 }

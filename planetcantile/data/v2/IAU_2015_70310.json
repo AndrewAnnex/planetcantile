@@ -1,22 +1,10 @@
 {
     "title": "Titania (2015) - Sphere / Ocentric/ Equirectangular, clon = 0",
-    "id": "IAU_2015_70310",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:70310",
-    "boundingBox": {
-        "lowerLeft": [
-            -2478402.4444169877,
-            -1239201.2222084939
-        ],
-        "upperRight": [
-            2478402.4444169877,
-            1239201.2222084939
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:70310"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/70310",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 2147483648,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:70300"
 }

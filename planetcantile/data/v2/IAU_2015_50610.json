@@ -1,22 +1,10 @@
 {
     "title": "Himalia (2015) - Sphere / Ocentric/ Equirectangular, clon = 0",
-    "id": "IAU_2015_50610",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:50610",
-    "boundingBox": {
-        "lowerLeft": [
-            -267035.3755551324,
-            -133517.6877775662
-        ],
-        "upperRight": [
-            267035.3755551324,
-            133517.6877775662
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:50610"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/50610",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 2147483648,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:50600"
 }

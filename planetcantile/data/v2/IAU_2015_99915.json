@@ -1,22 +1,10 @@
 {
     "title": "Pluto (2015) - Sphere / Ocentric/ Equirectangular, clon = 180",
-    "id": "IAU_2015_99915",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:99915",
-    "boundingBox": {
-        "lowerLeft": [
-            -3733154.550260751,
-            -1866577.2751303755
-        ],
-        "upperRight": [
-            3733154.550260751,
-            1866577.2751303755
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:99915"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/99915",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 2147483648,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:99900"
 }

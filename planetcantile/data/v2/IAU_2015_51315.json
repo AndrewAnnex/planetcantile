@@ -1,22 +1,10 @@
 {
     "title": "Leda (2015) - Sphere / Ocentric/ Equirectangular, clon = 180",
-    "id": "IAU_2015_51315",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:51315",
-    "boundingBox": {
-        "lowerLeft": [
-            -15707.963267948966,
-            -7853.981633974483
-        ],
-        "upperRight": [
-            15707.963267948966,
-            7853.981633974483
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:51315"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/51315",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 2147483648,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:51300"
 }

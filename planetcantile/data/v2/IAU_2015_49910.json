@@ -1,22 +1,10 @@
 {
     "title": "Mars (2015) - Sphere / Ocentric/ Equirectangular, clon = 0",
-    "id": "IAU_2015_49910",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:49910",
-    "boundingBox": {
-        "lowerLeft": [
-            -10669445.554195119,
-            -5334722.7770975595
-        ],
-        "upperRight": [
-            10669445.554195119,
-            5334722.7770975595
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:49910"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/49910",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 2147483648,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:49900"
 }

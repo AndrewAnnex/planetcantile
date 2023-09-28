@@ -1,22 +1,10 @@
 {
     "title": "Ceres (2015) / Ographic/ South Polar",
-    "id": "IAU_2015_200000136",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:200000136",
-    "boundingBox": {
-        "lowerLeft": [
-            -896513.9354019379,
-            -896513.9354019379
-        ],
-        "upperRight": [
-            896513.9354019379,
-            896513.9354019379
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:200000136"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/200000136",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 1073741824,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:200000101"
 }

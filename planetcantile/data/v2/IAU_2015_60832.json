@@ -1,22 +1,10 @@
 {
     "title": "Iapetus (2015) / Ocentric/ North Polar",
-    "id": "IAU_2015_60832",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:60832",
-    "boundingBox": {
-        "lowerLeft": [
-            -1426182.8599057624,
-            -1426182.8599057624
-        ],
-        "upperRight": [
-            1426182.8599057624,
-            1426182.8599057624
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:60832"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/60832",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 1073741824,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:60802"
 }

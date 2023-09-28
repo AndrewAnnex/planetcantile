@@ -1,22 +1,10 @@
 {
     "title": "Europa (2015) - Sphere / Ocentric/ Equirectangular, clon = 0",
-    "id": "IAU_2015_50210",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:50210",
-    "boundingBox": {
-        "lowerLeft": [
-            -4903397.8137229495,
-            -2451698.9068614747
-        ],
-        "upperRight": [
-            4903397.8137229495,
-            2451698.9068614747
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:50210"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/50210",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 2147483648,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:50200"
 }

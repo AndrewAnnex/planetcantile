@@ -1,22 +1,10 @@
 {
     "title": "Charon (2015) - Sphere / Ocentric/ South Polar",
-    "id": "IAU_2015_90135",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:90135",
-    "boundingBox": {
-        "lowerLeft": [
-            -1211999.9999999998,
-            -1211999.9999999998
-        ],
-        "upperRight": [
-            1211999.9999999998,
-            1211999.9999999998
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:90135"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/90135",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 1073741824,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:90100"
 }

@@ -1,22 +1,10 @@
 {
     "title": "Rhea (2015) - Sphere / Ocentric/ Equirectangular, clon = 180",
-    "id": "IAU_2015_60515",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:60515",
-    "boundingBox": {
-        "lowerLeft": [
-            -2398605.9910158073,
-            -1199302.9955079036
-        ],
-        "upperRight": [
-            2398605.9910158073,
-            1199302.9955079036
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:60515"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/60515",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 2147483648,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:60500"
 }

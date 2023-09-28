@@ -1,22 +1,10 @@
 {
     "title": "Prometheus (2015) - Sphere / Ocentric/ Equirectangular, clon = 180",
-    "id": "IAU_2015_61615",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:61615",
-    "boundingBox": {
-        "lowerLeft": [
-            -135402.64336972008,
-            -67701.32168486004
-        ],
-        "upperRight": [
-            135402.64336972008,
-            67701.32168486004
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:61615"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/61615",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 2147483648,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:61600"
 }

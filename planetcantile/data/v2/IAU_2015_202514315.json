@@ -1,22 +1,10 @@
 {
     "title": "Itokawa (2015) - Sphere / Ocentric/ Equirectangular, clon = 180",
-    "id": "IAU_2015_202514315",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:202514315",
-    "boundingBox": {
-        "lowerLeft": [
-            -543.4955290710342,
-            -271.7477645355171
-        ],
-        "upperRight": [
-            543.4955290710342,
-            271.7477645355171
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:202514315"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/202514315",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 2147483648,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:202514300"
 }

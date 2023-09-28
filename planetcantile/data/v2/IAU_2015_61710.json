@@ -1,22 +1,10 @@
 {
     "title": "Pandora (2015) - Sphere / Ocentric/ Equirectangular, clon = 0",
-    "id": "IAU_2015_61710",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:61710",
-    "boundingBox": {
-        "lowerLeft": [
-            -127548.6617357456,
-            -63774.3308678728
-        ],
-        "upperRight": [
-            127548.6617357456,
-            63774.3308678728
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:61710"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/61710",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 2147483648,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:61700"
 }

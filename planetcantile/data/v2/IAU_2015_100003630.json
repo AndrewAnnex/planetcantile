@@ -1,22 +1,10 @@
 {
     "title": "Halley (2015) - Sphere / Ocentric/ North Polar",
-    "id": "IAU_2015_100003630",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:100003630",
-    "boundingBox": {
-        "lowerLeft": [
-            -10666.666666666659,
-            -10666.666666666659
-        ],
-        "upperRight": [
-            10666.666666666659,
-            10666.666666666659
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:100003630"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/100003630",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 1073741824,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:100003600"
 }

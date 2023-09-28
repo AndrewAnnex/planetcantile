@@ -1,22 +1,10 @@
 {
     "title": "Atlas (2015) - Sphere / Ocentric/ North Polar",
-    "id": "IAU_2015_61530",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:61530",
-    "boundingBox": {
-        "lowerLeft": [
-            -30199.999999999996,
-            -30199.999999999996
-        ],
-        "upperRight": [
-            30199.999999999996,
-            30199.999999999996
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:61530"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/61530",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 1073741824,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:61500"
 }

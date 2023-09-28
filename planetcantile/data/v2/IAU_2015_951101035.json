@@ -1,22 +1,10 @@
 {
     "title": "Gaspra (2015) - Sphere / Ocentric/ South Polar",
-    "id": "IAU_2015_951101035",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:951101035",
-    "boundingBox": {
-        "lowerLeft": [
-            -12199.999999999998,
-            -12199.999999999998
-        ],
-        "upperRight": [
-            12199.999999999998,
-            12199.999999999998
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:951101035"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/951101035",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 1073741824,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:951101000"
 }

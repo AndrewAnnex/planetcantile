@@ -1,22 +1,10 @@
 {
     "title": "Europa (2015) - Sphere / Ocentric",
-    "id": "IAU_2015_50200",
     "orderedAxes": [
         "Lat",
         "Lon"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:50200",
-    "boundingBox": {
-        "lowerLeft": [
-            -90.0,
-            -180.0
-        ],
-        "upperRight": [
-            90.0,
-            180.0
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:50200"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/50200",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 2147483648,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:50200"
 }

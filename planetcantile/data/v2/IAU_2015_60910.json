@@ -1,22 +1,10 @@
 {
     "title": "Phoebe (2015) - Sphere / Ocentric/ Equirectangular, clon = 0",
-    "id": "IAU_2015_60910",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:60910",
-    "boundingBox": {
-        "lowerLeft": [
-            -334579.617607313,
-            -167289.8088036565
-        ],
-        "upperRight": [
-            334579.617607313,
-            167289.8088036565
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:60910"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/60910",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 2147483648,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:60900"
 }

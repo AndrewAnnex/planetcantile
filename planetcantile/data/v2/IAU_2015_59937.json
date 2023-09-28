@@ -1,22 +1,10 @@
 {
     "title": "Jupiter (2015) / Ocentric/ South Polar",
-    "id": "IAU_2015_59937",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:59937",
-    "boundingBox": {
-        "lowerLeft": [
-            -134099030.65123895,
-            -134099030.65123895
-        ],
-        "upperRight": [
-            134099030.65123895,
-            134099030.65123895
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:59937"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/59937",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 1073741824,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:59902"
 }

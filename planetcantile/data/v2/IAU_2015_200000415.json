@@ -1,22 +1,10 @@
 {
     "title": "Vesta (2015) - Sphere / Ocentric/ Equirectangular, clon = 180",
-    "id": "IAU_2015_200000415",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:200000415",
-    "boundingBox": {
-        "lowerLeft": [
-            -801106.1266653972,
-            -400553.0633326986
-        ],
-        "upperRight": [
-            801106.1266653972,
-            400553.0633326986
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:200000415"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/200000415",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 2147483648,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:200000400"
 }

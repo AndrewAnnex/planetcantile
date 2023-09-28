@@ -1,22 +1,10 @@
 {
     "title": "Bianca (2015) - Sphere / Ocentric/ South Polar",
-    "id": "IAU_2015_70835",
     "orderedAxes": [
         "E",
         "N"
     ],
-    "crs": "urn:ogc:def:crs:IAU:2015:70835",
-    "boundingBox": {
-        "lowerLeft": [
-            -41999.99999999999,
-            -41999.99999999999
-        ],
-        "upperRight": [
-            41999.99999999999,
-            41999.99999999999
-        ],
-        "crs": "urn:ogc:def:crs:IAU:2015:70835"
-    },
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/70835",
     "tileMatrices": [
         {
             "id": "0",
@@ -421,5 +409,6 @@
             "matrixWidth": 1073741824,
             "matrixHeight": 1073741824
         }
-    ]
+    ],
+    "_geographic_crs": "urn:ogc:def:crs:IAU:2015:70800"
 }
