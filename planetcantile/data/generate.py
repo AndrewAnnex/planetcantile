@@ -91,7 +91,7 @@ def generate(acceptable_projections = ("Equirectangular", "Mercator", "North Pol
     # Parse all the CRSs from the list
     allcrss = []
     for wkt_str in resp.split(os.linesep + os.linesep):
-        if "TRIAXIAL" not in wkt_str and "Westing" not in wkt_str:  # insanely hacky
+        if "TRIAXIAL" not in wkt_str and "Westing" not in wkt_str and "Tranverse Mercator" not in wkt_str:  # insanely hacky
             if wkt_str.startswith("GEOGCRS") or any(
                 _ in wkt_str for _ in acceptable_projections
             ):
@@ -162,7 +162,7 @@ def generate(acceptable_projections = ("Equirectangular", "Mercator", "North Pol
                 crs=crs_obj,
                 extent=extent,
                 extent_crs=crs_obj,
-                title=title,
+                title=title.rstrip(),
                 identifier=identifier,
                 matrix_scale=matrix_scale,
                 geographic_crs=geographic_crs,
