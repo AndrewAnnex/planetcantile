@@ -81,7 +81,7 @@ class Tmsparam(object):
         self.geographic_crs = self.crs.geodetic_crs
 
 
-def generate_v2():
+def generate(acceptable_projections = ("Equirectangular", "Mercator", "North Polar", "South Polar"),set_version='v3'):
     # Grab the wkts that mirror the OCG source and parse out just the GeogCRS in a hacktastic way.
     with urllib.request.urlopen(
         "https://raw.githubusercontent.com/pdssp/planet_crs_registry/main/data/result.wkts"
@@ -90,7 +90,6 @@ def generate_v2():
 
     # Parse all the CRSs from the list
     allcrss = []
-    acceptable_projections = ("Equirectangular", "North Polar", "South Polar")
     for wkt_str in resp.split(os.linesep + os.linesep):
         if "TRIAXIAL" not in wkt_str and "Westing" not in wkt_str:  # insanely hacky
             if wkt_str.startswith("GEOGCRS") or any(
@@ -118,7 +117,6 @@ def generate_v2():
             # Set the extent
             clon_180 = "clon = 180" in crs
             co = crs_obj.coordinate_operation
-            matrix_scale = [2, 1]
             if co:
                 try:
                     prj = Proj(crs)
@@ -130,14 +128,12 @@ def generate_v2():
                     _, miny = prj(0, 0)
                     maxx, _ = prj(90, 0)
                     _, maxy = prj(180, 0)
-                    matrix_scale = [1, 1]
                     extent = (minx, miny, maxx, maxy)
                 elif co.name == "South Polar":
                     minx, _ = prj(-90, 0)
                     _, miny = prj(180, 0)
                     maxx, _ = prj(90, 0)
                     _, maxy = prj(0, 0)
-                    matrix_scale = [1, 1]
                     extent = (minx, miny, maxx, maxy)
                 elif clon_180:
                     minx, miny = prj(0.0, -90.0)
@@ -154,6 +150,14 @@ def generate_v2():
                     if clon_180
                     else (-180.0, -90.0, 180.0, 90.0)
                 )
+            # determine matrix scale
+            if "Equirectangular" in title:
+                matrix_scale = matrix_scale_platecur
+            else:
+                if 'Transverse' in title:
+                    matrix_scale = matrix_scale_platecur[::-1]
+                else:
+                    matrix_scale = matrix_scale_mercator
             tmsp = Tmsparam(
                 crs=crs_obj,
                 extent=extent,
@@ -173,15 +177,12 @@ def generate_v2():
         tms = morecantile.TileMatrixSet.custom(**asdict(_tms))
         tms.orderedAxes = [_.abbrev for _ in CRS.from_user_input(tms.crs).axis_info]
         tmsj = tms.dict(exclude_none=True)
-        # Include URN to the planetary projections; _geographic_crs is needed by downstream libs, e.g., morecantile
-        # tmsj["supportedCRS"] = tmsj["boundingBox"]["crs"] = CRS_to_urn(
-        # 3    tmsj["boundingBox"]["crs"]
-        # )
         tmsj["_geographic_crs"] = CRS_to_urn(_tms.geographic_crs)
-        with open(f"./v2/{_tms.identifier}.json", "w") as dst:
+        with open(f"./{set_version}/{_tms.identifier}.json", "w") as dst:
             json.dump(tmsj, dst, indent=4, ensure_ascii=True)
             print(f"wrote {dst.name}")
 
 
 if __name__ == "__main__":
-    generate_v2()
+    generate(acceptable_projections = ("Equirectangular", "North Polar", "South Polar"), set_version='v2')
+    generate(acceptable_projections = ("Equirectangular", "Mercator", "North Polar", "South Polar"), set_version='v3')
