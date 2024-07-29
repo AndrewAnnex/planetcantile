@@ -175,8 +175,10 @@ def generate(acceptable_projections = ("Equirectangular", "Mercator", "North Pol
     for _tms in crss:
         # create the tms object
         tms = morecantile.TileMatrixSet.custom(**asdict(_tms))
-        tms.orderedAxes = [_.abbrev for _ in CRS.from_user_input(tms.crs).axis_info]
+        _crs = CRS.from_user_input(tms.crs)
+        tms.orderedAxes = [_.abbrev for _ in _crs.axis_info]
         tmsj = tms.dict(exclude_none=True)
+        tmsj["crs"] = CRS_to_urn(_crs)
         tmsj["_geographic_crs"] = CRS_to_urn(_tms.geographic_crs)
         with open(f"./{set_version}/{_tms.identifier}.json", "w") as dst:
             json.dump(tmsj, dst, indent=4, ensure_ascii=True)
