@@ -14,6 +14,8 @@ WGS84_CRS = CRS.from_epsg(4326)
 import morecantile
 from morecantile.models import crs_axis_inverted
 
+acceptable_projections = ("Equirectangular", "Mercator", "North Polar", "South Polar")
+
 # try to add Area of Use to each CRS first
 # use the .name and .area_of_use.bounds
 
@@ -49,6 +51,10 @@ def CRS_to_urn(crs: CRS) -> str:
         version = ""
     return f"urn:ogc:def:crs:{authority}:{version}:{code}"
 
+def id_to_uri(tmsid: str):
+    """Convert tms identifier to URI."""
+    return f"http://www.opengis.net/def/tilematrixset/IAU/1.0/{tmsid}"
+
 
 @dataclass()
 class Tmsparam(object):
@@ -76,12 +82,46 @@ class Tmsparam(object):
     # Geographic (lat,lon) coordinate reference system (default is EPSG:4326)
     geographic_crs: CRS = WGS84_CRS
 
+
+    def make_id(self):
+        """" generate the id from the crs """
+        as_wkt = self.crs.to_wkt()
+        # get the code
+        code = as_wkt[as_wkt.rfind('ID["IAU",'): as_wkt.rfind(",2015]")].split(",")[1]
+        # get the body name
+        body = as_wkt[as_wkt.rfind('OID["'): as_wkt.rfind(" (2015)")].split('"')[1]
+        # ensure no spaces in body names
+        body = "".join(body.split())
+        # get the projection name
+        co = self.crs.coordinate_operation
+        if co is not None:
+            prjtype = None
+            for ap in acceptable_projections:
+                if ap in as_wkt:
+                    prjtype = ap
+            if not prjtype:
+                prjtype = co.method_name
+            # remove any white spaces
+            prjtype = "".join(prjtype.split())
+        else:
+            prjtype = "Geographic"
+        # get if a quad tree or not
+        if self.matrix_scale == matrix_scale_mercator:
+            prjtype=f"{prjtype}Quad"
+        # get the final name
+        return f"{body}IAU{code}{prjtype}"
+
     def __post_init__(self):
         # try to get the geographic_crs
         self.geographic_crs = self.crs.geodetic_crs
+        # set the self's id
+        self.identifier = self.make_id()
+        pass
 
 
-def generate(acceptable_projections = ("Equirectangular", "Mercator", "North Polar", "South Polar"),set_version='v3'):
+
+
+def generate(acceptable_projections=acceptable_projections,set_version='v3'):
     # Grab the wkts that mirror the OCG source and parse out just the GeogCRS in a hacktastic way.
     with urllib.request.urlopen(
         "https://raw.githubusercontent.com/pdssp/planet_crs_registry/main/data/result.wkts"
@@ -111,8 +151,6 @@ def generate(acceptable_projections = ("Equirectangular", "Mercator", "North Pol
             code = crs_obj.to_wkt()[
                 crs_obj.to_wkt().rfind('ID["IAU",') : crs_obj.to_wkt().rfind(",2015]")
             ].split(",")[1]
-            # authority_version.split("_")
-            identifier = f"{authority}_{version}_{code}"
             geographic_crs = crs_obj.geodetic_crs
             # Set the extent
             clon_180 = "clon = 180" in crs
@@ -163,7 +201,6 @@ def generate(acceptable_projections = ("Equirectangular", "Mercator", "North Pol
                 extent=extent,
                 extent_crs=crs_obj,
                 title=title.rstrip(),
-                identifier=identifier,
                 matrix_scale=matrix_scale,
                 geographic_crs=geographic_crs,
             )
@@ -178,13 +215,17 @@ def generate(acceptable_projections = ("Equirectangular", "Mercator", "North Pol
         _crs = CRS.from_user_input(tms.crs)
         tms.orderedAxes = [_.abbrev for _ in _crs.axis_info]
         tmsj = tms.dict(exclude_none=True)
-        tmsj["crs"] = CRS_to_urn(_crs)
-        tmsj["_geographic_crs"] = CRS_to_urn(_tms.geographic_crs)
-        with open(f"./{set_version}/{_tms.identifier}.json", "w") as dst:
-            json.dump(tmsj, dst, indent=4, ensure_ascii=True)
+        tmsj["crs"] = CRS_to_uri(_crs)
+        tmsj["id"] = _tms.identifier
+        tmsj["_geographic_crs"] = CRS_to_uri(_tms.geographic_crs)
+        # reorder the dict to be id, title, uri (eventually), crs, ordered axes, tilematrces
+        ftmsj = dict(id=tmsj["id"], title=tmsj["title"], crs=tmsj["crs"])
+        ftmsj.update(tmsj)
+        with open(f"./{set_version}/{ftmsj['id']}.json", "w") as dst:
+            json.dump(ftmsj, dst, indent=4, ensure_ascii=True)
             print(f"wrote {dst.name}")
 
 
 if __name__ == "__main__":
-    generate(acceptable_projections = ("Equirectangular", "North Polar", "South Polar"), set_version='v2')
+    #generate(acceptable_projections = ("Equirectangular", "North Polar", "South Polar"), set_version='v2')
     generate(acceptable_projections = ("Equirectangular", "Mercator", "North Polar", "South Polar"), set_version='v3')
