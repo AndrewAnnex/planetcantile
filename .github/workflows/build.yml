@@ -4,26 +4,25 @@ jobs:
     name: Run Planetcantile
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: setup git config
         run: |
           git config user.name "Andrew Annex's GitHub Actions Bot"
           git config user.email "<>"
       - uses: actions/setup-python@v4
         with:
-          python-version: '3.11'
+          python-version: '3.12'
       - name: Install deps
         run: |
           python -m pip install --upgrade pip
-          python -m pip install poetry
-          poetry install
+          python -m pip install .
       - name: Run defaults script
         run: |
-          cd planetcantile/data && poetry run python ./generate.py && cd -
+          cd planetcantile/data && python ./generate.py && cd -
       - name: show outputs
         run: |
           cat ./planetcantile/data/*/*.json
           git status
       - name: run tests
         run: |
-          poetry run pytest .
+          python -m pytest .
