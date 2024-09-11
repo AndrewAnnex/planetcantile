@@ -6,7 +6,7 @@ def test_planetcantile_defaults():
 
 
 def test_mars():
-    tms = planetcantile.planetary_tms.get('IAU_2015_49900')
+    tms = planetcantile.planetary_tms.get('MarsIAU49900GeographicQuad')
     assert tms is not None
     assert tms.tile(0.0, 0.0, 1) is not None
     assert tms.bbox is not None
