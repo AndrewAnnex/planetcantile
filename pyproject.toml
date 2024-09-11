@@ -47,3 +47,6 @@ build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
 include = ["planetcantile"]
+
+[tool.setuptools.package-data]
+planetcantile = ["*.json", ]
