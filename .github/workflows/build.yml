@@ -19,7 +19,7 @@ jobs:
           python -m pip install .
       - name: Run defaults script
         run: |
-          cd planetcantile/data && python ./generate.py && cd -
+          cd src/planetcantile/data && python ./generate.py && cd -
       - name: show outputs
         run: |
           cat ./planetcantile/data/*/*.json
