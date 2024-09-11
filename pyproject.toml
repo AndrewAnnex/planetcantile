@@ -49,4 +49,4 @@ build-backend = "setuptools.build_meta"
 where = ["src"]
 
 [tool.setuptools.package-data]
-planetcantile = ["*.json", ]
+planetcantile = ["data/v*/*.json",]
