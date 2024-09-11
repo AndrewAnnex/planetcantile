@@ -4,8 +4,6 @@ from functools import lru_cache
 
 from morecantile import TileMatrixSets
 
-# todo how slow is this going to be? maybe worth a lru cache and defaulting to v3
-
 @lru_cache
 def get_jsons(v: int = 3):
     return importlib_resources.files(f"planetcantile.data.v{v}").glob("*.json")

@@ -227,5 +227,4 @@ def generate(acceptable_projections=acceptable_projections,set_version='v3'):
 
 
 if __name__ == "__main__":
-    #generate(acceptable_projections = ("Equirectangular", "North Polar", "South Polar"), set_version='v2')
     generate(acceptable_projections = ("Equirectangular", "Mercator", "North Polar", "South Polar"), set_version='v3')
