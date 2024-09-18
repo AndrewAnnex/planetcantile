@@ -4,227 +4,488 @@ import os
 import urllib.request
 import warnings
 from pathlib import Path
+from functools import cached_property
 from dataclasses import dataclass, field, asdict
 import json
 
 import pyproj.exceptions
 from pyproj import CRS, Transformer, Proj
 
-WGS84_CRS = CRS.from_epsg(4326)
 import morecantile
 from morecantile.models import crs_axis_inverted
+import pyproj.exceptions
+from pyproj import CRS, Transformer, Proj
+from pyproj.crs import Ellipsoid, GeographicCRS, PrimeMeridian
+from pyproj.crs.datum import CustomDatum, CustomEllipsoid
+from pyproj.crs.coordinate_system import Ellipsoidal2DCS, Cartesian2DCS
+from pyproj.crs.coordinate_operation import MercatorAConversion, EquidistantCylindricalConversion, PolarStereographicAConversion, PolarStereographicBConversion
+from pyproj.crs.enums import Ellipsoidal2DCSAxis, Cartesian2DCSAxis
+from pyproj.aoi import AreaOfInterest, BBox
 
-acceptable_projections = ("Equirectangular", "Mercator", "North Polar", "South Polar")
+# this api is currently pretty terrible to use 
+from planet_crs_registry_client import Client, api
+from  planet_crs_registry_client.models.wkt import WKT
+from planet_crs_registry_client.api.browse_by_solar_body import get_solar_bodies_ws_solar_bodies_get
+from planet_crs_registry_client.api.browse_by_solar_body import get_solar_body_ws_solar_bodies_solar_body_get
 
-# try to add Area of Use to each CRS first
-# use the .name and .area_of_use.bounds
+matrix_scale_quad     = [1,1]
+matrix_scale_platecur = [2,1]
+axis_lon_lat               = ["Lon", "Lat"]
+axis_east_north            = ["easting", "northing"]
 
-matrix_scale_mercator = [1, 1]
-matrix_scale_platecur = [2, 1]
+WGS84_CRS = CRS.from_epsg(4326)
 
+UNIT_DEGREE = "degree"
 
-def CRS_to_info(crs: CRS) -> tuple[str]:
-    """Convert CRS to URI."""
-    authority = "EPSG"
-    code = "4326"
-    version = "0"
-    # attempt to grab the authority, version, and code from the CRS
-    authority_code = crs.to_authority(min_confidence=20)
-    if authority_code is not None:
-        authority, code = authority_code
-        # if we have a version number in the authority, split it out
-        if "_" in authority:
-            authority, version = authority.split("_")
-    return authority, version, code
+cs_long_lat = Ellipsoidal2DCS(
+    axis=Ellipsoidal2DCSAxis.LONGITUDE_LATITUDE
+).to_wkt(version='WKT2_2019')
 
-
-def CRS_to_uri(crs: CRS) -> str:
-    """Convert CRS to URI."""
-    authority, version, code = CRS_to_info(crs)
-    return f"http://www.opengis.net/def/crs/{authority}/{version}/{code}"
+cs_en = Cartesian2DCS(
+    axis=Cartesian2DCSAxis.EASTING_NORTHING
+).to_wkt(version='WKT2_2019')
+cs_en_psuedo = str(cs_en)
+cs_en_psuedo = cs_en_psuedo.replace('(E)', 'easting (X)')
+cs_en_psuedo = cs_en_psuedo.replace('(N)', 'northing (Y)')
 
 
-def CRS_to_urn(crs: CRS) -> str:
-    """Convert CRS to URN."""
-    authority, version, code = CRS_to_info(crs)
-    if version == "0":
-        version = ""
-    return f"urn:ogc:def:crs:{authority}:{version}:{code}"
+cs_en_polar_north = Cartesian2DCS(
+    axis=Cartesian2DCSAxis.NORTH_POLE_EASTING_SOUTH_NORTHING_SOUTH
+).to_wkt(version='WKT2_2019')
 
-def id_to_uri(tmsid: str):
-    """Convert tms identifier to URI."""
-    return f"http://www.opengis.net/def/tilematrixset/IAU/1.0/{tmsid}"
+cs_en_polar_south = Cartesian2DCS(
+    axis=Cartesian2DCSAxis.SOUTH_POLE_EASTING_NORTH_NORTHING_NORTH
+).to_wkt(version='WKT2_2019')
+
+# cs_en_polar = str(cs_en)
+# cs_en_polar = cs_en_polar.replace('(E)', 'E')
+# cs_en_polar = cs_en_polar.replace('(N)', 'N')
+
+psuedo_mercator_usage = 'USAGE[SCOPE["Web mapping and visualisation."],AREA["World between 85.06 S and 85.06 N."],BBOX[-85.85.0511287,-180.0,85.0511287,180.0]]'
+# TODO look into better mercator stuff
+mercator_usage = 'USAGE[SCOPE["Very small scale conformal mapping."],AREA["World between 85.06 S and 85.06 N."],BBOX[-85.85.0511287,-180.0,85.0511287,180.0]]'
+# https://spatialreference.org/ref/epsg/3857/prettywkt2.txt
+# https://desktop.arcgis.com/en/arcmap/latest/map/projections/mercator.htm
+psuedo_mercator = \
+        'CONVERSION["Popular Visualisation Pseudo-Mercator",' \
+        'METHOD["Popular Visualisation Pseudo Mercator",' \
+        'ID["EPSG",1024]],' \
+        'PARAMETER["Latitude of natural origin",0,' \
+        'ANGLEUNIT["degree",0.0174532925199433],' \
+        'ID["EPSG",8801]],' \
+        'PARAMETER["Longitude of natural origin",0,' \
+        'ANGLEUNIT["degree",0.0174532925199433],' \
+        'ID["EPSG",8802]],' \
+        'PARAMETER["False easting",0,' \
+        'LENGTHUNIT["metre",1],' \
+        'ID["EPSG",8806]],' \
+        'PARAMETER["False northing",0,' \
+        'LENGTHUNIT["metre",1],' \
+        'ID["EPSG",8807]]]' 
+
+
+#https://spatialreference.org/ref/epsg/3395/prettywkt2.txt
+mercator_a = MercatorAConversion().to_wkt(version='WKT2_2019').replace('unknown', 'World Mercator')
+
+## Polar Projections 
+polar_a_south = PolarStereographicAConversion(
+    latitude_natural_origin=-90,
+    scale_factor_natural_origin=1.0
+).to_wkt(version='WKT2_2019').replace('unknown', 'Universal Polar Stereographic South')
+
+polar_a_north = PolarStereographicAConversion(
+    latitude_natural_origin=90,
+    scale_factor_natural_origin=1.0
+).to_wkt(version='WKT2_2019').replace('unknown', 'Universal Polar Stereographic North')
+
+polar_north_usage = 'USAGE[SCOPE["North Polar Area {}"],AREA["{} between 80.0 N and 90.00 N."],BBOX[80.0,-180.0,90.0,180.0]]'
+polar_south_usage = 'USAGE[SCOPE["South Polar Area {}"],AREA["{} between 80.0 S and 90.00 S."],BBOX[-90.0,-180.0,-80.0,180.0]]'
+
+
+
+def convert_crs(crs: CRS, geodetic=True, scope="unknown.")-> CRS:
+    name = crs.name.rstrip()
+    if name[-1] != ' ':
+        name = f'{name} '
+    datum = crs.datum.to_wkt(version='WKT2_2019')
+    remark = f'REMARK["{crs.remarks}"]'
+    tmp_wkt = f'GEOGCRS["{name}XY",{datum},{cs_long_lat},SCOPE["{scope}"],AREA["Whole of {scope}"],BBOX[-90,-180,90,180],{remark}]'
+    coord_type = 'geodetic' if geodetic else 'planetocentric'
+    tmp_wkt = tmp_wkt.replace('longitude', f'{coord_type} longitude (Lon)')
+    tmp_wkt = tmp_wkt.replace('latitude', f'{coord_type} latitude (Lat)')
+    return CRS.from_wkt(tmp_wkt)
+
+def create_converted_crs(wktobj: WKT):
+    bodyname = wktobj.solar_body
+    old_code = wktobj.code
+    old_crs = CRS.from_wkt(wktobj.wkt)
+    geodetic = not str(old_code).endswith('2')
+    return convert_crs(old_crs, geodetic=geodetic, scope=bodyname)
+
+
+def determine_FE_FN(crs: CRS, in_north=True):
+    transformer = Transformer.from_crs(crs.geodetic_crs, crs, always_xy=True)
+    forward = transformer.transform(45, 80.0 if in_north else -80.0)
+    asint = int(abs(forward[0]))
+    digits = len(str(asint))
+    assert digits > 1
+    f = round(asint,-(digits-1))
+    forward = (f, f)
+    # determine invserse to get the latitude
+    backward = transformer.transform(*forward, direction='INVERSE')
+    # return the (FE, FN), and latitude limit
+    return forward, backward[-1]
+
+def convert_crs_north_polar(wktobj: WKT)-> CRS:
+    # get the CRS   
+    crs = CRS.from_wkt(wktobj.wkt)
+    name = crs.name.rstrip()
+    # construct basegeogcrs
+    datum = crs.datum
+    basegeogcrs = f'BASEGEOGCRS["{datum.name}",{datum.to_wkt(version='WKT2_2019')}]'
+    # construct the conversion # TODO add false northing and easting
+    conversion = polar_a_north
+    # construct the coordinate system
+    cs = cs_en_polar_north
+    # construct the usage
+    usage = polar_north_usage.format(wktobj.solar_body, wktobj.solar_body)
+    # make the new remark
+    remark = f'REMARK["{crs.remarks}"]'
+    # make the new id
+    #_id = f'ID["IAU",{new_id},2015]'
+    tmp_wkt = f'PROJCRS["{name}",{basegeogcrs},{conversion},{cs},{usage},{remark}]'
+    # construct false northing and easting
+    (FE, FN), latitude = determine_FE_FN(CRS.from_wkt(tmp_wkt), in_north=True)
+    ################################################################################
+    # construct final wkt
+    _polar_north_usage = 'USAGE[SCOPE["North Polar Area {}"],AREA["{} between {} N and 90.00 N."],BBOX[{},-180.0,90.0,180.0]]'.format(wktobj.solar_body, wktobj.solar_body, latitude, latitude)
+    _polar_a_north = PolarStereographicAConversion(
+        latitude_natural_origin=90.0,
+        longitude_natural_origin=0.0,
+        scale_factor_natural_origin=1.0,
+        false_easting=FE,
+        false_northing=FN,
+    ).to_wkt(version='WKT2_2019').replace('unknown', 'Universal Polar Stereographic North')
+    final_wkt = f'PROJCRS["{name}",{basegeogcrs},{_polar_a_north},{cs},{_polar_north_usage},{remark}]'
+    ##################################################################################
+    return CRS.from_wkt(final_wkt)
+
+def convert_crs_south_polar(wktobj: WKT)-> CRS:
+    # get the CRS   
+    crs = CRS.from_wkt(wktobj.wkt)
+    name = crs.name.rstrip()
+    # construct basegeogcrs
+    datum = crs.datum
+    basegeogcrs = f'BASEGEOGCRS["{datum.name}",{datum.to_wkt(version='WKT2_2019')}]'
+    # construct the conversion # TODO add false northing and easting
+    conversion = polar_a_south
+    # construct the coordinate system
+    cs = cs_en_polar_south
+    # construct the usage
+    usage = polar_south_usage.format(wktobj.solar_body, wktobj.solar_body)
+    # make the new remark
+    remark = f'REMARK["{crs.remarks}"]'
+    # make the new id
+    tmp_wkt = f'PROJCRS["{name}",{basegeogcrs},{conversion},{cs},{usage},{remark}]'
+    # construct false northing and easting
+    (FE, FN), latitude = determine_FE_FN(CRS.from_wkt(tmp_wkt), in_north=False)
+    ################################################################################
+    # construct final wkt
+    _polar_south_usage = 'USAGE[SCOPE["South Polar Area {}"],AREA["{} between {} S and 90.00 S."],BBOX[-90.0,-180.0,{},180.0]]'.format(wktobj.solar_body, wktobj.solar_body, latitude, latitude)
+    _polar_a_south = PolarStereographicAConversion(
+        latitude_natural_origin=-90.0,
+        longitude_natural_origin=0.0,
+        scale_factor_natural_origin=1.0,
+        false_easting=FE,
+        false_northing=FN,
+    ).to_wkt(version='WKT2_2019').replace('unknown', 'Universal Polar Stereographic South')
+    final_wkt = f'PROJCRS["{name}",{basegeogcrs},{_polar_a_south},{cs},{_polar_south_usage},{remark}]'
+    ##################################################################################
+    return CRS.from_wkt(final_wkt)
+
+def convert_crs_psuedo_mercator(crs: CRS)-> CRS:
+    name = crs.name.rstrip()
+    name = f'{name} / Pseudo-Mercator'
+    # construct basegeogcrs
+    datum = crs.datum
+    basegeogcrs = f'BASEGEOGCRS["{datum.name}",{datum.to_wkt(version='WKT2_2019')}]'
+    # construct the conversion
+    conversion = psuedo_mercator
+    # construct the coordinate system
+    cs = cs_en_psuedo
+    # construct the usage
+    usage = psuedo_mercator_usage
+    # make the new remark
+    remark = f'REMARK["{crs.remarks}"]'
+    # make the new id
+    #_id = f'ID["IAU",{new_id},2015]'
+    tmp_wkt = f'PROJCRS["{name}",{basegeogcrs},{conversion},{cs},{usage},{remark}]'
+    return CRS.from_wkt(tmp_wkt)
+
+def convert_crs_world_mercator(crs: CRS)-> CRS:
+    name = crs.name.rstrip()
+    name = f'{name} / World Mercator'
+    # construct basegeogcrs
+    datum = crs.datum
+    basegeogcrs = f'BASEGEOGCRS["{datum.name}",{datum.to_wkt(version='WKT2_2019')}]'
+    # construct the conversion
+    conversion = mercator_a
+    # construct the coordinate system
+    cs = cs_en
+    # construct the usage
+    usage = mercator_usage
+    # make the new remark
+    remark = f'REMARK["{crs.remarks}"]'
+    # make the new id
+    #_id = f'ID["IAU",{new_id},2015]'
+    tmp_wkt = f'PROJCRS["{name}",{basegeogcrs},{conversion},{cs},{usage},{remark}]'
+    return CRS.from_wkt(tmp_wkt)
 
 
 @dataclass()
-class Tmsparam(object):
-    # Bounding box of the Tile Matrix Set, (left, bottom, right, top).
-    extent: tuple[float, float, float, float]
+class Tmsparams(object):
+    # crs_wkt object from planetarycrsregistry
+    crs_wkt: WKT
     # Tile Matrix Set coordinate reference system
     crs: CRS
-    # Width of each tile of this tile matrix in pixels (default is 512).
-    tile_width: int = 512
-    # Height of each tile of this tile matrix in pixels (default is 512).
-    tile_height: int = 512
-    # Tiling schema coalescence coefficient, below you can just pass in either matrix_scale lists defined above
-    matrix_scale: list = field(default_factory=lambda: matrix_scale_platecur)
-    # Extent's coordinate reference system, as a pyproj CRS object.
-    extent_crs: CRS | None = None
+    # Width of each tile of this tile matrix in pixels (default is 256).
+    tile_width: int = 256
+    # Height of each tile of this tile matrix in pixels (default is 256).
+    tile_height: int = 256
     # Tile Matrix Set minimum zoom level (default is 0).
     minzoom: int = 0
     # Tile Matrix Set maximum zoom level (default is 30).
-    # TODO: find doc page on going from min/max zoom to GSD/degree per pixel
     maxzoom: int = 30
-    # Tile Matrix Set title (default is 'Custom TileMatrixSet')
-    title: str = "Custom TileMatrixSet"
-    # Tile Matrix Set identifier (default is 'Custom')
-    identifier: str = "Custom"
-    # Geographic (lat,lon) coordinate reference system (default is EPSG:4326)
-    geographic_crs: CRS = WGS84_CRS
 
+    @property
+    def geographic_crs(self):
+        # TODO this seems may need some work...
+        return self.crs.geodetic_crs
+    
+    @property
+    def extent_crs(self):
+        return self.geographic_crs
 
-    def make_id(self):
-        """" generate the id from the crs """
-        as_wkt = self.crs.to_wkt()
-        # get the code
-        code = as_wkt[as_wkt.rfind('ID["IAU",'): as_wkt.rfind(",2015]")].split(",")[1]
-        # get the body name
-        body = as_wkt[as_wkt.rfind('OID["'): as_wkt.rfind(" (2015)")].split('"')[1]
-        # ensure no spaces in body names
-        body = "".join(body.split())
-        # get the projection name
+    def is_non_projected(self)-> bool:
+        return self.crs.coordinate_operation is None
+
+    def is_equidistant(self)-> bool:
+        co = self.crs.coordinate_operation
+        if co is None:
+            # all geographic/geocentric CRSs are treated as equidistant
+            return True
+        else:
+            # only true if Equidistant is actually in the name
+            return 'Equidistant' in co.method_name
+  
+    def is_polar(self)-> bool:
         co = self.crs.coordinate_operation
         if co is not None:
-            prjtype = None
-            for ap in acceptable_projections:
-                if ap in as_wkt:
-                    prjtype = ap
-            if not prjtype:
-                prjtype = co.method_name
-            # remove any white spaces
-            prjtype = "".join(prjtype.split())
+            return 'Polar' in co.method_name
         else:
-            prjtype = "Geographic"
-        # get if a quad tree or not
-        if self.matrix_scale == matrix_scale_mercator:
-            prjtype=f"{prjtype}Quad"
-        # get the final name
-        return f"{body}IAU{code}{prjtype}"
-
-    def __post_init__(self):
-        # try to get the geographic_crs
-        self.geographic_crs = self.crs.geodetic_crs
-        # set the self's id
-        self.identifier = self.make_id()
-        pass
-
-
-
-
-def generate(acceptable_projections=acceptable_projections,set_version='v3'):
-    # Grab the wkts that mirror the OCG source and parse out just the GeogCRS in a hacktastic way.
-    with urllib.request.urlopen(
-        "https://raw.githubusercontent.com/pdssp/planet_crs_registry/main/data/result.wkts"
-    ) as response:
-        resp = response.read().decode(response.headers.get_content_charset())
-
-    # Parse all the CRSs from the list
-    allcrss = []
-    for wkt_str in resp.split(os.linesep + os.linesep):
-        if "TRIAXIAL" not in wkt_str and "Westing" not in wkt_str and "Tranverse Mercator" not in wkt_str:  # insanely hacky
-            if wkt_str.startswith("GEOGCRS") or any(
-                _ in wkt_str for _ in acceptable_projections
-            ):
-                allcrss.append(wkt_str)
-
-    # Build a dynamic crss list
-    crss = []
-    for crs in allcrss:
-        crs_obj = CRS(crs)
-        title = crs_obj.name
-        auth = crs_obj.to_authority(min_confidence=25)
-        if auth is not None:
-            # auth is not always correct though so manually extract from the wkt instead
-            # authority_version, code = auth
-            authority = "IAU"
-            version = "2015"
-            code = crs_obj.to_wkt()[
-                crs_obj.to_wkt().rfind('ID["IAU",') : crs_obj.to_wkt().rfind(",2015]")
-            ].split(",")[1]
-            geographic_crs = crs_obj.geodetic_crs
-            # Set the extent
-            clon_180 = "clon = 180" in crs
-            co = crs_obj.coordinate_operation
-            if co:
-                try:
-                    prj = Proj(crs)
-                except pyproj.exceptions.ProjError as pe:
-                    warnings.warn(f"Ran into projection error with {crs_obj}, {pe}")
-                    continue
-                if co.name == "North Polar":
-                    minx, _ = prj(-90, 0)
-                    _, miny = prj(0, 0)
-                    maxx, _ = prj(90, 0)
-                    _, maxy = prj(180, 0)
-                    extent = (minx, miny, maxx, maxy)
-                elif co.name == "South Polar":
-                    minx, _ = prj(-90, 0)
-                    _, miny = prj(180, 0)
-                    maxx, _ = prj(90, 0)
-                    _, maxy = prj(0, 0)
-                    extent = (minx, miny, maxx, maxy)
-                elif clon_180:
-                    minx, miny = prj(0.0, -90.0)
-                    maxx, maxy = prj(359.99999, 90.0)  # todo 360.0 wraps to 0 long
-                    extent = (minx, miny, math.fabs(minx), maxy)
-                else:
-                    minx, miny = prj(-180, -90)
-                    maxx, maxy = prj(180, 90)
-                    extent = (minx, miny, maxx, maxy)
-            else:
-                # if clon == 180 we have a 0-360 longitude crs
-                extent = (
-                    (0.0, -90.0, 360.0, 90.0)
-                    if clon_180
-                    else (-180.0, -90.0, 180.0, 90.0)
-                )
-            # determine matrix scale
-            if "Equirectangular" in title:
-                matrix_scale = matrix_scale_platecur
-            else:
-                if 'Transverse' in title:
-                    matrix_scale = matrix_scale_platecur[::-1]
-                else:
-                    matrix_scale = matrix_scale_mercator
-            tmsp = Tmsparam(
-                crs=crs_obj,
-                extent=extent,
-                extent_crs=crs_obj,
-                title=title.rstrip(),
-                matrix_scale=matrix_scale,
-                geographic_crs=geographic_crs,
-            )
-            crss.append(tmsp)
+            return False
+        
+    def is_polar_north(self)-> bool:
+        is_polar = self.is_polar()
+        if is_polar:
+            return 'North' in self.crs.coordinate_operation.name
+    
+    def is_polar_south(self)-> bool:
+        is_polar = self.is_polar()
+        if is_polar:
+            return 'South' in self.crs.coordinate_operation.name
+    
+    def is_web_mercator(self)-> bool:
+        co = self.crs.coordinate_operation
+        if co is not None:
+            return 'Pseudo Mercator' in co.method_name
+        else: 
+            return False
+        
+    def is_mercator_varient_a(self)-> bool:
+        co = self.crs.coordinate_operation
+        if co is not None:
+            return 'Mercator (variant A)' == co.method_name
+        else: 
+            return False
+        
+    def get_ellipsoid_kind(self)-> str:
+        if self.is_sphere():
+            return 'Sphere'
+        elif self.is_geocentric():
+            return 'Ocentric'
         else:
+            return 'Ographic'
+        
+    def get_projection_name(self)-> str:
+        kind = self.get_ellipsoid_kind()
+        if self.is_polar_north():
+            return f'NorthPolar{kind}'
+        elif self.is_polar_south():
+            return f'SouthPolar{kind}'
+        elif self.is_web_mercator():
+            return f'WebMercator{kind}'
+        elif self.is_mercator_varient_a():
+            return f'Mercator{kind}'
+        elif self.is_non_projected():
+            # TODO differentiate between equirectangular E/N and Lon/Lat
+            return f'Equirectangular{kind}'
+        else:
+            return f'Equirectangular{kind}'
+        
+    def is_sphere(self):
+        return 'Sphere' in self.crs.datum.ellipsoid.name
+
+    def is_geocentric(self):
+        #breakpoint()
+        return not self.is_sphere() and 'Ocentric' in self.crs.to_wkt()
+    
+    def is_geographic(self):
+        return not self.is_sphere() and 'Ographic' in self.crs.to_wkt()
+    
+    @property
+    def id(self)-> str:
+        body = self.crs_wkt.solar_body
+        projection = self.get_projection_name()
+        return f'{body}{projection}'
+    
+    @property
+    def title(self)-> str:
+        ellispoid_name = self.crs.ellipsoid.name
+        axes = ''.join(self.ordered_axes)
+        projection_name = self.get_projection_name()
+        return f"{ellispoid_name} {axes} {projection_name}"
+
+    @property
+    def matrix_scale(self)-> list[int]:
+        if self.is_equidistant():
+            return [2, 1]
+        else:
+            return [1, 1]
+
+    @property
+    def ordered_axes(self)-> list[str]:
+        if self.is_web_mercator():
+            return ["X", "Y"]
+        elif self.is_polar() or self.is_mercator_varient_a():
+            return ["E", "N"]
+        else:
+            return ["Lon", "Lat"]
+    
+    @property
+    def extent(self)-> tuple[float, float, float, float]:
+        # TODO I might not actually need the extent 
+        area_of_use = self.crs.area_of_use
+        if self.is_web_mercator() or self.is_mercator_varient_a():
+            # need to ensure the point of origins are identical x and y
+            transformer = Transformer.from_crs(self.extent_crs, self.crs, always_xy=True, allow_ballpark=False)
+            min_x, _ = transformer.transform(-180,0)
+            _, min_lat = transformer.transform(0, min_x, direction='INVERSE')
+            bounds = (-180, min_lat, 180, -min_lat)
+            return bounds
+        elif area_of_use is not None and not self.is_polar():
+            return area_of_use.bounds
+        else:
+            # need to manually define these
+            if self.is_polar_north():
+                (FE, FN), around_80_north = determine_FE_FN(self.crs, in_north=True)
+                return (-180, around_80_north, 180, 90) #return (0, 0, 2*FE, 2*FN)
+            elif self.is_polar_south():
+                (FE, FN), around_80_south = determine_FE_FN(self.crs, in_north=False)
+                return (-180, -90, 180, around_80_south)
+            else:
+                return (-180, -90, 180, 90)
+        
+    def make_tms(self)-> morecantile.TileMatrixSet:
+        tms = morecantile.TileMatrixSet.custom(
+            id=self.id,
+            title=self.title,
+            crs=self.crs,
+            geographic_crs=self.geographic_crs,
+            extent_crs=self.extent_crs,
+            extent=self.extent,
+            ordered_axes=self.ordered_axes,
+            minzoom=self.minzoom,
+            maxzoom=self.maxzoom,
+            matrix_scale=self.matrix_scale
+        )
+        return tms
+    
+    def make_tms_dict(self)-> dict:
+        tms_dict = self.make_tms().model_dump(exclude_none=True)
+        # make any adjustments here needed before saving as json to disk
+        tms_dict['crs'] = self.crs.to_wkt(version='WKT2_2019')
+        tms_dict['orderedAxes'] = self.ordered_axes
+        tms_dict['_geographic_crs'] = self.geographic_crs.to_wkt(version='WKT2_2019')
+        # cleanup pointOfOrigins for all mercator codes, this is driven currently by the precision limits for the area_of_use 
+        matrices = tms_dict['tileMatrices']
+        if self.is_web_mercator() or self.is_mercator_varient_a():
+            for m in matrices:
+                x, y = m['pointOfOrigin']
+                m['pointOfOrigin'] = (x, -x)
+        # return a new dict to re-order as needed
+        return dict(
+            id=tms_dict['id'],
+            title=tms_dict['title'],
+            crs=tms_dict['crs'],
+            orderedAxes=tms_dict['orderedAxes'],
+            tileMatrices=matrices,
+            _geographic_crs=tms_dict['_geographic_crs']
+        )
+
+
+def make_crs_objs(crss_wkts: dict[str, WKT]):
+    # 31 and 32 and 36 and 37 exist to correspond to 01, 02
+    valid_code_postfixs = ['00', '01', '02']
+    for valid_code in valid_code_postfixs:
+        if valid_code in crss_wkts.keys():
+            current_wkt = crss_wkts[valid_code]
+            converted_crs = create_converted_crs(current_wkt)
+            # TODO should I retain explicitly geocentric/ spheroid codes? How?
+            yield current_wkt, converted_crs
+            yield current_wkt, convert_crs_world_mercator(converted_crs)
+            yield current_wkt, convert_crs_psuedo_mercator(converted_crs)
+            yield current_wkt, convert_crs_north_polar(current_wkt)
+            yield current_wkt, convert_crs_south_polar(current_wkt)
+            
+def make_tms_objs(crss_wkts: dict[str, WKT]):
+    for wkt, crs in make_crs_objs(crss_wkts):
+        yield Tmsparams(crs_wkt=wkt, crs=crs)
+
+
+def main():
+    # TODO:
+    # 1. Adjust _geographic_crs's to be LongLat/XY order possibly, possibly .geodetic_crs is doing something non-ideal right now that means the TMSs are not using geocentric long/lat yet
+    # 2. Add back Equirectangular Projections
+    # 3. Add TMS's with variable coalescing coefficients
+
+    valid_code_postfixs = {'00', '01', '02'}
+    client = Client(base_url='http://voparis-vespa-crs.obspm.fr:8080/')
+    # get all the bodies
+    #bodies = get_solar_bodies_ws_solar_bodies_get.sync(client=client)
+    bodies = ['Moon', 'Mars']
+    for body in bodies:
+        try:
+            crss_wkts = get_solar_body_ws_solar_bodies_solar_body_get.sync(body, client=client)
+            # sort by code
+            crss_wkts = sorted(crss_wkts, key= lambda _: _.code)
+            # grab the 00, 01, 02, 30, 35 codes. 01 and 02 codes may not be there
+            crss_wkts = {str(_.code)[-2:]: _ for _ in crss_wkts if str(_.code)[-2:] in valid_code_postfixs}
+            # conver to tms params
+            tmsparams = list(make_tms_objs(crss_wkts))
+            for tmsp in tmsparams:
+                #breakpoint()
+                tms_dict = tmsp.make_tms_dict()
+                with open(f"./v4/{tms_dict['id']}.json", "w") as dst:
+                    json.dump(tms_dict, dst, indent=4, ensure_ascii=True)
+                    print(f"wrote {dst.name}")
+        except pyproj.exceptions.ProjError as pe:
+            print(f'Failure with body {body} in constructing proj exceptions')
+            for wkt in crss_wkts.values():
+                print(wkt)
+            print(pe.__traceback__)
             pass
-            # print(f'Could not find authority for {crs_obj.to_wkt()}')
+        
 
-    for _tms in crss:
-        # create the tms object
-        tms = morecantile.TileMatrixSet.custom(**asdict(_tms))
-        _crs = CRS.from_user_input(tms.crs)
-        tms.orderedAxes = [_.abbrev for _ in _crs.axis_info]
-        tmsj = tms.dict(exclude_none=True)
-        tmsj["crs"] = CRS_to_uri(_crs)
-        tmsj["id"] = _tms.identifier
-        tmsj["_geographic_crs"] = CRS_to_uri(_tms.geographic_crs)
-        # reorder the dict to be id, title, uri (eventually), crs, ordered axes, tilematrces
-        ftmsj = dict(id=tmsj["id"], title=tmsj["title"], crs=tmsj["crs"])
-        ftmsj.update(tmsj)
-        with open(f"./{set_version}/{ftmsj['id']}.json", "w") as dst:
-            json.dump(ftmsj, dst, indent=4, ensure_ascii=True)
-            print(f"wrote {dst.name}")
-
-
-if __name__ == "__main__":
-    generate(acceptable_projections = ("Equirectangular", "Mercator", "North Polar", "South Polar"), set_version='v3')
+if __name__ == '__main__':
+    main()
