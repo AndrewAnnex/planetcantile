@@ -87,6 +87,9 @@ psuedo_mercator = \
 #https://spatialreference.org/ref/epsg/3395/prettywkt2.txt
 mercator_a = MercatorAConversion().to_wkt(version='WKT2_2019').replace('unknown', 'World Mercator')
 
+equidistant_cylindrical =  EquidistantCylindricalConversion().to_wkt(version='WKT2_2019').replace('unknown', 'World Equidistant Cylindrical')
+
+
 ## Polar Projections 
 polar_a_south = PolarStereographicAConversion(
     latitude_natural_origin=-90,
@@ -135,6 +138,28 @@ def determine_FE_FN(crs: CRS, in_north=True):
     backward = transformer.transform(*forward, direction='INVERSE')
     # return the (FE, FN), and latitude limit
     return forward, backward[-1]
+
+
+def convert_crs_equidistantcylindrical(wktobj: WKT)-> CRS:
+    bodyname = wktobj.solar_body
+    # get the CRS   
+    crs = CRS.from_wkt(wktobj.wkt)
+    name = crs.name.rstrip()
+    name = f'{name} / Equidistant Cylindrical'
+    # construct basegeogcrs
+    datum = crs.datum
+    basegeogcrs = f'BASEGEOGCRS["{datum.name}",{datum.to_wkt(version='WKT2_2019')}]'
+    # construct the conversion
+    conversion = equidistant_cylindrical
+    # construct the coordinate system, easting (X) and northing (Y) so re-use psuedo's cs
+    cs = cs_en_psuedo
+    # construct the usage
+    usage = f'SCOPE["{bodyname} graticule coordinates expressed in simple Cartesian form."],AREA["Whole of {bodyname}"],BBOX[-90,-180,90,180]'
+    # make the new remark
+    remark = f'REMARK["{crs.remarks}"]'
+    tmp_wkt = f'PROJCRS["{name}",{basegeogcrs},{conversion},{cs},{usage},{remark}]'
+    return CRS.from_wkt(tmp_wkt)
+
 
 def convert_crs_north_polar(wktobj: WKT)-> CRS:
     # get the CRS   
@@ -328,10 +353,10 @@ class Tmsparams(object):
         elif self.is_mercator_varient_a():
             return f'Mercator{kind}'
         elif self.is_non_projected():
-            # TODO differentiate between equirectangular E/N and Lon/Lat
-            return f'Equirectangular{kind}'
+            # TODO differentiate better?
+            return f'Geographic{kind}'
         else:
-            return f'Equirectangular{kind}'
+            return f'EquidistantCylindrical{kind}'
         
     def is_sphere(self):
         return 'Sphere' in self.crs.datum.ellipsoid.name
@@ -369,8 +394,10 @@ class Tmsparams(object):
             return ["X", "Y"]
         elif self.is_polar() or self.is_mercator_varient_a():
             return ["E", "N"]
-        else:
+        elif self.is_non_projected():
             return ["Lon", "Lat"]
+        else:
+            return ["E", "N"]
     
     @property
     def extent(self)-> tuple[float, float, float, float]:
@@ -447,6 +474,7 @@ def make_crs_objs(crss_wkts: dict[str, WKT]):
             yield current_wkt, convert_crs_psuedo_mercator(converted_crs)
             yield current_wkt, convert_crs_north_polar(current_wkt)
             yield current_wkt, convert_crs_south_polar(current_wkt)
+            yield current_wkt, convert_crs_equidistantcylindrical(current_wkt)
             
 def make_tms_objs(crss_wkts: dict[str, WKT]):
     for wkt, crs in make_crs_objs(crss_wkts):
@@ -456,8 +484,8 @@ def make_tms_objs(crss_wkts: dict[str, WKT]):
 def main():
     # TODO:
     # 1. Adjust _geographic_crs's to be LongLat/XY order possibly, possibly .geodetic_crs is doing something non-ideal right now that means the TMSs are not using geocentric long/lat yet
-    # 2. Add back Equirectangular Projections
     # 3. Add TMS's with variable coalescing coefficients
+    # 4. TESTS FOR GOODNESS SAKE
 
     valid_code_postfixs = {'00', '01', '02'}
     client = Client(base_url='http://voparis-vespa-crs.obspm.fr:8080/')
