@@ -8,11 +8,13 @@ from functools import cached_property
 from dataclasses import dataclass, field, asdict
 import json
 
+import numpy as np
+
 import pyproj.exceptions
 from pyproj import CRS, Transformer, Proj
 
 import morecantile
-from morecantile.models import crs_axis_inverted
+from morecantile.models import crs_axis_inverted, variableMatrixWidth
 import pyproj.exceptions
 from pyproj import CRS, Transformer, Proj
 from pyproj.crs import Ellipsoid, GeographicCRS, PrimeMeridian
@@ -105,25 +107,49 @@ polar_north_usage = 'USAGE[SCOPE["North Polar Area {}"],AREA["{} between 80.0 N 
 polar_south_usage = 'USAGE[SCOPE["South Polar Area {}"],AREA["{} between 80.0 S and 90.00 S."],BBOX[-90.0,-180.0,-80.0,180.0]]'
 
 
+def coalesing_coefficients(z):
+    bottom = 2 ** np.arange(1, z+1)
+    return np.concatenate((bottom[::-1], bottom))
 
-def convert_crs(crs: CRS, geodetic=True, scope="unknown.")-> CRS:
+
+def coalesing_tile_rows(z):
+    max_row = 2 ** (z + 1) - 1
+    top_min_rows = np.concatenate(([0], 2 ** np.arange(z-1)))
+    top_max_rows = np.cumsum(top_min_rows)
+    bot_max_rows = max_row - top_min_rows
+    bot_min_rows = max_row - top_max_rows
+    min_rows = np.hstack((top_min_rows, bot_min_rows[::-1]))
+    max_rows = np.hstack((top_max_rows, bot_max_rows[::-1]))
+    return min_rows, max_rows
+
+
+def get_variable_matrix_widths(z):
+    coefficients = coalesing_coefficients(z)
+    if len(coefficients) == 0:
+        return []
+    min_rows, max_rows = coalesing_tile_rows(z)
+    for c, min_r, max_r in zip(coefficients, min_rows, max_rows):
+        yield variableMatrixWidth(coalesce = c.item(), minTileRow=min_r.item(), maxTileRow=max_r.item())
+
+
+def convert_crs(crs: CRS, geodetic=True, scope="unknown.", coalesce: bool = False)-> CRS:
     name = crs.name.rstrip()
     if name[-1] != ' ':
         name = f'{name} '
     datum = crs.datum.to_wkt(version='WKT2_2019')
-    remark = f'REMARK["{crs.remarks}"]'
+    remark = f'REMARK["{crs.remarks}{" Coalesced" if coalesce else ''}"]'
     tmp_wkt = f'GEOGCRS["{name}XY",{datum},{cs_long_lat},SCOPE["{scope}"],AREA["Whole of {scope}"],BBOX[-90,-180,90,180],{remark}]'
     coord_type = 'geodetic' if geodetic else 'planetocentric'
     tmp_wkt = tmp_wkt.replace('longitude', f'{coord_type} longitude (Lon)')
     tmp_wkt = tmp_wkt.replace('latitude', f'{coord_type} latitude (Lat)')
     return CRS.from_wkt(tmp_wkt)
 
-def create_converted_crs(wktobj: WKT):
+def create_converted_crs(wktobj: WKT, coalesce: bool = False):
     bodyname = wktobj.solar_body
     old_code = wktobj.code
     old_crs = CRS.from_wkt(wktobj.wkt)
     geodetic = not str(old_code).endswith('2')
-    return convert_crs(old_crs, geodetic=geodetic, scope=bodyname)
+    return convert_crs(old_crs, geodetic=geodetic, scope=bodyname, coalesce=coalesce)
 
 
 def determine_FE_FN(crs: CRS, in_north=True):
@@ -140,7 +166,7 @@ def determine_FE_FN(crs: CRS, in_north=True):
     return forward, backward[-1]
 
 
-def convert_crs_equidistantcylindrical(wktobj: WKT)-> CRS:
+def convert_crs_equidistantcylindrical(wktobj: WKT, coalesce: bool = False)-> CRS:
     bodyname = wktobj.solar_body
     # get the CRS   
     crs = CRS.from_wkt(wktobj.wkt)
@@ -156,7 +182,7 @@ def convert_crs_equidistantcylindrical(wktobj: WKT)-> CRS:
     # construct the usage
     usage = f'SCOPE["{bodyname} graticule coordinates expressed in simple Cartesian form."],AREA["Whole of {bodyname}"],BBOX[-90,-180,90,180]'
     # make the new remark
-    remark = f'REMARK["{crs.remarks}"]'
+    remark = f'REMARK["{crs.remarks}{" Coalesced" if coalesce else ''}"]'
     tmp_wkt = f'PROJCRS["{name}",{basegeogcrs},{conversion},{cs},{usage},{remark}]'
     return CRS.from_wkt(tmp_wkt)
 
@@ -283,6 +309,11 @@ class Tmsparams(object):
     maxzoom: int = 30
 
     @property
+    def coalesce(self):
+        # Coalesce is only desireable for Geographic or EquidistantCylindrical projections 
+        return 'Coalesced' in self.crs.remarks
+
+    @property
     def geographic_crs(self):
         # TODO this seems may need some work...
         return self.crs.geodetic_crs
@@ -344,6 +375,8 @@ class Tmsparams(object):
         
     def get_projection_name(self)-> str:
         kind = self.get_ellipsoid_kind()
+        if self.coalesce:
+            kind = f'{kind}Coalesced'
         if self.is_polar_north():
             return f'NorthPolar{kind}'
         elif self.is_polar_south():
@@ -422,6 +455,14 @@ class Tmsparams(object):
                 return (-180, -90, 180, around_80_south)
             else:
                 return (-180, -90, 180, 90)
+
+    @staticmethod
+    def _add_coalesce_to_tms(tms: morecantile.TileMatrixSet) -> morecantile.TileMatrixSet:
+        for z in range(1, tms.maxzoom+1):
+            variableMatrixWidths = list(get_variable_matrix_widths(z))
+            tms.matrix(z).variableMatrixWidths = variableMatrixWidths
+        # well actually the tms is already updated but might as well return
+        return tms 
         
     def make_tms(self)-> morecantile.TileMatrixSet:
         tms = morecantile.TileMatrixSet.custom(
@@ -436,6 +477,8 @@ class Tmsparams(object):
             maxzoom=self.maxzoom,
             matrix_scale=self.matrix_scale
         )
+        if self.coalesce:
+            tms = self._add_coalesce_to_tms(tms)
         return tms
     
     def make_tms_dict(self)-> dict:
@@ -468,13 +511,16 @@ def make_crs_objs(crss_wkts: dict[str, WKT]):
         if valid_code in crss_wkts.keys():
             current_wkt = crss_wkts[valid_code]
             converted_crs = create_converted_crs(current_wkt)
+            coalesced_converted_crs  = create_converted_crs(current_wkt, coalesce=True)
             # TODO should I retain explicitly geocentric/ spheroid codes? How?
             yield current_wkt, converted_crs
+            yield current_wkt, coalesced_converted_crs
             yield current_wkt, convert_crs_world_mercator(converted_crs)
             yield current_wkt, convert_crs_psuedo_mercator(converted_crs)
             yield current_wkt, convert_crs_north_polar(current_wkt)
             yield current_wkt, convert_crs_south_polar(current_wkt)
             yield current_wkt, convert_crs_equidistantcylindrical(current_wkt)
+            yield current_wkt, convert_crs_equidistantcylindrical(current_wkt, coalesce=True)
             
 def make_tms_objs(crss_wkts: dict[str, WKT]):
     for wkt, crs in make_crs_objs(crss_wkts):
@@ -485,8 +531,6 @@ def main():
     # TODO:
     # 1. Adjust _geographic_crs's to be LongLat/XY order possibly, possibly .geodetic_crs is doing something non-ideal right now that means the TMSs are not using geocentric long/lat yet
     #  It may be that this is working as expected and that I don't need to actually differentiate these as only the geoid is needed to define the new projections
-    #  If 
-    # 3. Add TMS's with variable coalescing coefficients
     # 4. TESTS FOR GOODNESS SAKE
 
     valid_code_postfixs = {'00', '01', '02'}
