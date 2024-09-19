@@ -484,6 +484,8 @@ def make_tms_objs(crss_wkts: dict[str, WKT]):
 def main():
     # TODO:
     # 1. Adjust _geographic_crs's to be LongLat/XY order possibly, possibly .geodetic_crs is doing something non-ideal right now that means the TMSs are not using geocentric long/lat yet
+    #  It may be that this is working as expected and that I don't need to actually differentiate these as only the geoid is needed to define the new projections
+    #  If 
     # 3. Add TMS's with variable coalescing coefficients
     # 4. TESTS FOR GOODNESS SAKE
 
