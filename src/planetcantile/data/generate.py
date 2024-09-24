@@ -9,6 +9,7 @@ from dataclasses import dataclass, field, asdict
 import json
 
 import numpy as np
+from httpx import RemoteProtocolError
 
 import pyproj.exceptions
 from pyproj import CRS, Transformer, Proj
@@ -152,9 +153,48 @@ def create_converted_crs(wktobj: WKT, coalesce: bool = False):
     return convert_crs(old_crs, geodetic=geodetic, scope=bodyname, coalesce=coalesce)
 
 
-def determine_FE_FN(crs: CRS, in_north=True):
-    transformer = Transformer.from_crs(crs.geodetic_crs, crs, always_xy=True)
-    forward = transformer.transform(45, 80.0 if in_north else -80.0)
+def _bisect_laititude(transformer: callable, low=80.0, high=90.0, tolerance=1e-6):
+    """
+    Finds the lowest latitude for the given pole that works
+    :param func: The function to evaluate.
+    :param low: The lower bound to start the search (known to return infinity).
+    :param high: The upper bound to start the search (known not to return infinity).
+    :param tolerance: The precision of the result.
+    :return: The largest value that does not return infinity.
+    """
+    is_north = low > 0
+    while np.abs(high - low) > tolerance:
+        mid = (low + high) / 2
+        result = transformer.transform(*transformer.transform(45, mid), direction='INVERSE')
+        if math.isinf(result[0]):
+            # move the lower boundary to the mid so consider values above this
+            if is_north:
+                low = mid
+            else:
+                high = mid
+        else:
+            # We had an okay mid point so we can move the upper boundary down
+            if is_north:
+                high = mid   
+            else:
+                low = mid
+    # The smallest value that returns inf is slightly above 'low'
+    return high
+
+def determine_FE_FN(crs: CRS, in_north=True, initial_latitude: float = 80.0):
+    """
+    This is supposed to determine correct false easting and northings for the polar stereographic
+    projections but I am no longer sure this makes any good sense or not
+
+    :param crs: _description_
+    :param in_north: _description_, defaults to True
+    :param initial_latitude: _description_, defaults to 80.0
+    :return: _description_
+    """
+    if not in_north:
+        initial_latitude = -np.abs(initial_latitude)
+    transformer = Transformer.from_crs(crs.geodetic_crs, crs, always_xy=True, allow_ballpark=False, )
+    forward = transformer.transform(45, initial_latitude)
     asint = int(abs(forward[0]))
     digits = len(str(asint))
     assert digits > 1
@@ -162,8 +202,16 @@ def determine_FE_FN(crs: CRS, in_north=True):
     forward = (f, f)
     # determine invserse to get the latitude
     backward = transformer.transform(*forward, direction='INVERSE')
+    final_latitude = backward[-1]
+    # latitude can be inf/-inf, if so you need to find a latitude (closer to respective poll that doesn't return inf)
+    if math.isinf(final_latitude):
+        if in_north:
+            _lat = _bisect_laititude(transformer, low=80.0, high=90.0)
+        else: 
+            _lat = _bisect_laititude(transformer, low=-90.0, high=-80.0)
+        return determine_FE_FN(crs, in_north=in_north, initial_latitude=_lat)
     # return the (FE, FN), and latitude limit
-    return forward, backward[-1]
+    return forward, final_latitude
 
 
 def convert_crs_equidistantcylindrical(wktobj: WKT, coalesce: bool = False)-> CRS:
@@ -405,7 +453,7 @@ class Tmsparams(object):
     def id(self)-> str:
         body = self.crs_wkt.solar_body
         projection = self.get_projection_name()
-        return f'{body}{projection}'
+        return f'{body}{projection}'.replace(' ','')
     
     @property
     def title(self)-> str:
@@ -536,10 +584,10 @@ def main():
     valid_code_postfixs = {'00', '01', '02'}
     client = Client(base_url='http://voparis-vespa-crs.obspm.fr:8080/')
     # get all the bodies
-    #bodies = get_solar_bodies_ws_solar_bodies_get.sync(client=client)
-    bodies = ['Moon', 'Mars']
+    bodies = get_solar_bodies_ws_solar_bodies_get.sync(client=client)
     for body in bodies:
         try:
+            print(body)
             crss_wkts = get_solar_body_ws_solar_bodies_solar_body_get.sync(body, client=client)
             # sort by code
             crss_wkts = sorted(crss_wkts, key= lambda _: _.code)
@@ -555,10 +603,9 @@ def main():
                     print(f"wrote {dst.name}")
         except pyproj.exceptions.ProjError as pe:
             print(f'Failure with body {body} in constructing proj exceptions')
-            for wkt in crss_wkts.values():
-                print(wkt)
-            print(pe.__traceback__)
-            pass
+            raise pe
+        except RemoteProtocolError as rpe:
+            print(f'Failure queriying as the server disconnected without a response for {body}', rpe)
         
 
 if __name__ == '__main__':
