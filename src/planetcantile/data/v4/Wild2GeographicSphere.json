@@ -132,6 +132,76 @@
             "tileHeight": 256,
             "matrixWidth": 512,
             "matrixHeight": 256
+        },
+        {
+            "id": "9",
+            "scaleDenominator": 169.06317277199454,
+            "cellSize": 0.001373291015625,
+            "cornerOfOrigin": "topLeft",
+            "pointOfOrigin": [
+                -180.0,
+                90.0
+            ],
+            "tileWidth": 256,
+            "tileHeight": 256,
+            "matrixWidth": 1024,
+            "matrixHeight": 512
+        },
+        {
+            "id": "10",
+            "scaleDenominator": 84.53158638599727,
+            "cellSize": 0.0006866455078125,
+            "cornerOfOrigin": "topLeft",
+            "pointOfOrigin": [
+                -180.0,
+                90.0
+            ],
+            "tileWidth": 256,
+            "tileHeight": 256,
+            "matrixWidth": 2048,
+            "matrixHeight": 1024
+        },
+        {
+            "id": "11",
+            "scaleDenominator": 42.265793192998636,
+            "cellSize": 0.00034332275390625,
+            "cornerOfOrigin": "topLeft",
+            "pointOfOrigin": [
+                -180.0,
+                90.0
+            ],
+            "tileWidth": 256,
+            "tileHeight": 256,
+            "matrixWidth": 4096,
+            "matrixHeight": 2048
+        },
+        {
+            "id": "12",
+            "scaleDenominator": 21.132896596499318,
+            "cellSize": 0.000171661376953125,
+            "cornerOfOrigin": "topLeft",
+            "pointOfOrigin": [
+                -180.0,
+                90.0
+            ],
+            "tileWidth": 256,
+            "tileHeight": 256,
+            "matrixWidth": 8192,
+            "matrixHeight": 4096
+        },
+        {
+            "id": "13",
+            "scaleDenominator": 10.566448298249659,
+            "cellSize": 8.58306884765625e-05,
+            "cornerOfOrigin": "topLeft",
+            "pointOfOrigin": [
+                -180.0,
+                90.0
+            ],
+            "tileWidth": 256,
+            "tileHeight": 256,
+            "matrixWidth": 16384,
+            "matrixHeight": 8192
         }
     ],
     "_geographic_crs": "GEOGCRS[\"Wild 2 (2015) - Sphere XY\",DATUM[\"Wild 2 (2015) - Sphere\",ELLIPSOID[\"Wild 2 (2015) - Sphere\",1975,0,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]]],PRIMEM[\"Reference Meridian\",0,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],CS[ellipsoidal,2],AXIS[\"geodetic longitude (Lon)\",east,ORDER[1],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],AXIS[\"geodetic latitude (Lat)\",north,ORDER[2],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],USAGE[SCOPE[\"Wild 2\"],AREA[\"Whole of Wild 2\"],BBOX[-90,-180,90,180]],REMARK[\"Use mean radius as sphere radius for interoperability. Source of IAU Coordinate systems: doi:10.1007/s10569-017-9805-5\"]]"

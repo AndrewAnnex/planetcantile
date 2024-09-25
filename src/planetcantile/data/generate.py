@@ -15,6 +15,7 @@ import pyproj.exceptions
 from pyproj import CRS, Transformer, Proj
 
 import morecantile
+from morecantile.utils import meters_per_unit
 from morecantile.models import crs_axis_inverted, variableMatrixWidth
 import pyproj.exceptions
 from pyproj import CRS, Transformer, Proj
@@ -361,6 +362,11 @@ class Tmsparams(object):
     # Tile Matrix Set maximum zoom level (default is 30).
     maxzoom: int = 30
 
+    def __post_init__(self):
+        # update the minimum zoom level to 1 for coalesced grids
+        if self.coalesce:
+            self.minzoom = 1
+
     @property
     def coalesce(self):
         # Coalesce is only desireable for Geographic or EquidistantCylindrical projections 
@@ -511,9 +517,10 @@ class Tmsparams(object):
 
     @staticmethod
     def _add_coalesce_to_tms(tms: morecantile.TileMatrixSet) -> morecantile.TileMatrixSet:
-        for z in range(1, tms.maxzoom+1):
-            variableMatrixWidths = list(get_variable_matrix_widths(z))
-            tms.matrix(z).variableMatrixWidths = variableMatrixWidths
+        for z in range(1, tms.maxzoom + 1):
+            variableMatrixWidths = list(get_variable_matrix_widths(z-1))
+            if len(variableMatrixWidths) > 0:
+                tms.matrix(z).variableMatrixWidths = variableMatrixWidths
         # well actually the tms is already updated but might as well return
         return tms 
         
@@ -546,8 +553,13 @@ class Tmsparams(object):
             for m in matrices:
                 x, y = m['pointOfOrigin']
                 m['pointOfOrigin'] = (x, -x)
+        # if a coalesced grid relabel the tile id's to be as expected
+        if self.coalesce:
+            for m in matrices:
+                m['id'] = str(int(m['id'])-1)
         # exclude any zoom levels where 1 cm cannot be well resolved via approximation 2.5 mm
-        matrices = [m for m in matrices if m['cellSize'] >= 0.0025]
+        mmpu = (1.0 / (meters_per_unit(self.crs) * 1000)) 
+        matrices = [m for m in matrices if m['cellSize'] >= (2.5 * mmpu)]
         # return a new dict to re-order as needed
         return dict(
             id=tms_dict['id'],
@@ -588,11 +600,14 @@ def main():
     #  It may be that this is working as expected and that I don't need to actually differentiate these as only the geoid is needed to define the new projections
     # 4. TESTS FOR GOODNESS SAKE
     # 5. Limit minimum cell scale to be no smaller than 1 cm to avoid creating all grids down to zoom 30 ()
-
+    # 6. Coalesced Grids matrix 0 should be 4 by 2 matrix width/height (basically exclude the top id and relabel the matrices)
+    # 7. Coalesced Grids also have no variable widths for id 0, looks like I need to offest 1 between how I define them and the zoom level
+    # 8. GNOSIS also by uses lat lon geographic coordinates. I am using the lon lat order but that's probably okay
     valid_code_postfixs = {'00', '01', '02'}
     client = Client(base_url='http://voparis-vespa-crs.obspm.fr:8080/')
     # get all the bodies
     bodies = get_solar_bodies_ws_solar_bodies_get.sync(client=client)
+    #bodies = ['Earth',]
     for body in bodies:
         try:
             print(body)

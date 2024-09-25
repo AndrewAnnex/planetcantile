@@ -132,6 +132,76 @@
             "tileHeight": 256,
             "matrixWidth": 512,
             "matrixHeight": 256
+        },
+        {
+            "id": "9",
+            "scaleDenominator": 256.804819400498,
+            "cellSize": 0.001373291015625,
+            "cornerOfOrigin": "topLeft",
+            "pointOfOrigin": [
+                -180.0,
+                90.0
+            ],
+            "tileWidth": 256,
+            "tileHeight": 256,
+            "matrixWidth": 1024,
+            "matrixHeight": 512
+        },
+        {
+            "id": "10",
+            "scaleDenominator": 128.402409700249,
+            "cellSize": 0.0006866455078125,
+            "cornerOfOrigin": "topLeft",
+            "pointOfOrigin": [
+                -180.0,
+                90.0
+            ],
+            "tileWidth": 256,
+            "tileHeight": 256,
+            "matrixWidth": 2048,
+            "matrixHeight": 1024
+        },
+        {
+            "id": "11",
+            "scaleDenominator": 64.2012048501245,
+            "cellSize": 0.00034332275390625,
+            "cornerOfOrigin": "topLeft",
+            "pointOfOrigin": [
+                -180.0,
+                90.0
+            ],
+            "tileWidth": 256,
+            "tileHeight": 256,
+            "matrixWidth": 4096,
+            "matrixHeight": 2048
+        },
+        {
+            "id": "12",
+            "scaleDenominator": 32.10060242506225,
+            "cellSize": 0.000171661376953125,
+            "cornerOfOrigin": "topLeft",
+            "pointOfOrigin": [
+                -180.0,
+                90.0
+            ],
+            "tileWidth": 256,
+            "tileHeight": 256,
+            "matrixWidth": 8192,
+            "matrixHeight": 4096
+        },
+        {
+            "id": "13",
+            "scaleDenominator": 16.050301212531124,
+            "cellSize": 8.58306884765625e-05,
+            "cornerOfOrigin": "topLeft",
+            "pointOfOrigin": [
+                -180.0,
+                90.0
+            ],
+            "tileWidth": 256,
+            "tileHeight": 256,
+            "matrixWidth": 16384,
+            "matrixHeight": 8192
         }
     ],
     "_geographic_crs": "GEOGCRS[\"Tempel 1 (2015) - Sphere XY\",DATUM[\"Tempel 1 (2015) - Sphere\",ELLIPSOID[\"Tempel 1 (2015) - Sphere\",3000,0,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],ANCHOR[\"A 350 m diameter unnamed circular feature near the Deep Impactor impact site : 0\"]],PRIMEM[\"Reference Meridian\",0,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],CS[ellipsoidal,2],AXIS[\"geodetic longitude (Lon)\",east,ORDER[1],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],AXIS[\"geodetic latitude (Lat)\",north,ORDER[2],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],USAGE[SCOPE[\"Tempel 1\"],AREA[\"Whole of Tempel 1\"],BBOX[-90,-180,90,180]],REMARK[\"Use mean radius as sphere radius for interoperability. Source of IAU Coordinate systems: doi:10.1007/s10569-017-9805-5\"]]"

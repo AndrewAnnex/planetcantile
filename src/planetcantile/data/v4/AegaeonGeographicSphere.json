@@ -132,6 +132,34 @@
             "tileHeight": 256,
             "matrixWidth": 512,
             "matrixHeight": 256
+        },
+        {
+            "id": "9",
+            "scaleDenominator": 28.248530134054775,
+            "cellSize": 0.001373291015625,
+            "cornerOfOrigin": "topLeft",
+            "pointOfOrigin": [
+                -180.0,
+                90.0
+            ],
+            "tileWidth": 256,
+            "tileHeight": 256,
+            "matrixWidth": 1024,
+            "matrixHeight": 512
+        },
+        {
+            "id": "10",
+            "scaleDenominator": 14.124265067027387,
+            "cellSize": 0.0006866455078125,
+            "cornerOfOrigin": "topLeft",
+            "pointOfOrigin": [
+                -180.0,
+                90.0
+            ],
+            "tileWidth": 256,
+            "tileHeight": 256,
+            "matrixWidth": 2048,
+            "matrixHeight": 1024
         }
     ],
     "_geographic_crs": "GEOGCRS[\"Aegaeon (2015) - Sphere XY\",DATUM[\"Aegaeon (2015) - Sphere\",ELLIPSOID[\"Aegaeon (2015) - Sphere\",330,0,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]]],PRIMEM[\"Reference Meridian\",0,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],CS[ellipsoidal,2],AXIS[\"geodetic longitude (Lon)\",east,ORDER[1],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],AXIS[\"geodetic latitude (Lat)\",north,ORDER[2],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],USAGE[SCOPE[\"Aegaeon\"],AREA[\"Whole of Aegaeon\"],BBOX[-90,-180,90,180]],REMARK[\"Use mean radius as sphere radius for interoperability. Source of IAU Coordinate systems: doi:10.1007/s10569-017-9805-5\"]]"
