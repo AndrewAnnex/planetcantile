@@ -4,7 +4,7 @@ import os
 import urllib.request
 import warnings
 from pathlib import Path
-from functools import cached_property
+from functools import cached_property, lru_cache
 from dataclasses import dataclass, field, asdict
 import json
 
@@ -31,12 +31,17 @@ from  planet_crs_registry_client.models.wkt import WKT
 from planet_crs_registry_client.api.browse_by_solar_body import get_solar_bodies_ws_solar_bodies_get
 from planet_crs_registry_client.api.browse_by_solar_body import get_solar_body_ws_solar_bodies_solar_body_get
 
+
+# 
+CachedCRS = lru_cache(CRS.from_user_input)
+CachedTransformer = lru_cache(Transformer.from_crs)
+
 matrix_scale_quad     = [1,1]
 matrix_scale_platecur = [2,1]
 axis_lon_lat               = ["Lon", "Lat"]
 axis_east_north            = ["easting", "northing"]
 
-WGS84_CRS = CRS.from_epsg(4326)
+WGS84_CRS = CachedCRS(4326)
 
 UNIT_DEGREE = "degree"
 
@@ -143,12 +148,12 @@ def convert_crs(crs: CRS, geodetic=True, scope="unknown.", coalesce: bool = Fals
     coord_type = 'geodetic' if geodetic else 'planetocentric'
     tmp_wkt = tmp_wkt.replace('longitude', f'{coord_type} longitude (Lon)')
     tmp_wkt = tmp_wkt.replace('latitude', f'{coord_type} latitude (Lat)')
-    return CRS.from_wkt(tmp_wkt)
+    return CachedCRS(tmp_wkt)
 
 def create_converted_crs(wktobj: WKT, coalesce: bool = False):
     bodyname = wktobj.solar_body
     old_code = wktobj.code
-    old_crs = CRS.from_wkt(wktobj.wkt)
+    old_crs = CachedCRS(wktobj.wkt)
     geodetic = not str(old_code).endswith('2')
     return convert_crs(old_crs, geodetic=geodetic, scope=bodyname, coalesce=coalesce)
 
@@ -193,7 +198,7 @@ def determine_FE_FN(crs: CRS, in_north=True, initial_latitude: float = 80.0):
     """
     if not in_north:
         initial_latitude = -np.abs(initial_latitude)
-    transformer = Transformer.from_crs(crs.geodetic_crs, crs, always_xy=True, allow_ballpark=False, )
+    transformer = CachedTransformer(crs.geodetic_crs, crs, always_xy=True, allow_ballpark=False, )
     forward = transformer.transform(45, initial_latitude)
     asint = int(abs(forward[0]))
     digits = len(str(asint))
@@ -217,7 +222,7 @@ def determine_FE_FN(crs: CRS, in_north=True, initial_latitude: float = 80.0):
 def convert_crs_equidistantcylindrical(wktobj: WKT, coalesce: bool = False)-> CRS:
     bodyname = wktobj.solar_body
     # get the CRS   
-    crs = CRS.from_wkt(wktobj.wkt)
+    crs = CachedCRS(wktobj.wkt)
     name = crs.name.rstrip()
     name = f'{name} / Equidistant Cylindrical'
     # construct basegeogcrs
@@ -232,12 +237,12 @@ def convert_crs_equidistantcylindrical(wktobj: WKT, coalesce: bool = False)-> CR
     # make the new remark
     remark = f'REMARK["{crs.remarks}{" Coalesced" if coalesce else ''}"]'
     tmp_wkt = f'PROJCRS["{name}",{basegeogcrs},{conversion},{cs},{usage},{remark}]'
-    return CRS.from_wkt(tmp_wkt)
+    return CachedCRS(tmp_wkt)
 
 
 def convert_crs_north_polar(wktobj: WKT)-> CRS:
     # get the CRS   
-    crs = CRS.from_wkt(wktobj.wkt)
+    crs = CachedCRS(wktobj.wkt)
     name = crs.name.rstrip()
     # construct basegeogcrs
     datum = crs.datum
@@ -254,7 +259,7 @@ def convert_crs_north_polar(wktobj: WKT)-> CRS:
     #_id = f'ID["IAU",{new_id},2015]'
     tmp_wkt = f'PROJCRS["{name}",{basegeogcrs},{conversion},{cs},{usage},{remark}]'
     # construct false northing and easting
-    (FE, FN), latitude = determine_FE_FN(CRS.from_wkt(tmp_wkt), in_north=True)
+    (FE, FN), latitude = determine_FE_FN(CachedCRS(tmp_wkt), in_north=True)
     ################################################################################
     # construct final wkt
     _polar_north_usage = 'USAGE[SCOPE["North Polar Area {}"],AREA["{} between {} N and 90.00 N."],BBOX[{},-180.0,90.0,180.0]]'.format(wktobj.solar_body, wktobj.solar_body, latitude, latitude)
@@ -267,11 +272,11 @@ def convert_crs_north_polar(wktobj: WKT)-> CRS:
     ).to_wkt(version='WKT2_2019').replace('unknown', 'Universal Polar Stereographic North')
     final_wkt = f'PROJCRS["{name}",{basegeogcrs},{_polar_a_north},{cs},{_polar_north_usage},{remark}]'
     ##################################################################################
-    return CRS.from_wkt(final_wkt)
+    return CachedCRS(final_wkt)
 
 def convert_crs_south_polar(wktobj: WKT)-> CRS:
     # get the CRS   
-    crs = CRS.from_wkt(wktobj.wkt)
+    crs = CachedCRS(wktobj.wkt)
     name = crs.name.rstrip()
     # construct basegeogcrs
     datum = crs.datum
@@ -287,7 +292,7 @@ def convert_crs_south_polar(wktobj: WKT)-> CRS:
     # make the new id
     tmp_wkt = f'PROJCRS["{name}",{basegeogcrs},{conversion},{cs},{usage},{remark}]'
     # construct false northing and easting
-    (FE, FN), latitude = determine_FE_FN(CRS.from_wkt(tmp_wkt), in_north=False)
+    (FE, FN), latitude = determine_FE_FN(CachedCRS(tmp_wkt), in_north=False)
     ################################################################################
     # construct final wkt
     _polar_south_usage = 'USAGE[SCOPE["South Polar Area {}"],AREA["{} between {} S and 90.00 S."],BBOX[-90.0,-180.0,{},180.0]]'.format(wktobj.solar_body, wktobj.solar_body, latitude, latitude)
@@ -300,7 +305,7 @@ def convert_crs_south_polar(wktobj: WKT)-> CRS:
     ).to_wkt(version='WKT2_2019').replace('unknown', 'Universal Polar Stereographic South')
     final_wkt = f'PROJCRS["{name}",{basegeogcrs},{_polar_a_south},{cs},{_polar_south_usage},{remark}]'
     ##################################################################################
-    return CRS.from_wkt(final_wkt)
+    return CachedCRS(final_wkt)
 
 def convert_crs_psuedo_mercator(crs: CRS)-> CRS:
     name = crs.name.rstrip()
@@ -319,7 +324,7 @@ def convert_crs_psuedo_mercator(crs: CRS)-> CRS:
     # make the new id
     #_id = f'ID["IAU",{new_id},2015]'
     tmp_wkt = f'PROJCRS["{name}",{basegeogcrs},{conversion},{cs},{usage},{remark}]'
-    return CRS.from_wkt(tmp_wkt)
+    return CachedCRS(tmp_wkt)
 
 def convert_crs_world_mercator(crs: CRS)-> CRS:
     name = crs.name.rstrip()
@@ -338,7 +343,7 @@ def convert_crs_world_mercator(crs: CRS)-> CRS:
     # make the new id
     #_id = f'ID["IAU",{new_id},2015]'
     tmp_wkt = f'PROJCRS["{name}",{basegeogcrs},{conversion},{cs},{usage},{remark}]'
-    return CRS.from_wkt(tmp_wkt)
+    return CachedCRS(tmp_wkt)
 
 
 @dataclass()
@@ -486,7 +491,7 @@ class Tmsparams(object):
         area_of_use = self.crs.area_of_use
         if self.is_web_mercator() or self.is_mercator_varient_a():
             # need to ensure the point of origins are identical x and y
-            transformer = Transformer.from_crs(self.extent_crs, self.crs, always_xy=True, allow_ballpark=False)
+            transformer = CachedTransformer(self.extent_crs, self.crs, always_xy=True, allow_ballpark=False)
             min_x, _ = transformer.transform(-180,0)
             _, min_lat = transformer.transform(0, min_x, direction='INVERSE')
             bounds = (-180, min_lat, 180, -min_lat)
@@ -541,6 +546,8 @@ class Tmsparams(object):
             for m in matrices:
                 x, y = m['pointOfOrigin']
                 m['pointOfOrigin'] = (x, -x)
+        # exclude any zoom levels where 1 cm cannot be well resolved via approximation 2.5 mm
+        matrices = [m for m in matrices if m['cellSize'] >= 0.0025]
         # return a new dict to re-order as needed
         return dict(
             id=tms_dict['id'],
@@ -577,9 +584,10 @@ def make_tms_objs(crss_wkts: dict[str, WKT]):
 
 def main():
     # TODO:
-    # 1. Adjust _geographic_crs's to be LongLat/XY order possibly, possibly .geodetic_crs is doing something non-ideal right now that means the TMSs are not using geocentric long/lat yet
+    # 1. Adjust _geographic_crs's to be LongLat/XY order possibly, possibly .geodetic_crs is doing something non-ideal right now that means the TMSs are not using geocentric long/lat yet when given sphereical bodies
     #  It may be that this is working as expected and that I don't need to actually differentiate these as only the geoid is needed to define the new projections
     # 4. TESTS FOR GOODNESS SAKE
+    # 5. Limit minimum cell scale to be no smaller than 1 cm to avoid creating all grids down to zoom 30 ()
 
     valid_code_postfixs = {'00', '01', '02'}
     client = Client(base_url='http://voparis-vespa-crs.obspm.fr:8080/')
