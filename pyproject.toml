@@ -27,6 +27,8 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
+    "spiceypy",
+    "titiler.application",
     "pytest >=8.3.0",
     "planet-crs-registry-client @ git+https://github.com/AndrewAnnex/planet-crs-registry-client.git@904d36fb32ef85aaef57782f55322b5bb36c1c0b"
 ]

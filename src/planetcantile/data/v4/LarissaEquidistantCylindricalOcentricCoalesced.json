@@ -1,7 +1,7 @@
 {
     "id": "LarissaEquidistantCylindricalOcentricCoalesced",
     "title": "Larissa (2015) EN EquidistantCylindricalOcentricCoalesced",
-    "crs": "PROJCRS[\"Larissa (2015) / Ocentric / Equidistant Cylindrical\",BASEGEOGCRS[\"Larissa (2015)\",DATUM[\"Larissa (2015)\",ELLIPSOID[\"Larissa (2015)\",96000,13.7142857142857,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]]],PRIMEM[\"Reference Meridian\",0,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]]],CONVERSION[\"World Equidistant Cylindrical\",METHOD[\"Equidistant Cylindrical\",ID[\"EPSG\",1028]],PARAMETER[\"Latitude of 1st standard parallel\",0,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8823]],PARAMETER[\"Longitude of natural origin\",0,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8802]],PARAMETER[\"False easting\",0,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8806]],PARAMETER[\"False northing\",0,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8807]]],CS[Cartesian,2],AXIS[\"easting (X)\",east,ORDER[1],LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],AXIS[\"northing (Y)\",north,ORDER[2],LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],USAGE[SCOPE[\"Larissa graticule coordinates expressed in simple Cartesian form.\"],AREA[\"Whole of Larissa\"],BBOX[-90,-180,90,180]],REMARK[\"Source of IAU Coordinate systems: doi:10.1007/s10569-017-9805-5 Coalesced\"]]",
+    "crs": "PROJCRS[\"Larissa (2015) / Ocentric / Equidistant Cylindrical\",BASEGEODCRS[\"Larissa (2015)\",DATUM[\"Larissa (2015)\",ELLIPSOID[\"Larissa (2015)\",96000,13.7142857142857,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]]],PRIMEM[\"Reference Meridian\",0,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]]],CONVERSION[\"World Equidistant Cylindrical\",METHOD[\"Equidistant Cylindrical\",ID[\"EPSG\",1028]],PARAMETER[\"Latitude of 1st standard parallel\",0,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8823]],PARAMETER[\"Longitude of natural origin\",0,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8802]],PARAMETER[\"False easting\",0,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8806]],PARAMETER[\"False northing\",0,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8807]]],CS[Cartesian,2],AXIS[\"easting (X)\",east,ORDER[1],LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],AXIS[\"northing (Y)\",north,ORDER[2],LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],USAGE[SCOPE[\"Larissa graticule coordinates expressed in simple Cartesian form.\"],AREA[\"Whole of Larissa\"],BBOX[-90,-180,90,180]],REMARK[\"Source of IAU Coordinate systems: doi:10.1007/s10569-017-9805-5 Coalesced\"]]",
     "orderedAxes": [
         "E",
         "N"
@@ -9,12 +9,12 @@
     "tileMatrices": [
         {
             "id": "0",
-            "scaleDenominator": 2103745.0805288795,
-            "cellSize": 589.0486225480862,
+            "scaleDenominator": 1939077.566670742,
+            "cellSize": 542.9417186678077,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -301592.89474462013,
-                150796.44737231007
+                -150796.44737231007,
+                138993.07997895876
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -23,12 +23,12 @@
         },
         {
             "id": "1",
-            "scaleDenominator": 1051872.5402644398,
-            "cellSize": 294.5243112740431,
+            "scaleDenominator": 969538.783335371,
+            "cellSize": 271.47085933390383,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -301592.89474462013,
-                150796.44737231007
+                -150796.44737231007,
+                138993.07997895876
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -49,12 +49,12 @@
         },
         {
             "id": "2",
-            "scaleDenominator": 525936.2701322199,
-            "cellSize": 147.26215563702155,
+            "scaleDenominator": 484769.3916676855,
+            "cellSize": 135.73542966695192,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -301592.89474462013,
-                150796.44737231007
+                -150796.44737231007,
+                138993.07997895876
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -85,12 +85,12 @@
         },
         {
             "id": "3",
-            "scaleDenominator": 262968.13506610994,
-            "cellSize": 73.63107781851078,
+            "scaleDenominator": 242384.69583384274,
+            "cellSize": 67.86771483347596,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -301592.89474462013,
-                150796.44737231007
+                -150796.44737231007,
+                138993.07997895876
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -131,12 +131,12 @@
         },
         {
             "id": "4",
-            "scaleDenominator": 131484.06753305497,
-            "cellSize": 36.81553890925539,
+            "scaleDenominator": 121192.34791692137,
+            "cellSize": 33.93385741673798,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -301592.89474462013,
-                150796.44737231007
+                -150796.44737231007,
+                138993.07997895876
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -187,12 +187,12 @@
         },
         {
             "id": "5",
-            "scaleDenominator": 65742.03376652749,
-            "cellSize": 18.407769454627694,
+            "scaleDenominator": 60596.173958460684,
+            "cellSize": 16.96692870836899,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -301592.89474462013,
-                150796.44737231007
+                -150796.44737231007,
+                138993.07997895876
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -253,12 +253,12 @@
         },
         {
             "id": "6",
-            "scaleDenominator": 32871.01688326374,
-            "cellSize": 9.203884727313847,
+            "scaleDenominator": 30298.086979230342,
+            "cellSize": 8.483464354184495,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -301592.89474462013,
-                150796.44737231007
+                -150796.44737231007,
+                138993.07997895876
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -329,12 +329,12 @@
         },
         {
             "id": "7",
-            "scaleDenominator": 16435.50844163187,
-            "cellSize": 4.601942363656923,
+            "scaleDenominator": 15149.043489615171,
+            "cellSize": 4.241732177092247,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -301592.89474462013,
-                150796.44737231007
+                -150796.44737231007,
+                138993.07997895876
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -415,12 +415,12 @@
         },
         {
             "id": "8",
-            "scaleDenominator": 8217.754220815936,
-            "cellSize": 2.3009711818284617,
+            "scaleDenominator": 7574.5217448075855,
+            "cellSize": 2.1208660885461237,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -301592.89474462013,
-                150796.44737231007
+                -150796.44737231007,
+                138993.07997895876
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -511,12 +511,12 @@
         },
         {
             "id": "9",
-            "scaleDenominator": 4108.877110407968,
-            "cellSize": 1.1504855909142309,
+            "scaleDenominator": 3787.2608724037927,
+            "cellSize": 1.0604330442730618,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -301592.89474462013,
-                150796.44737231007
+                -150796.44737231007,
+                138993.07997895876
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -617,12 +617,12 @@
         },
         {
             "id": "10",
-            "scaleDenominator": 2054.438555203984,
-            "cellSize": 0.5752427954571154,
+            "scaleDenominator": 1893.6304362018964,
+            "cellSize": 0.5302165221365309,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -301592.89474462013,
-                150796.44737231007
+                -150796.44737231007,
+                138993.07997895876
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -733,12 +733,12 @@
         },
         {
             "id": "11",
-            "scaleDenominator": 1027.219277601992,
-            "cellSize": 0.2876213977285577,
+            "scaleDenominator": 946.8152181009482,
+            "cellSize": 0.26510826106826546,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -301592.89474462013,
-                150796.44737231007
+                -150796.44737231007,
+                138993.07997895876
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -859,12 +859,12 @@
         },
         {
             "id": "12",
-            "scaleDenominator": 513.609638800996,
-            "cellSize": 0.14381069886427886,
+            "scaleDenominator": 473.4076090504741,
+            "cellSize": 0.13255413053413273,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -301592.89474462013,
-                150796.44737231007
+                -150796.44737231007,
+                138993.07997895876
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -995,12 +995,12 @@
         },
         {
             "id": "13",
-            "scaleDenominator": 256.804819400498,
-            "cellSize": 0.07190534943213943,
+            "scaleDenominator": 236.70380452523705,
+            "cellSize": 0.06627706526706637,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -301592.89474462013,
-                150796.44737231007
+                -150796.44737231007,
+                138993.07997895876
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -1141,12 +1141,12 @@
         },
         {
             "id": "14",
-            "scaleDenominator": 128.402409700249,
-            "cellSize": 0.035952674716069714,
+            "scaleDenominator": 118.35190226261852,
+            "cellSize": 0.03313853263353318,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -301592.89474462013,
-                150796.44737231007
+                -150796.44737231007,
+                138993.07997895876
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -1297,12 +1297,12 @@
         },
         {
             "id": "15",
-            "scaleDenominator": 64.2012048501245,
-            "cellSize": 0.017976337358034857,
+            "scaleDenominator": 59.17595113130926,
+            "cellSize": 0.01656926631676659,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -301592.89474462013,
-                150796.44737231007
+                -150796.44737231007,
+                138993.07997895876
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -1463,12 +1463,12 @@
         },
         {
             "id": "16",
-            "scaleDenominator": 32.10060242506225,
-            "cellSize": 0.008988168679017429,
+            "scaleDenominator": 29.58797556565463,
+            "cellSize": 0.008284633158383296,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -301592.89474462013,
-                150796.44737231007
+                -150796.44737231007,
+                138993.07997895876
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -1639,12 +1639,12 @@
         },
         {
             "id": "17",
-            "scaleDenominator": 16.050301212531124,
-            "cellSize": 0.004494084339508714,
+            "scaleDenominator": 14.793987782827315,
+            "cellSize": 0.004142316579191648,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -301592.89474462013,
-                150796.44737231007
+                -150796.44737231007,
+                138993.07997895876
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -1824,5 +1824,5 @@
             ]
         }
     ],
-    "_geographic_crs": "GEOGCRS[\"Larissa (2015)\",DATUM[\"Larissa (2015)\",ELLIPSOID[\"Larissa (2015)\",96000,13.7142857142857,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]]],PRIMEM[\"Reference Meridian\",0,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],CS[ellipsoidal,2],AXIS[\"latitude\",north,ORDER[1],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],AXIS[\"longitude\",east,ORDER[2],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]]]"
+    "_geographic_crs": "GEODCRS[\"Larissa (2015)\",DATUM[\"Larissa (2015)\",ELLIPSOID[\"Larissa (2015)\",96000,13.7142857142857,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]]],PRIMEM[\"Reference Meridian\",0,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],CS[spherical,2],AXIS[\"planetocentric latitude (U)\",north,ORDER[1],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],AXIS[\"planetocentric longitude (V)\",east,ORDER[2],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]]]"
 }

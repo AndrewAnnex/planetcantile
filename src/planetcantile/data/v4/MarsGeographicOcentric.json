@@ -1,7 +1,7 @@
 {
     "id": "MarsGeographicOcentric",
     "title": "Mars (2015) LonLat GeographicOcentric",
-    "crs": "GEOGCRS[\"Mars (2015) / Ocentric XY\",DATUM[\"Mars (2015)\",ELLIPSOID[\"Mars (2015)\",3396190,169.894447223612,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],ANCHOR[\"Viking 1 lander : 47.95137 W\"]],PRIMEM[\"Reference Meridian\",0,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],CS[ellipsoidal,2],AXIS[\"planetocentric longitude (Lon)\",east,ORDER[1],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],AXIS[\"planetocentric latitude (Lat)\",north,ORDER[2],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],USAGE[SCOPE[\"Mars\"],AREA[\"Whole of Mars\"],BBOX[-90,-180,90,180]],REMARK[\"Source of IAU Coordinate systems: doi:10.1007/s10569-017-9805-5\"]]",
+    "crs": "GEODCRS[\"Mars (2015) / Ocentric XY\",DATUM[\"Mars (2015)\",ELLIPSOID[\"Mars (2015)\",3396190,169.894447223612,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],ANCHOR[\"Viking 1 lander : 47.95137 W\"]],PRIMEM[\"Reference Meridian\",0,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],CS[spherical,2],AXIS[\"planetocentric longitude (V)\",east,ORDER[1],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],AXIS[\"planetocentric latitude (U)\",north,ORDER[2],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],USAGE[SCOPE[\"Mars\"],AREA[\"Whole of Mars\"],BBOX[-90,-180,90,180]],REMARK[\"Source of IAU Coordinate systems: doi:10.1007/s10569-017-9805-5\"]]",
     "orderedAxes": [
         "Lon",
         "Lat"
@@ -344,5 +344,5 @@
             "matrixHeight": 8388608
         }
     ],
-    "_geographic_crs": "GEOGCRS[\"Mars (2015) / Ocentric XY\",DATUM[\"Mars (2015)\",ELLIPSOID[\"Mars (2015)\",3396190,169.894447223612,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],ANCHOR[\"Viking 1 lander : 47.95137 W\"]],PRIMEM[\"Reference Meridian\",0,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],CS[ellipsoidal,2],AXIS[\"planetocentric longitude (Lon)\",east,ORDER[1],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],AXIS[\"planetocentric latitude (Lat)\",north,ORDER[2],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],USAGE[SCOPE[\"Mars\"],AREA[\"Whole of Mars\"],BBOX[-90,-180,90,180]],REMARK[\"Source of IAU Coordinate systems: doi:10.1007/s10569-017-9805-5\"]]"
+    "_geographic_crs": "GEODCRS[\"Mars (2015) / Ocentric XY\",DATUM[\"Mars (2015)\",ELLIPSOID[\"Mars (2015)\",3396190,169.894447223612,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],ANCHOR[\"Viking 1 lander : 47.95137 W\"]],PRIMEM[\"Reference Meridian\",0,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],CS[spherical,2],AXIS[\"planetocentric longitude (V)\",east,ORDER[1],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],AXIS[\"planetocentric latitude (U)\",north,ORDER[2],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],USAGE[SCOPE[\"Mars\"],AREA[\"Whole of Mars\"],BBOX[-90,-180,90,180]],REMARK[\"Source of IAU Coordinate systems: doi:10.1007/s10569-017-9805-5\"]]"
 }

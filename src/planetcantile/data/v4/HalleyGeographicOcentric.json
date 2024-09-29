@@ -1,7 +1,7 @@
 {
     "id": "HalleyGeographicOcentric",
     "title": "Halley (2015) LonLat GeographicOcentric",
-    "crs": "GEOGCRS[\"Halley (2015) / Ocentric XY\",DATUM[\"Halley (2015)\",ELLIPSOID[\"Halley (2015)\",8000,2,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]]],PRIMEM[\"Reference Meridian\",0,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],CS[ellipsoidal,2],AXIS[\"planetocentric longitude (Lon)\",east,ORDER[1],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],AXIS[\"planetocentric latitude (Lat)\",north,ORDER[2],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],USAGE[SCOPE[\"Halley\"],AREA[\"Whole of Halley\"],BBOX[-90,-180,90,180]],REMARK[\"Source of IAU Coordinate systems: doi:10.1007/s10569-017-9805-5\"]]",
+    "crs": "GEODCRS[\"Halley (2015) / Ocentric XY\",DATUM[\"Halley (2015)\",ELLIPSOID[\"Halley (2015)\",8000,2,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]]],PRIMEM[\"Reference Meridian\",0,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],CS[spherical,2],AXIS[\"planetocentric longitude (V)\",east,ORDER[1],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],AXIS[\"planetocentric latitude (U)\",north,ORDER[2],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],USAGE[SCOPE[\"Halley\"],AREA[\"Whole of Halley\"],BBOX[-90,-180,90,180]],REMARK[\"Source of IAU Coordinate systems: doi:10.1007/s10569-017-9805-5\"]]",
     "orderedAxes": [
         "Lon",
         "Lat"
@@ -232,5 +232,5 @@
             "matrixHeight": 32768
         }
     ],
-    "_geographic_crs": "GEOGCRS[\"Halley (2015) / Ocentric XY\",DATUM[\"Halley (2015)\",ELLIPSOID[\"Halley (2015)\",8000,2,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]]],PRIMEM[\"Reference Meridian\",0,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],CS[ellipsoidal,2],AXIS[\"planetocentric longitude (Lon)\",east,ORDER[1],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],AXIS[\"planetocentric latitude (Lat)\",north,ORDER[2],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],USAGE[SCOPE[\"Halley\"],AREA[\"Whole of Halley\"],BBOX[-90,-180,90,180]],REMARK[\"Source of IAU Coordinate systems: doi:10.1007/s10569-017-9805-5\"]]"
+    "_geographic_crs": "GEODCRS[\"Halley (2015) / Ocentric XY\",DATUM[\"Halley (2015)\",ELLIPSOID[\"Halley (2015)\",8000,2,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]]],PRIMEM[\"Reference Meridian\",0,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],CS[spherical,2],AXIS[\"planetocentric longitude (V)\",east,ORDER[1],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],AXIS[\"planetocentric latitude (U)\",north,ORDER[2],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],USAGE[SCOPE[\"Halley\"],AREA[\"Whole of Halley\"],BBOX[-90,-180,90,180]],REMARK[\"Source of IAU Coordinate systems: doi:10.1007/s10569-017-9805-5\"]]"
 }

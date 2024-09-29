@@ -2,6 +2,7 @@ from typing import Callable
 
 from .defaults import planetary_tms
 from .topoalgo import TopographyQuantizer
+from .debugalgo import DebugTile
 
 from io import BytesIO
 
@@ -18,8 +19,12 @@ from titiler.mosaic.factory import MosaicTilerFactory
 from titiler.mosaic.errors import MOSAIC_STATUS_CODES
 from fastapi import FastAPI
 
+algo_dict = {
+    "toporgb": TopographyQuantizer,
+    "debug": DebugTile
+}
 
-algorithms: Algorithms = default_algorithms.register({"toporgb": TopographyQuantizer})
+algorithms: Algorithms = default_algorithms.register(algo_dict)
 PostProcessParams: Callable = algorithms.dependency
 
 tms = TMSFactory(supported_tms=planetary_tms)
@@ -28,6 +33,7 @@ stac = MultiBaseTilerFactory(
         router_prefix="/stac",
         reader=STACReader,
         supported_tms=planetary_tms,
+        process_dependency=PostProcessParams,
         extensions=[
             stacViewerExtension(),
         ],
@@ -43,7 +49,8 @@ cog = TilerFactory(
 )
 mosaic = MosaicTilerFactory(
     router_prefix="/mosaicjson",
-    supported_tms=planetary_tms
+    supported_tms=planetary_tms,
+    process_dependency=PostProcessParams,
 )
 
 app = FastAPI(

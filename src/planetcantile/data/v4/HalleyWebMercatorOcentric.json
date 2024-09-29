@@ -1,7 +1,7 @@
 {
     "id": "HalleyWebMercatorOcentric",
     "title": "Halley (2015) XY WebMercatorOcentric",
-    "crs": "PROJCRS[\"Halley (2015) / Ocentric XY / Pseudo-Mercator\",BASEGEOGCRS[\"Halley (2015)\",DATUM[\"Halley (2015)\",ELLIPSOID[\"Halley (2015)\",8000,2,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]]],PRIMEM[\"Reference Meridian\",0,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]]],CONVERSION[\"Popular Visualisation Pseudo-Mercator\",METHOD[\"Popular Visualisation Pseudo Mercator\",ID[\"EPSG\",1024]],PARAMETER[\"Latitude of natural origin\",0,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8801]],PARAMETER[\"Longitude of natural origin\",0,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8802]],PARAMETER[\"False easting\",0,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8806]],PARAMETER[\"False northing\",0,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8807]]],CS[Cartesian,2],AXIS[\"easting (X)\",east,ORDER[1],LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],AXIS[\"northing (Y)\",north,ORDER[2],LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],USAGE[SCOPE[\"Web mapping and visualisation.\"],AREA[\"World between 85.06 S and 85.06 N.\"],BBOX[-85.850511287,-180,85.0511287,180]],REMARK[\"Source of IAU Coordinate systems: doi:10.1007/s10569-017-9805-5\"]]",
+    "crs": "PROJCRS[\"Halley (2015) / Ocentric XY / Pseudo-Mercator\",BASEGEODCRS[\"Halley (2015)\",DATUM[\"Halley (2015)\",ELLIPSOID[\"Halley (2015)\",8000,2,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]]],PRIMEM[\"Reference Meridian\",0,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]]],CONVERSION[\"Popular Visualisation Pseudo-Mercator\",METHOD[\"Popular Visualisation Pseudo Mercator\",ID[\"EPSG\",1024]],PARAMETER[\"Latitude of natural origin\",0,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8801]],PARAMETER[\"Longitude of natural origin\",0,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8802]],PARAMETER[\"False easting\",0,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8806]],PARAMETER[\"False northing\",0,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8807]]],CS[Cartesian,2],AXIS[\"easting (X)\",east,ORDER[1],LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],AXIS[\"northing (Y)\",north,ORDER[2],LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],USAGE[SCOPE[\"Web mapping and visualisation.\"],AREA[\"World between 85.06 S and 85.06 N.\"],BBOX[-85.850511287,-180,85.0511287,180]],REMARK[\"Source of IAU Coordinate systems: doi:10.1007/s10569-017-9805-5\"]]",
     "orderedAxes": [
         "X",
         "Y"
@@ -9,12 +9,12 @@
     "tileMatrices": [
         {
             "id": "0",
-            "scaleDenominator": 701248.3601762933,
-            "cellSize": 196.3495408493621,
+            "scaleDenominator": 897153.3882295049,
+            "cellSize": 251.20294870426136,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -25132.741228718343,
-                25132.741228718343
+                -9898.956752274971,
+                9898.956752274971
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -23,12 +23,12 @@
         },
         {
             "id": "1",
-            "scaleDenominator": 350624.18008814665,
-            "cellSize": 98.17477042468106,
+            "scaleDenominator": 448576.69411475246,
+            "cellSize": 125.60147435213068,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -25132.741228718343,
-                25132.741228718343
+                -9898.956752274971,
+                9898.956752274971
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -37,12 +37,12 @@
         },
         {
             "id": "2",
-            "scaleDenominator": 175312.09004407332,
-            "cellSize": 49.08738521234053,
+            "scaleDenominator": 224288.34705737623,
+            "cellSize": 62.80073717606534,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -25132.741228718343,
-                25132.741228718343
+                -9898.956752274971,
+                9898.956752274971
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -51,12 +51,12 @@
         },
         {
             "id": "3",
-            "scaleDenominator": 87656.04502203666,
-            "cellSize": 24.543692606170264,
+            "scaleDenominator": 112144.17352868812,
+            "cellSize": 31.40036858803267,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -25132.741228718343,
-                25132.741228718343
+                -9898.956752274971,
+                9898.956752274971
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -65,12 +65,12 @@
         },
         {
             "id": "4",
-            "scaleDenominator": 43828.02251101833,
-            "cellSize": 12.271846303085132,
+            "scaleDenominator": 56072.08676434406,
+            "cellSize": 15.700184294016335,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -25132.741228718343,
-                25132.741228718343
+                -9898.956752274971,
+                9898.956752274971
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -79,12 +79,12 @@
         },
         {
             "id": "5",
-            "scaleDenominator": 21914.011255509165,
-            "cellSize": 6.135923151542566,
+            "scaleDenominator": 28036.04338217203,
+            "cellSize": 7.8500921470081675,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -25132.741228718343,
-                25132.741228718343
+                -9898.956752274971,
+                9898.956752274971
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -93,12 +93,12 @@
         },
         {
             "id": "6",
-            "scaleDenominator": 10957.005627754583,
-            "cellSize": 3.067961575771283,
+            "scaleDenominator": 14018.021691086014,
+            "cellSize": 3.9250460735040837,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -25132.741228718343,
-                25132.741228718343
+                -9898.956752274971,
+                9898.956752274971
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -107,12 +107,12 @@
         },
         {
             "id": "7",
-            "scaleDenominator": 5478.502813877291,
-            "cellSize": 1.5339807878856415,
+            "scaleDenominator": 7009.010845543007,
+            "cellSize": 1.9625230367520419,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -25132.741228718343,
-                25132.741228718343
+                -9898.956752274971,
+                9898.956752274971
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -121,12 +121,12 @@
         },
         {
             "id": "8",
-            "scaleDenominator": 2739.2514069386457,
-            "cellSize": 0.7669903939428208,
+            "scaleDenominator": 3504.5054227715036,
+            "cellSize": 0.9812615183760209,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -25132.741228718343,
-                25132.741228718343
+                -9898.956752274971,
+                9898.956752274971
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -135,12 +135,12 @@
         },
         {
             "id": "9",
-            "scaleDenominator": 1369.6257034693228,
-            "cellSize": 0.3834951969714104,
+            "scaleDenominator": 1752.2527113857518,
+            "cellSize": 0.49063075918801047,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -25132.741228718343,
-                25132.741228718343
+                -9898.956752274971,
+                9898.956752274971
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -149,12 +149,12 @@
         },
         {
             "id": "10",
-            "scaleDenominator": 684.8128517346614,
-            "cellSize": 0.1917475984857052,
+            "scaleDenominator": 876.1263556928759,
+            "cellSize": 0.24531537959400523,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -25132.741228718343,
-                25132.741228718343
+                -9898.956752274971,
+                9898.956752274971
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -163,12 +163,12 @@
         },
         {
             "id": "11",
-            "scaleDenominator": 342.4064258673307,
-            "cellSize": 0.0958737992428526,
+            "scaleDenominator": 438.06317784643795,
+            "cellSize": 0.12265768979700262,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -25132.741228718343,
-                25132.741228718343
+                -9898.956752274971,
+                9898.956752274971
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -177,12 +177,12 @@
         },
         {
             "id": "12",
-            "scaleDenominator": 171.20321293366536,
-            "cellSize": 0.0479368996214263,
+            "scaleDenominator": 219.03158892321898,
+            "cellSize": 0.06132884489850131,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -25132.741228718343,
-                25132.741228718343
+                -9898.956752274971,
+                9898.956752274971
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -191,12 +191,12 @@
         },
         {
             "id": "13",
-            "scaleDenominator": 85.60160646683268,
-            "cellSize": 0.02396844981071315,
+            "scaleDenominator": 109.51579446160949,
+            "cellSize": 0.030664422449250654,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -25132.741228718343,
-                25132.741228718343
+                -9898.956752274971,
+                9898.956752274971
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -205,12 +205,12 @@
         },
         {
             "id": "14",
-            "scaleDenominator": 42.80080323341634,
-            "cellSize": 0.011984224905356574,
+            "scaleDenominator": 54.757897230804744,
+            "cellSize": 0.015332211224625327,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -25132.741228718343,
-                25132.741228718343
+                -9898.956752274971,
+                9898.956752274971
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -219,12 +219,12 @@
         },
         {
             "id": "15",
-            "scaleDenominator": 21.40040161670817,
-            "cellSize": 0.005992112452678287,
+            "scaleDenominator": 27.378948615402372,
+            "cellSize": 0.0076661056123126636,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -25132.741228718343,
-                25132.741228718343
+                -9898.956752274971,
+                9898.956752274971
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -233,12 +233,12 @@
         },
         {
             "id": "16",
-            "scaleDenominator": 10.700200808354085,
-            "cellSize": 0.0029960562263391436,
+            "scaleDenominator": 13.689474307701186,
+            "cellSize": 0.0038330528061563318,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -25132.741228718343,
-                25132.741228718343
+                -9898.956752274971,
+                9898.956752274971
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -246,5 +246,5 @@
             "matrixHeight": 65536
         }
     ],
-    "_geographic_crs": "GEOGCRS[\"Halley (2015)\",DATUM[\"Halley (2015)\",ELLIPSOID[\"Halley (2015)\",8000,2,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]]],PRIMEM[\"Reference Meridian\",0,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],CS[ellipsoidal,2],AXIS[\"latitude\",north,ORDER[1],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],AXIS[\"longitude\",east,ORDER[2],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]]]"
+    "_geographic_crs": "GEODCRS[\"Halley (2015)\",DATUM[\"Halley (2015)\",ELLIPSOID[\"Halley (2015)\",8000,2,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]]],PRIMEM[\"Reference Meridian\",0,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],CS[spherical,2],AXIS[\"planetocentric latitude (U)\",north,ORDER[1],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],AXIS[\"planetocentric longitude (V)\",east,ORDER[2],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]]]"
 }

@@ -6,7 +6,7 @@ from morecantile import TileMatrixSets
 
 @lru_cache
 def get_jsons(v: int = 4):
-    return importlib_resources.files(f"planetcantile.data.v{v}").glob("*.json")
+    return sorted(importlib_resources.files(f"planetcantile.data.v{v}").glob("*.json"))
 
 @lru_cache
 def get_planetcantile_tms(v: int = 4):

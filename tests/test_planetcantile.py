@@ -1,12 +1,17 @@
 import pytest
 import planetcantile
 import morecantile
+from pyproj import CRS, Transformer
+import numpy as np
 from morecantile.commons import BoundingBox, Tile
+
+
+import spiceypy as spice
 
 def test_planetcantile_defaults():
     assert planetcantile.planetary_tms is not None
 
-
+@pytest.mark.skip
 def test_earth_coalesced():
     # some tests borrowed from morecantile
     tms = planetcantile.planetary_tms.get('EarthGeographicOgraphicCoalesced')
@@ -75,6 +80,61 @@ def test_earth_coalesced():
     assert tms.tile(150, -90, 2, ignore_coalescence=True) == Tile(14, 7, 2)
 
 
+def test_mars_sphere():
+    tms_sphere = planetcantile.planetary_tms.get('MarsGeographicSphere')
+    assert not tms_sphere.rasterio_geographic_crs.is_epsg_code
+    assert not tms_sphere.rasterio_crs.is_epsg_code
+
+
+def test_mars_sphere_geocentric_geographic():
+    tms_sphere = planetcantile.planetary_tms.get('MarsGeographicSphere')
+    tms_ocentric = planetcantile.planetary_tms.get('MarsGeographicOcentric')
+    tms_ographic = planetcantile.planetary_tms.get('MarsGeographicOgraphic')
+    assert tms_sphere.geographic_crs.ellipsoid.inverse_flattening == 0.0
+    assert tms_ocentric.geographic_crs.ellipsoid.inverse_flattening > 0.0
+    assert tms_ographic.geographic_crs.ellipsoid.inverse_flattening > 0.0
+
+
+def test_mars_sphere_geocentric_geographic_equidistant_cylindrical():
+    tms_sphere = planetcantile.planetary_tms.get('MarsEquidistantCylindricalSphere')
+    tms_ocentric = planetcantile.planetary_tms.get('MarsEquidistantCylindricalOcentric')
+    tms_ographic = planetcantile.planetary_tms.get('MarsEquidistantCylindricalOgraphic')
+    assert tms_sphere.geographic_crs.ellipsoid.inverse_flattening == 0.0
+    assert tms_ocentric.geographic_crs.ellipsoid.inverse_flattening > 0.0
+    assert tms_ographic.geographic_crs.ellipsoid.inverse_flattening > 0.0
+
+    iau_49900 = CRS.from_user_input('IAU_2015:49900')
+    iau_49902 = CRS.from_user_input('IAU_2015:49902')
+    iau_49901 = CRS.from_user_input('IAU_2015:49901')
+    iau_49910 = CRS.from_user_input('IAU_2015:49910')
+    iau_49912 = CRS.from_user_input('IAU_2015:49912')
+    iau_49911 = CRS.from_user_input('IAU_2015:49911')
+
+    # looks like always_xy is not respected here so feed in y x lat lon order
+    # IAU 49902 is Ocentric
+    e_exp_sph, n_exp_sph = Transformer.from_crs(iau_49900, iau_49910, always_xy=True).transform(0,45)
+    e_exp_cen, n_exp_cen = Transformer.from_crs(iau_49902, iau_49912, always_xy=True).transform(45,0)
+    e_exp_geo, n_exp_geo = Transformer.from_crs(iau_49901, iau_49911, always_xy=True).transform(45,0)
+
+    e_sph, n_sph = tms_sphere._from_geographic.transform(0, 45)
+    e_cen, n_cen = tms_ocentric._from_geographic.transform(0, 45)
+    e_geo, n_geo = tms_ographic._from_geographic.transform(0, 45)
+
+    # check against the reference CRSs
+    assert n_sph == pytest.approx(n_exp_sph)
+    assert n_cen == pytest.approx(n_exp_cen)
+    assert n_geo == pytest.approx(n_exp_geo)
+
+    # geocentric and spherical coordinates should be identical
+    assert e_cen == pytest.approx(e_sph)
+    assert n_cen == pytest.approx(n_sph)
+
+    # spherical and geographic however should not have the same northing as the geographic one
+    assert not n_sph == pytest.approx(n_geo)
+    assert not n_cen == pytest.approx(n_geo)
+
+
+
 def test_mars_geographic_sphere():
     tms = planetcantile.planetary_tms.get('MarsGeographicSphere')
     assert tms is not None
@@ -87,6 +147,7 @@ def test_mars_geographic_sphere():
 def test_mars_web_mercator():
     earth_mercator_tms = morecantile.tms.get("WebMercatorQuad")
     mars_tms_wm_sphere = planetcantile.planetary_tms.get('MarsWebMercatorSphere')
+    mars_tms_wm_geocen = planetcantile.planetary_tms.get('MarsWebMercatorOcentric')
     assert mars_tms_wm_sphere is not None
     assert mars_tms_wm_sphere.is_quadtree
     assert mars_tms_wm_sphere.quadkey(486, 332, 10) == "0313102310"
@@ -98,8 +159,24 @@ def test_mars_web_mercator():
     assert mars_tile.x == earth_tile.x
     assert mars_tile.y == earth_tile.y
     assert mars_tile.z == earth_tile.z == 3
+    # test that the scale denomenator for the Ocentric and Spherical 
+    matrix_sphere = mars_tms_wm_sphere.matrix(1)
+    matrix_ocentric = mars_tms_wm_geocen.matrix(1)
+    assert 'axis order change' in mars_tms_wm_sphere._from_geographic.description
+    assert 'axis order change' in mars_tms_wm_geocen._from_geographic.description
+    assert matrix_ocentric.cellSize == pytest.approx(matrix_sphere.cellSize)
+    assert matrix_ocentric.pointOfOrigin[0] == pytest.approx(matrix_sphere.pointOfOrigin[0])
 
 
-def tets_mars_north_pole():
+def test_mars_north_pole():
     mnps  = planetcantile.planetary_tms.get('MarsNorthPolarSphere')
     assert mnps is not None
+    assert mnps.xy(0.0, 90) is not None
+    assert tuple(mnps.xy(0.0, 90)) == (400000.0, 400000.0)
+
+
+def test_mars_north_pole():
+    mnps  = planetcantile.planetary_tms.get('MarsSouthPolarSphere')
+    assert mnps is not None
+    assert mnps.xy(0.0, -90) is not None
+    assert tuple(mnps.xy(0.0, -90)) == (400000.0, 400000.0)

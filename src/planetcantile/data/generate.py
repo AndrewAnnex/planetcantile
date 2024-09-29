@@ -66,9 +66,6 @@ cs_en_polar_south = Cartesian2DCS(
     axis=Cartesian2DCSAxis.SOUTH_POLE_EASTING_NORTH_NORTHING_NORTH
 ).to_wkt(version='WKT2_2019')
 
-# cs_en_polar = str(cs_en)
-# cs_en_polar = cs_en_polar.replace('(E)', 'E')
-# cs_en_polar = cs_en_polar.replace('(N)', 'N')
 
 psuedo_mercator_usage = 'USAGE[SCOPE["Web mapping and visualisation."],AREA["World between 85.06 S and 85.06 N."],BBOX[-85.85.0511287,-180.0,85.0511287,180.0]]'
 # TODO look into better mercator stuff
@@ -138,28 +135,37 @@ def get_variable_matrix_widths(z):
     for c, min_r, max_r in zip(coefficients, min_rows, max_rows):
         yield variableMatrixWidth(coalesce = c.item(), minTileRow=min_r.item(), maxTileRow=max_r.item())
 
+def get_geo_type(crs: CRS):
+    geotype = 'GEODCRS' if 'Ocentric' in crs.name else 'GEOGCRS'
+    return geotype
 
-def convert_crs(crs: CRS, geodetic=True, scope="unknown.", coalesce: bool = False)-> CRS:
+def convert_crs(crs: CRS, scope="unknown.", coalesce: bool = False)-> CRS:
+    # if the CRS is a 00 code, it is a "spherical ellipsoid" so use "GEOGCRS" but use geodetic coord type
+    # if ths CRS is a 01 code, it is an "ellipsoid" so use "GEOGCRS" and use geodetic coord type
+    # if the CRS is a 02 code, it is an "ellipsoid" but use geocentric coord type and "GEODCRS"
     name = crs.name.rstrip()
     if name[-1] != ' ':
         name = f'{name} '
     datum = crs.datum.to_wkt(version='WKT2_2019')
     remark = f'REMARK["{crs.remarks}{" Coalesced" if coalesce else ''}"]'
-    tmp_wkt = f'GEOGCRS["{name}XY",{datum},{cs_long_lat},SCOPE["{scope}"],AREA["Whole of {scope}"],BBOX[-90,-180,90,180],{remark}]'
-    coord_type = 'geodetic' if geodetic else 'planetocentric'
-    tmp_wkt = tmp_wkt.replace('longitude', f'{coord_type} longitude (Lon)')
-    tmp_wkt = tmp_wkt.replace('latitude', f'{coord_type} latitude (Lat)')
+    # GEODCRS is use by all ocentric coordinates
+    GEO_TYPE = get_geo_type(crs)
+    tmp_wkt = f'{GEO_TYPE}["{name}XY",{datum},{cs_long_lat},SCOPE["{scope}"],AREA["Whole of {scope}"],BBOX[-90,-180,90,180],{remark}]'
+    coord_type = 'geodetic' if GEO_TYPE == 'GEOGCRS' else 'planetocentric'
+    paren_name_lon = '(Lon)' if GEO_TYPE == 'GEOGCRS' else '(V)'
+    paren_name_lat = '(Lat)' if GEO_TYPE == 'GEOGCRS' else '(U)'
+    tmp_wkt = tmp_wkt.replace('longitude', f'{coord_type} longitude {paren_name_lon}')
+    tmp_wkt = tmp_wkt.replace('latitude', f'{coord_type} latitude {paren_name_lat}')
     return CachedCRS(tmp_wkt)
 
 def create_converted_crs(wktobj: WKT, coalesce: bool = False):
     bodyname = wktobj.solar_body
     old_code = wktobj.code
     old_crs = CachedCRS(wktobj.wkt)
-    geodetic = not str(old_code).endswith('2')
-    return convert_crs(old_crs, geodetic=geodetic, scope=bodyname, coalesce=coalesce)
+    return convert_crs(old_crs, scope=bodyname, coalesce=coalesce)
 
 
-def _bisect_laititude(transformer: callable, low=80.0, high=90.0, tolerance=1e-6):
+def _bisect_laititude(transformer: callable, low=80.0, high=90.0, tolerance=1e-6, reverse=False):
     """
     Finds the lowest latitude for the given pole that works
     :param func: The function to evaluate.
@@ -171,8 +177,10 @@ def _bisect_laititude(transformer: callable, low=80.0, high=90.0, tolerance=1e-6
     is_north = low > 0
     while np.abs(high - low) > tolerance:
         mid = (low + high) / 2
-        result = transformer.transform(*transformer.transform(45, mid), direction='INVERSE')
-        if math.isinf(result[0]):
+        coord = (mid, 45) if reverse else (45, mid)
+        result = transformer.transform(*transformer.transform(*coord), direction='INVERSE')
+        res = result[1 if reverse else 0]
+        if math.isinf(res):
             # move the lower boundary to the mid so consider values above this
             if is_north:
                 low = mid
@@ -199,7 +207,7 @@ def determine_FE_FN(crs: CRS, in_north=True, initial_latitude: float = 80.0):
     """
     if not in_north:
         initial_latitude = -np.abs(initial_latitude)
-    transformer = CachedTransformer(crs.geodetic_crs, crs, always_xy=True, allow_ballpark=False, )
+    transformer = CachedTransformer(crs.geodetic_crs, crs, always_xy=True, allow_ballpark=False)
     forward = transformer.transform(45, initial_latitude)
     asint = int(abs(forward[0]))
     digits = len(str(asint))
@@ -228,7 +236,7 @@ def convert_crs_equidistantcylindrical(wktobj: WKT, coalesce: bool = False)-> CR
     name = f'{name} / Equidistant Cylindrical'
     # construct basegeogcrs
     datum = crs.datum
-    basegeogcrs = f'BASEGEOGCRS["{datum.name}",{datum.to_wkt(version='WKT2_2019')}]'
+    basegeogcrs = f'BASE{get_geo_type(crs)}["{datum.name}",{datum.to_wkt(version='WKT2_2019')}]'
     # construct the conversion
     conversion = equidistant_cylindrical
     # construct the coordinate system, easting (X) and northing (Y) so re-use psuedo's cs
@@ -247,7 +255,7 @@ def convert_crs_north_polar(wktobj: WKT)-> CRS:
     name = crs.name.rstrip()
     # construct basegeogcrs
     datum = crs.datum
-    basegeogcrs = f'BASEGEOGCRS["{datum.name}",{datum.to_wkt(version='WKT2_2019')}]'
+    basegeogcrs = f'BASE{get_geo_type(crs)}["{datum.name}",{datum.to_wkt(version='WKT2_2019')}]'
     # construct the conversion # TODO add false northing and easting
     conversion = polar_a_north
     # construct the coordinate system
@@ -281,7 +289,7 @@ def convert_crs_south_polar(wktobj: WKT)-> CRS:
     name = crs.name.rstrip()
     # construct basegeogcrs
     datum = crs.datum
-    basegeogcrs = f'BASEGEOGCRS["{datum.name}",{datum.to_wkt(version='WKT2_2019')}]'
+    basegeogcrs = f'BASE{get_geo_type(crs)}["{datum.name}",{datum.to_wkt(version='WKT2_2019')}]'
     # construct the conversion # TODO add false northing and easting
     conversion = polar_a_south
     # construct the coordinate system
@@ -313,7 +321,7 @@ def convert_crs_psuedo_mercator(crs: CRS)-> CRS:
     name = f'{name} / Pseudo-Mercator'
     # construct basegeogcrs
     datum = crs.datum
-    basegeogcrs = f'BASEGEOGCRS["{datum.name}",{datum.to_wkt(version='WKT2_2019')}]'
+    basegeogcrs = f'BASE{get_geo_type(crs)}["{datum.name}",{datum.to_wkt(version='WKT2_2019')}]'
     # construct the conversion
     conversion = psuedo_mercator
     # construct the coordinate system
@@ -332,7 +340,7 @@ def convert_crs_world_mercator(crs: CRS)-> CRS:
     name = f'{name} / World Mercator'
     # construct basegeogcrs
     datum = crs.datum
-    basegeogcrs = f'BASEGEOGCRS["{datum.name}",{datum.to_wkt(version='WKT2_2019')}]'
+    basegeogcrs = f'BASE{get_geo_type(crs)}["{datum.name}",{datum.to_wkt(version='WKT2_2019')}]'
     # construct the conversion
     conversion = mercator_a
     # construct the coordinate system
@@ -366,6 +374,15 @@ class Tmsparams(object):
         # update the minimum zoom level to 1 for coalesced grids
         if self.coalesce:
             self.minzoom = 1
+        # update the crs if geocentric:
+        if self.is_geocentric() and not self.is_sphere():
+            wkt2 = self.crs.to_wkt(version='WKT2_2019').replace('GEOGCRS', 'GEODCRS')
+            if 'planetocentric longitude' not in wkt2:
+                wkt2 = wkt2.replace('longitude', 'planetocentric longitude (V)')
+                wkt2 = wkt2.replace('latitude', 'planetocentric latitude (U)')
+            wkt2 = wkt2.replace('ellipsoidal', 'spherical')
+            self.crs = CachedCRS(wkt2)
+
 
     @property
     def coalesce(self):
@@ -374,8 +391,23 @@ class Tmsparams(object):
 
     @property
     def geographic_crs(self):
-        # TODO this seems may need some work...
-        return self.crs.geodetic_crs
+        if self.is_geocentric(): 
+            if self.is_non_projected():
+                return self.crs 
+            else:
+                wkt2 = self.crs.geodetic_crs.to_wkt(version='WKT2_2019').replace('GEOGCRS', 'GEODCRS')
+                if 'planetocentric longitude' not in wkt2:
+                    wkt2 = wkt2.replace('longitude', 'planetocentric longitude (V)')
+                    wkt2 = wkt2.replace('latitude', 'planetocentric latitude (U)')
+                wkt2 = wkt2.replace('ellipsoidal', 'spherical')
+                return CachedCRS(wkt2)
+        elif self.is_sphere():
+            # we have a spherical ellipsoid so force to use geographic coordinates
+            wkt2 = self.crs.geodetic_crs.to_wkt(version='WKT2_2019').replace('GEODCRS', 'GEOGCRS')
+            return CachedCRS(wkt2)
+        else:
+            geo_crs = self.crs.geodetic_crs
+            return geo_crs     
     
     @property
     def extent_crs(self):
@@ -383,6 +415,9 @@ class Tmsparams(object):
 
     def is_non_projected(self)-> bool:
         return self.crs.coordinate_operation is None
+    
+    def is_projected(self)-> bool:
+        return not self.is_non_projected()
 
     def is_equidistant(self)-> bool:
         co = self.crs.coordinate_operation
@@ -454,7 +489,6 @@ class Tmsparams(object):
         return 'Sphere' in self.crs.datum.ellipsoid.name
 
     def is_geocentric(self):
-        #breakpoint()
         return not self.is_sphere() and 'Ocentric' in self.crs.to_wkt()
     
     def is_geographic(self):
@@ -490,6 +524,17 @@ class Tmsparams(object):
             return ["Lon", "Lat"]
         else:
             return ["E", "N"]
+        
+    @staticmethod
+    def get_coord_order(crs: CRS):
+        coord_sys = crs.coordinate_system
+        axis_list = coord_sys.axis_list
+        first = axis_list[0]
+        if first.direction == 'north':
+            return 'YX'
+        else: 
+            return 'XY'
+
     
     @property
     def extent(self)-> tuple[float, float, float, float]:
@@ -497,9 +542,19 @@ class Tmsparams(object):
         area_of_use = self.crs.area_of_use
         if self.is_web_mercator() or self.is_mercator_varient_a():
             # need to ensure the point of origins are identical x and y
-            transformer = CachedTransformer(self.extent_crs, self.crs, always_xy=True, allow_ballpark=False)
-            min_x, _ = transformer.transform(-180,0)
-            _, min_lat = transformer.transform(0, min_x, direction='INVERSE')
+            extent_crs = self.extent_crs
+            transformer = CachedTransformer(extent_crs, self.crs, always_xy=True, allow_ballpark=False)
+            if self.get_coord_order(extent_crs) == 'YX':
+                # pyproj/proj doesn't respect axis order for geocentric coordinates
+                if self.is_geocentric():
+                    min_x, _   = transformer.transform(0, -180)
+                    min_lat, _ = transformer.transform(0, min_x, direction='INVERSE')
+                else:
+                    min_x, _ = transformer.transform(-180, 0)
+                    _, min_lat = transformer.transform(0, min_x, direction='INVERSE')
+            else:
+                min_x, _ = transformer.transform(-180, 0)
+                _, min_lat = transformer.transform(0, min_x, direction='INVERSE')
             bounds = (-180, min_lat, 180, -min_lat)
             return bounds
         elif area_of_use is not None and not self.is_polar():
@@ -544,9 +599,11 @@ class Tmsparams(object):
     def make_tms_dict(self)-> dict:
         tms_dict = self.make_tms().model_dump(exclude_none=True)
         # make any adjustments here needed before saving as json to disk
-        tms_dict['crs'] = self.crs.to_wkt(version='WKT2_2019')
+        crs_wkt = self.crs.to_wkt(version='WKT2_2019').replace('GEOGCRS', get_geo_type(self.crs))
+        gcrs_wkt = self.geographic_crs.to_wkt(version='WKT2_2019').replace('GEOGCRS', get_geo_type(self.crs))            
+        tms_dict['crs'] = crs_wkt
+        tms_dict['_geographic_crs'] = gcrs_wkt
         tms_dict['orderedAxes'] = self.ordered_axes
-        tms_dict['_geographic_crs'] = self.geographic_crs.to_wkt(version='WKT2_2019')
         # cleanup pointOfOrigins for all mercator codes, this is driven currently by the precision limits for the area_of_use 
         matrices = tms_dict['tileMatrices']
         if self.is_web_mercator() or self.is_mercator_varient_a():
@@ -598,16 +655,16 @@ def main():
     # TODO:
     # 1. Adjust _geographic_crs's to be LongLat/XY order possibly, possibly .geodetic_crs is doing something non-ideal right now that means the TMSs are not using geocentric long/lat yet when given sphereical bodies
     #  It may be that this is working as expected and that I don't need to actually differentiate these as only the geoid is needed to define the new projections
-    # 4. TESTS FOR GOODNESS SAKE
-    # 5. Limit minimum cell scale to be no smaller than 1 cm to avoid creating all grids down to zoom 30 ()
     # 6. Coalesced Grids matrix 0 should be 4 by 2 matrix width/height (basically exclude the top id and relabel the matrices)
     # 7. Coalesced Grids also have no variable widths for id 0, looks like I need to offest 1 between how I define them and the zoom level
     # 8. GNOSIS also by uses lat lon geographic coordinates. I am using the lon lat order but that's probably okay
+    # 9. Look again how 1026 compares to 1024 and Mercator varient A
+    # 10. Geocentric codes are all suspect at the moment due to coordinate axis swap issue, possible bug in proj with certain codes
+    # 11. Will want to rexamine how custom my custom codes truely are to reduce logic here, maybe a lot of it can go away eventually
     valid_code_postfixs = {'00', '01', '02'}
     client = Client(base_url='http://voparis-vespa-crs.obspm.fr:8080/')
     # get all the bodies
     bodies = get_solar_bodies_ws_solar_bodies_get.sync(client=client)
-    #bodies = ['Earth',]
     for body in bodies:
         try:
             print(body)
@@ -619,7 +676,6 @@ def main():
             # conver to tms params
             tmsparams = list(make_tms_objs(crss_wkts))
             for tmsp in tmsparams:
-                #breakpoint()
                 tms_dict = tmsp.make_tms_dict()
                 with open(f"./v4/{tms_dict['id']}.json", "w") as dst:
                     json.dump(tms_dict, dst, indent=4, ensure_ascii=True)
