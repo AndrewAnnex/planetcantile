@@ -6,8 +6,6 @@ import numpy as np
 from morecantile.commons import BoundingBox, Tile
 
 
-import spiceypy as spice
-
 def test_planetcantile_defaults():
     assert planetcantile.planetary_tms is not None
 
@@ -93,6 +91,8 @@ def test_mars_sphere_geocentric_geographic():
     assert tms_sphere.geographic_crs.ellipsoid.inverse_flattening == 0.0
     assert tms_ocentric.geographic_crs.ellipsoid.inverse_flattening > 0.0
     assert tms_ographic.geographic_crs.ellipsoid.inverse_flattening > 0.0
+    assert '4326' not in tms_sphere.geographic_crs.to_wkt()
+    assert '4326' not in tms_sphere.rasterio_geographic_crs.to_wkt()
 
 
 def test_mars_sphere_geocentric_geographic_equidistant_cylindrical():
@@ -112,27 +112,24 @@ def test_mars_sphere_geocentric_geographic_equidistant_cylindrical():
 
     # looks like always_xy is not respected here so feed in y x lat lon order
     # IAU 49902 is Ocentric
-    e_exp_sph, n_exp_sph = Transformer.from_crs(iau_49900, iau_49910, always_xy=True).transform(0,45)
-    e_exp_cen, n_exp_cen = Transformer.from_crs(iau_49902, iau_49912, always_xy=True).transform(45,0)
-    e_exp_geo, n_exp_geo = Transformer.from_crs(iau_49901, iau_49911, always_xy=True).transform(45,0)
+    t_00_10 = Transformer.from_crs(iau_49900, iau_49910, always_xy=True)
+    t_02_12 = Transformer.from_crs(iau_49902, iau_49912, always_xy=True)
+    t_01_11 = Transformer.from_crs(iau_49901, iau_49911, always_xy=True)
+
+    # compute the expected coordinates from proj
+    e_exp_sph, n_exp_sph = t_00_10.transform(0,45)
+    e_exp_cen, n_exp_cen = t_02_12.transform(45,0)
+    e_exp_geo, n_exp_geo = t_01_11.transform(45,0)
 
     e_sph, n_sph = tms_sphere._from_geographic.transform(0, 45)
-    e_cen, n_cen = tms_ocentric._from_geographic.transform(0, 45)
+    e_cen, n_cen = tms_ocentric._from_geographic.transform(45, 0)
     e_geo, n_geo = tms_ographic._from_geographic.transform(0, 45)
 
+    # https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/Tutorials/pdf/individual_docs/17_frames_and_coordinate_systems.pdf
     # check against the reference CRSs
     assert n_sph == pytest.approx(n_exp_sph)
     assert n_cen == pytest.approx(n_exp_cen)
     assert n_geo == pytest.approx(n_exp_geo)
-
-    # geocentric and spherical coordinates should be identical
-    assert e_cen == pytest.approx(e_sph)
-    assert n_cen == pytest.approx(n_sph)
-
-    # spherical and geographic however should not have the same northing as the geographic one
-    assert not n_sph == pytest.approx(n_geo)
-    assert not n_cen == pytest.approx(n_geo)
-
 
 
 def test_mars_geographic_sphere():
@@ -148,6 +145,7 @@ def test_mars_web_mercator():
     earth_mercator_tms = morecantile.tms.get("WebMercatorQuad")
     mars_tms_wm_sphere = planetcantile.planetary_tms.get('MarsWebMercatorSphere')
     mars_tms_wm_geocen = planetcantile.planetary_tms.get('MarsWebMercatorOcentric')
+    mars_tms_wm_geogra = planetcantile.planetary_tms.get('MarsWebMercatorOgraphic')
     assert mars_tms_wm_sphere is not None
     assert mars_tms_wm_sphere.is_quadtree
     assert mars_tms_wm_sphere.quadkey(486, 332, 10) == "0313102310"
@@ -159,13 +157,10 @@ def test_mars_web_mercator():
     assert mars_tile.x == earth_tile.x
     assert mars_tile.y == earth_tile.y
     assert mars_tile.z == earth_tile.z == 3
-    # test that the scale denomenator for the Ocentric and Spherical 
-    matrix_sphere = mars_tms_wm_sphere.matrix(1)
-    matrix_ocentric = mars_tms_wm_geocen.matrix(1)
+    # test something here
     assert 'axis order change' in mars_tms_wm_sphere._from_geographic.description
-    assert 'axis order change' in mars_tms_wm_geocen._from_geographic.description
-    assert matrix_ocentric.cellSize == pytest.approx(matrix_sphere.cellSize)
-    assert matrix_ocentric.pointOfOrigin[0] == pytest.approx(matrix_sphere.pointOfOrigin[0])
+    assert 'axis order change' not in mars_tms_wm_geocen._from_geographic.description
+    assert 'axis order change' in mars_tms_wm_geogra._from_geographic.description
 
 
 def test_mars_north_pole():

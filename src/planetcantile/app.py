@@ -17,7 +17,11 @@ from titiler.core.algorithm import Algorithms
 from titiler.core.algorithm import algorithms as default_algorithms
 from titiler.mosaic.factory import MosaicTilerFactory
 from titiler.mosaic.errors import MOSAIC_STATUS_CODES
+from starlette.middleware.cors import CORSMiddleware
+from titiler.application.settings import ApiSettings
 from fastapi import FastAPI
+
+api_settings = ApiSettings()
 
 algo_dict = {
     "toporgb": TopographyQuantizer,
@@ -57,6 +61,13 @@ app = FastAPI(
     title="Planetcantile",
     description="A Cloud Optimized GeoTIFF tile server for Planetary Data"
 )
+app.add_middleware(
+        CORSMiddleware,
+        allow_origins=api_settings.cors_origins,
+        allow_credentials=True,
+        allow_methods=["GET"],
+        allow_headers=["*"],
+)
 
 app.include_router(cog.router, prefix='/cog', tags=["Cloud Optimized GeoTIFF"])
 app.include_router(stac.router, prefix="/stac", tags=["SpatioTemporal Asset Catalog"])
@@ -84,3 +95,4 @@ async def debug(z: int, x: int , y: int):
 def ping():
     """Health check."""
     return {"ping": "pong!"}
+

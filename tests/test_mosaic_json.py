@@ -29,10 +29,7 @@ def test_mosaic_json():
 
     with MosaicBackend("mosaic.json", mosaic_def=mosaic_json, tms=mars_tms_wm_sphere) as mosaic:
         assert isinstance(mosaic, FileBackend)
-        # TODO Why are both tms and tilematrixset around?
         assert mosaic.tms == mars_tms_wm_sphere
-        #assert mosaic.tilematrixset == mars_tms_wm_sphere # this actually disappeared
-        # 
         assert mosaic.crs == mars_tms_wm_sphere.rasterio_geographic_crs
         assert mosaic.geographic_crs == mars_tms_wm_sphere.rasterio_geographic_crs
         assert len(mosaic.assets_for_point(77.28, 18, mars_tms_wm_sphere.geographic_crs)) > 0

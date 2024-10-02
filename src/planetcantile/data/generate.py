@@ -655,12 +655,10 @@ def main():
     # TODO:
     # 1. Adjust _geographic_crs's to be LongLat/XY order possibly, possibly .geodetic_crs is doing something non-ideal right now that means the TMSs are not using geocentric long/lat yet when given sphereical bodies
     #  It may be that this is working as expected and that I don't need to actually differentiate these as only the geoid is needed to define the new projections
-    # 6. Coalesced Grids matrix 0 should be 4 by 2 matrix width/height (basically exclude the top id and relabel the matrices)
-    # 7. Coalesced Grids also have no variable widths for id 0, looks like I need to offest 1 between how I define them and the zoom level
-    # 8. GNOSIS also by uses lat lon geographic coordinates. I am using the lon lat order but that's probably okay
     # 9. Look again how 1026 compares to 1024 and Mercator varient A
     # 10. Geocentric codes are all suspect at the moment due to coordinate axis swap issue, possible bug in proj with certain codes
     # 11. Will want to rexamine how custom my custom codes truely are to reduce logic here, maybe a lot of it can go away eventually
+    # 12. Why did I use WKT2 everywhere? I should have use projjson internally. consider a refactor
     valid_code_postfixs = {'00', '01', '02'}
     client = Client(base_url='http://voparis-vespa-crs.obspm.fr:8080/')
     # get all the bodies
