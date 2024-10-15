@@ -67,9 +67,9 @@ cs_en_polar_south = Cartesian2DCS(
 ).to_wkt(version='WKT2_2019')
 
 
-psuedo_mercator_usage = 'USAGE[SCOPE["Web mapping and visualisation."],AREA["World between 85.06 S and 85.06 N."],BBOX[-85.85.0511287,-180.0,85.0511287,180.0]]'
+psuedo_mercator_usage = 'USAGE[SCOPE["Web mapping and visualisation."],AREA["World between 85.06 S and 85.06 N."],BBOX[-85.0511287,-180.0,85.0511287,180.0]]'
 # TODO look into better mercator stuff
-mercator_usage = 'USAGE[SCOPE["Very small scale conformal mapping."],AREA["World between 85.06 S and 85.06 N."],BBOX[-85.85.0511287,-180.0,85.0511287,180.0]]'
+mercator_usage = 'USAGE[SCOPE["Very small scale conformal mapping."],AREA["World between 85.06 S and 85.06 N."],BBOX[-85.0511287,-180.0,85.0511287,180.0]]'
 # https://spatialreference.org/ref/epsg/3857/prettywkt2.txt
 # https://desktop.arcgis.com/en/arcmap/latest/map/projections/mercator.htm
 psuedo_mercator = \
@@ -676,7 +676,7 @@ def main():
             for tmsp in tmsparams:
                 tms_dict = tmsp.make_tms_dict()
                 with open(f"./v4/{tms_dict['id']}.json", "w") as dst:
-                    json.dump(tms_dict, dst, indent=4, ensure_ascii=True)
+                    json.dump(tms_dict, dst, indent=4)
                     print(f"wrote {dst.name}")
         except pyproj.exceptions.ProjError as pe:
             print(f'Failure with body {body} in constructing proj exceptions')
