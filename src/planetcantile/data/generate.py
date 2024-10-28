@@ -624,7 +624,6 @@ class Tmsparams(object):
             crs=tms_dict['crs'],
             orderedAxes=tms_dict['orderedAxes'],
             tileMatrices=matrices,
-            _geographic_crs=tms_dict['_geographic_crs']
         )
 
 
