@@ -29,14 +29,14 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
     "spiceypy",
-    "titiler.application",
+    "titiler.application  >=0.19.0",
     "pillow",
     "pytest >=8.3.0",
     "planet-crs-registry-client @ git+https://github.com/AndrewAnnex/planet-crs-registry-client.git@904d36fb32ef85aaef57782f55322b5bb36c1c0b"
 ]
 app = [
-    "titiler.application",
-    "rio_tiler",
+    "titiler.application >=0.19.0",
+    "rio_tiler >=7.2.0",
     "starlette",
     "pillow",
     "fastapi",
