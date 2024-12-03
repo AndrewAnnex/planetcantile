@@ -12,4 +12,6 @@ def get_jsons(v: int = 4):
 def get_planetcantile_tms(v: int = 4):
     return TileMatrixSets({p.stem: p for p in get_jsons(v)})
 
+
+# TODO use morecantile's mechanism for loading the additional tms's 
 planetary_tms = get_planetcantile_tms(v=4)

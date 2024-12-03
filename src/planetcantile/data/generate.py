@@ -50,6 +50,10 @@ cs_long_lat = Ellipsoidal2DCS(
     axis=Ellipsoidal2DCSAxis.LONGITUDE_LATITUDE
 ).to_wkt(version='WKT2_2019')
 
+cs_lat_long = Ellipsoidal2DCS(
+    axis=Ellipsoidal2DCSAxis.LATITUDE_LONGITUDE
+).to_wkt(version='WKT2_2019')
+
 cs_en = Cartesian2DCS(
     axis=Cartesian2DCSAxis.EASTING_NORTHING
 ).to_wkt(version='WKT2_2019')
@@ -57,6 +61,12 @@ cs_en_psuedo = str(cs_en)
 cs_en_psuedo = cs_en_psuedo.replace('(E)', 'easting (X)')
 cs_en_psuedo = cs_en_psuedo.replace('(N)', 'northing (Y)')
 
+cs_ne = Cartesian2DCS(
+    axis=Cartesian2DCSAxis.NORTHING_EASTING
+).to_wkt(version='WKT2_2019')
+cs_ne_psuedo = str(cs_ne)
+cs_ne_psuedo = cs_ne_psuedo.replace('(E)', 'easting (X)')
+cs_ne_psuedo = cs_ne_psuedo.replace('(N)', 'northing (Y)')
 
 cs_en_polar_north = Cartesian2DCS(
     axis=Cartesian2DCSAxis.NORTH_POLE_EASTING_SOUTH_NORTHING_SOUTH
@@ -650,6 +660,186 @@ def make_tms_objs(crss_wkts: dict[str, WKT]):
         yield Tmsparams(crs_wkt=wkt, crs=crs)
 
 
+def add_coalesce_to_tms(tms: morecantile.TileMatrixSet) -> morecantile.TileMatrixSet:
+    for z in range(1, tms.maxzoom + 1):
+        variableMatrixWidths = list(get_variable_matrix_widths(z-1))
+        if len(variableMatrixWidths) > 0:
+            tms.matrix(z).variableMatrixWidths = variableMatrixWidths
+    # well actually the tms is already updated but might as well return
+    return tms 
+
+
+def is_sphere(crs: CRS):
+    return 'Sphere' in crs.datum.ellipsoid.name
+
+def is_geocentric(crs: CRS):
+    return not is_sphere(crs) and 'Ocentric' in crs.to_wkt()
+
+def is_geographic(crs: CRS):
+    return not is_sphere(crs) and 'Ographic' in crs.to_wkt()
+
+def get_ellipsoid_kind(crs: CRS)-> str:
+    if is_sphere(crs):
+        return 'Sphere'
+    elif is_geocentric(crs):
+        return 'Ocentric'
+    else:
+        return 'Ographic'
+
+def get_coord_order(crs: CRS):
+    coord_sys = crs.coordinate_system
+    axis_list = coord_sys.axis_list
+    first = axis_list[0]
+    if first.direction == 'north':
+        return 'YX'
+    else: 
+        return 'XY'
+
+def get_max_zoom(crs: CRS, aspect: int = 2)-> int:
+    min_size_m = 0.005 # 5 mm
+    max_zoom = 2
+    circumference_meters = (2 * math.pi * crs.ellipsoid.semi_major_metre)
+    # TODO this is almost correct but may need to use the 2:1 or quad switch here also
+    while circumference_meters/(256*aspect*2**max_zoom) >= min_size_m:
+        max_zoom+=1
+    if max_zoom > 30:
+        max_zoom = 30
+    return max_zoom
+
+
+
+def make_tms(crss_wkts: dict[str, WKT]):
+    valid_code_postfixs = ['00', '01', '02', 
+                           '10', '11', '12', 
+                           '30', '31', '32',
+                           '35', '36', '37',
+                           '90']
+    for valid_code in valid_code_postfixs:
+        if valid_code in crss_wkts.keys():
+            current_wkt_obj = crss_wkts[valid_code]
+            current_wkt = current_wkt_obj.wkt
+            body_name = current_wkt_obj.solar_body.replace(" ", "")
+            crs = CRS.from_user_input(current_wkt)
+            match valid_code:
+                case '90':
+                    # mercator codes
+                    id = f'{body_name}Mercator{get_ellipsoid_kind(crs)}'
+                    # compute the needed extent
+                    transformer = Transformer.from_crs(crs.geodetic_crs, crs, always_xy=True, allow_ballpark=False)
+                    min_x, _ = transformer.transform(-180, 0)
+                    _, min_lat = transformer.transform(0, min_x, direction='INVERSE')
+                    tms_mercator = morecantile.TileMatrixSet.custom(
+                        extent=[-180, min_lat, 180, -min_lat], # todo use custom logic above to determine best min/max latitude
+                        extent_crs=crs.geodetic_crs,
+                        matrix_scale=matrix_scale_quad,
+                        crs = crs,
+                        orderedAxes=["E", "N"],
+                        id = id,
+                        title = id,
+                        maxzoom = get_max_zoom(crs, aspect=1)
+                    )
+                    yield tms_mercator
+                    # TODO web mercator custom
+                case '00' | '01' | '02':
+                    # Geographic codes
+                    id = f'{body_name}Geographic{get_ellipsoid_kind(crs)}'
+                    tms_geographic = morecantile.TileMatrixSet.custom(
+                        extent=[-180, -90, 180, 90],
+                        extent_crs=crs.geodetic_crs,
+                        matrix_scale=matrix_scale_platecur,
+                        crs = crs,
+                        orderedAxes=["Lat", "Lon"],
+                        id = id,
+                        title = id,
+                        maxzoom = get_max_zoom(crs, aspect=2)
+                    )
+                    yield tms_geographic
+                    # make the coalesced tms
+                    id = f'{tms_geographic.id}Coalesced'
+                    tms_geographic_coalesced = morecantile.TileMatrixSet.custom(
+                        extent=[-180, -90, 180, 90],
+                        extent_crs=crs.geodetic_crs,
+                        matrix_scale=matrix_scale_platecur,
+                        crs = crs,
+                        orderedAxes=["Lat", "Lon"],
+                        id = id,
+                        title = id,
+                        maxzoom = get_max_zoom(crs, aspect=2),
+                        minzoom = 1
+                    )
+                    tms_geographic_coalesced = add_coalesce_to_tms(tms_geographic_coalesced)
+                    yield tms_geographic_coalesced
+                    # TODO coalesced tmss 
+                case '10' | '11' | '12':
+                    # Equirectangular codes
+                    id = f'{body_name}EquidistantCylindrical{get_ellipsoid_kind(crs)}'
+                    tms_equidistant = morecantile.TileMatrixSet.custom(
+                        extent = [-180, -90, 180, 90],
+                        extent_crs = crs.geodetic_crs,
+                        matrix_scale = matrix_scale_platecur,
+                        crs = crs,
+                        orderedAxes = ["E", "N"],
+                        id = id,
+                        title = id,
+                        maxzoom = get_max_zoom(crs, aspect=2)
+                    )
+                    yield tms_equidistant
+                     # make the coalesced tms
+                    id = f'{tms_equidistant.id}Coalesced'
+                    tms_equidistant_coalesced = morecantile.TileMatrixSet.custom(
+                        extent = [-180, -90, 180, 90],
+                        extent_crs = crs.geodetic_crs,
+                        matrix_scale = matrix_scale_platecur,
+                        crs = crs,
+                        orderedAxes = ["E", "N"],
+                        id = id,
+                        title = id,
+                        maxzoom = get_max_zoom(crs, aspect=2),
+                        minzoom = 1
+                    )
+                    tms_equidistant_coalesced = add_coalesce_to_tms(tms_equidistant_coalesced)
+                    yield tms_equidistant_coalesced
+                case '30' | '31' | '32':
+                    # North Polar codes
+                    try:
+                        (FE, FN), around_80_north = determine_FE_FN(crs, in_north=True)
+                    except RecursionError:
+                        around_80_north = 80.0
+                    id = f'{body_name}NorthPolar{get_ellipsoid_kind(crs)}'
+                    tms_northpolar = morecantile.TileMatrixSet.custom(
+                        extent = [-180, around_80_north, 180, 90],
+                        extent_crs = crs.geodetic_crs,
+                        #extent = [0, 0, 2*FE, 2*FN],
+                        matrix_scale = matrix_scale_quad,
+                        crs = crs,
+                        orderedAxes = ["E", "N"],
+                        id = id,
+                        title = id,
+                        maxzoom = get_max_zoom(crs, aspect=1)
+                    )
+                    yield tms_northpolar
+                case '35' | '36' | '37':
+                    # South Polar codes
+                    try:
+                        (FE, FN), around_80_south = determine_FE_FN(crs, in_north=False)
+                    except RecursionError:
+                        around_80_south = -80.0
+                    id = f'{body_name}SouthPolar{get_ellipsoid_kind(crs)}'
+                    tms_southpolar = morecantile.TileMatrixSet.custom(
+                        extent=[-180, -90, 180, around_80_south],
+                        extent_crs=crs.geodetic_crs,
+                        #extent = [0, 0, 2*FE, 2*FN],
+                        matrix_scale = matrix_scale_quad,
+                        crs = crs,
+                        orderedAxes = ["E", "N"],
+                        id = id,
+                        title = id,
+                        maxzoom = get_max_zoom(crs, aspect=1)
+                    )
+                    yield tms_southpolar
+                case _:
+                    pass
+
 def main():
     # TODO:
     # 1. Adjust _geographic_crs's to be LongLat/XY order possibly, possibly .geodetic_crs is doing something non-ideal right now that means the TMSs are not using geocentric long/lat yet when given sphereical bodies
@@ -658,7 +848,12 @@ def main():
     # 10. Geocentric codes are all suspect at the moment due to coordinate axis swap issue, possible bug in proj with certain codes
     # 11. Will want to rexamine how custom my custom codes truely are to reduce logic here, maybe a lot of it can go away eventually
     # 12. Why did I use WKT2 everywhere? I should have use projjson internally. consider a refactor
-    valid_code_postfixs = {'00', '01', '02'}
+    #valid_code_postfixs = {'00', '01', '02'}
+    valid_code_postfixs = {'00', '01', '02', 
+                           '10', '11', '12', 
+                           '30', '31', '32',
+                           '35', '36', '37',
+                           '90'}
     client = Client(base_url='http://voparis-vespa-crs.obspm.fr:8080/')
     # get all the bodies
     bodies = get_solar_bodies_ws_solar_bodies_get.sync(client=client)
@@ -670,13 +865,29 @@ def main():
             crss_wkts = sorted(crss_wkts, key= lambda _: _.code)
             # grab the 00, 01, 02, 30, 35 codes. 01 and 02 codes may not be there
             crss_wkts = {str(_.code)[-2:]: _ for _ in crss_wkts if str(_.code)[-2:] in valid_code_postfixs}
-            # conver to tms params
-            tmsparams = list(make_tms_objs(crss_wkts))
-            for tmsp in tmsparams:
-                tms_dict = tmsp.make_tms_dict()
-                with open(f"./v4/{tms_dict['id']}.json", "w") as dst:
-                    json.dump(tms_dict, dst, indent=4)
+            # convert to tms params
+            # tmsparams = list(make_tms_objs(crss_wkts))
+            # for tmsp in tmsparams:
+            #     tms_dict = tmsp.make_tms_dict()
+            #     with open(f"./v4/{tms_dict['id']}.json", "w") as dst:
+            #         json.dump(tms_dict, dst, indent=4)
+            #         print(f"wrote {dst.name}")
+            
+            for tms in make_tms(crss_wkts):
+                with open(f"./v4/{tms.id}.json", "w") as dst:
+                    model_dict = tms.model_dump(exclude_none=True)
+                    # offset the tilematrix indexes for the coalesced grids
+                    if 'Coalesced' in model_dict['id']:
+                        for m in model_dict['tileMatrices']:
+                            m['id'] = str(int(m['id'])-1)
+                    # update the point of origin for mercator codes to be 1:1
+                    if 'Mercator' in model_dict['id']:
+                        for m in model_dict['tileMatrices']:
+                            m['pointOfOrigin'] = (m['pointOfOrigin'][0], -m['pointOfOrigin'][0])
+                    json.dump(model_dict, dst, indent=4)
                     print(f"wrote {dst.name}")
+
+
         except pyproj.exceptions.ProjError as pe:
             print(f'Failure with body {body} in constructing proj exceptions')
             raise pe
