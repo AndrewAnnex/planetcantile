@@ -740,7 +740,7 @@ def make_tms(crss_wkts: dict[str, WKT]):
                     )
                     yield tms_mercator
                     # TODO web mercator custom
-                case '00' | '01' | '02':
+                case '00':
                     # Geographic codes
                     id = f'{body_name}Geographic{get_ellipsoid_kind(crs)}'
                     tms_geographic = morecantile.TileMatrixSet.custom(
@@ -770,7 +770,7 @@ def make_tms(crss_wkts: dict[str, WKT]):
                     tms_geographic_coalesced = add_coalesce_to_tms(tms_geographic_coalesced)
                     yield tms_geographic_coalesced
                     # TODO coalesced tmss 
-                case '10' | '11' | '12':
+                case '10':
                     # Equirectangular codes
                     id = f'{body_name}EquidistantCylindrical{get_ellipsoid_kind(crs)}'
                     tms_equidistant = morecantile.TileMatrixSet.custom(
@@ -799,7 +799,7 @@ def make_tms(crss_wkts: dict[str, WKT]):
                     )
                     tms_equidistant_coalesced = add_coalesce_to_tms(tms_equidistant_coalesced)
                     yield tms_equidistant_coalesced
-                case '30' | '31' | '32':
+                case '30':
                     # North Polar codes
                     try:
                         (FE, FN), around_80_north = determine_FE_FN(crs, in_north=True)
@@ -818,7 +818,7 @@ def make_tms(crss_wkts: dict[str, WKT]):
                         maxzoom = get_max_zoom(crs, aspect=1)
                     )
                     yield tms_northpolar
-                case '35' | '36' | '37':
+                case '35':
                     # South Polar codes
                     try:
                         (FE, FN), around_80_south = determine_FE_FN(crs, in_north=False)
@@ -872,7 +872,7 @@ def main():
             #     with open(f"./v4/{tms_dict['id']}.json", "w") as dst:
             #         json.dump(tms_dict, dst, indent=4)
             #         print(f"wrote {dst.name}")
-            
+
             for tms in make_tms(crss_wkts):
                 with open(f"./v4/{tms.id}.json", "w") as dst:
                     model_dict = tms.model_dump(exclude_none=True)
