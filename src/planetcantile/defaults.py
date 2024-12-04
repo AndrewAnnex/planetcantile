@@ -1,17 +1,31 @@
-import importlib.resources as importlib_resources
-from copy import copy
-from functools import lru_cache
+import os
+import pathlib
+import sys
 
-from morecantile import TileMatrixSets
+# This is the main object we want users to import from this file
+planetary_tms = None
 
-@lru_cache
-def get_jsons(v: int = 4):
-    return sorted(importlib_resources.files(f"planetcantile.data.v{v}").glob("*.json"))
+planetcantile_tms_dir = pathlib.Path(__file__).parent.joinpath("data") / "v4"
+planetcantile_tms_paths = sorted(list(pathlib.Path(planetcantile_tms_dir).glob("*.json")))
 
-@lru_cache
-def get_planetcantile_tms(v: int = 4):
-    return TileMatrixSets({p.stem: p for p in get_jsons(v)})
-
-
-# TODO use morecantile's mechanism for loading the additional tms's 
-planetary_tms = get_planetcantile_tms(v=4)
+# grab TILEMATRIXSET_DIRECTORY
+user_tms_dir = os.environ.get("TILEMATRIXSET_DIRECTORY", None)
+# if none and morecantile hasn't been imported yet we can inject planetcantile TMSs into morecantile directly
+if not user_tms_dir and 'morecantile' not in sys.modules:
+    # set the environment variable temporarily
+    os.environ["TILEMATRIXSET_DIRECTORY"] = str(planetcantile_tms_dir.expanduser().resolve())
+    from morecantile.defaults import tms 
+    planetary_tms = tms
+    # unset the environment variable
+    os.environ.pop("TILEMATRIXSET_DIRECTORY", None)
+else:
+    # user has set a custom TILEMATRIXSET_DIRECTORY, so we will do more work to include planetcantile
+    import morecantile.defaults
+    from morecantile import TileMatrixSets
+    from morecantile.defaults import default_tms as morecantile_default_tms
+    planetary_tms = TileMatrixSets({
+            **{p.stem: p for p in planetcantile_tms_paths},
+            **morecantile_default_tms
+        })
+    # override morecantile's tms object
+    morecantile.defaults.tms = planetary_tms
