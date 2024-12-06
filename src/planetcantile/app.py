@@ -1,3 +1,14 @@
+import os
+
+os.environ['GDAL_HTTP_MULTIPLEX']='YES'
+os.environ['GDAL_HTTP_MERGE_CONSECUTIVE_RANGES']='YES'
+os.environ['GDAL_DISABLE_READDIR_ON_OPEN']='EMPTY_DIR'
+os.environ['GDAL_CACHEMAX']='200'
+os.environ['CPL_VSIL_CURL_CACHE_SIZE']='200000000'
+os.environ['CPL_VSIL_CURL_ALLOWED_EXTENSIONS']=".tif,.TIF,.tiff"
+os.environ['VSI_CACHE']='TRUE'
+os.environ['VSI_CACHE_SIZE']="5000000"
+
 from typing import Callable
 
 from .defaults import planetary_tms
