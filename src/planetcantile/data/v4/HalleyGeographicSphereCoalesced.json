@@ -1,20 +1,20 @@
 {
+    "title": "HalleyGeographicSphereCoalesced",
     "id": "HalleyGeographicSphereCoalesced",
-    "title": "Halley (2015) - Sphere LonLat GeographicSphereCoalesced",
-    "crs": "GEOGCRS[\"Halley (2015) - Sphere XY\",DATUM[\"Halley (2015) - Sphere\",ELLIPSOID[\"Halley (2015) - Sphere\",5333.33333333333,0,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]]],PRIMEM[\"Reference Meridian\",0,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],CS[ellipsoidal,2],AXIS[\"geodetic longitude (Lon)\",east,ORDER[1],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],AXIS[\"geodetic latitude (Lat)\",north,ORDER[2],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],USAGE[SCOPE[\"Halley\"],AREA[\"Whole of Halley\"],BBOX[-90,-180,90,180]],REMARK[\"Use R_m = (a+b+c)/3 as mean radius. Use mean radius as sphere radius for interoperability. Source of IAU Coordinate systems: doi:10.1007/s10569-017-9805-5 Coalesced\"]]",
     "orderedAxes": [
-        "Lon",
-        "Lat"
+        "Lat",
+        "Lon"
     ],
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/100003600",
     "tileMatrices": [
         {
             "id": "0",
-            "scaleDenominator": 116874.72669604879,
+            "scaleDenominator": 116874.72669604886,
             "cellSize": 0.3515625,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -180.0,
-                90.0
+                90.0,
+                -180.0
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -23,12 +23,12 @@
         },
         {
             "id": "1",
-            "scaleDenominator": 58437.363348024395,
+            "scaleDenominator": 58437.36334802443,
             "cellSize": 0.17578125,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -180.0,
-                90.0
+                90.0,
+                -180.0
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -49,12 +49,12 @@
         },
         {
             "id": "2",
-            "scaleDenominator": 29218.681674012198,
+            "scaleDenominator": 29218.681674012216,
             "cellSize": 0.087890625,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -180.0,
-                90.0
+                90.0,
+                -180.0
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -85,12 +85,12 @@
         },
         {
             "id": "3",
-            "scaleDenominator": 14609.340837006099,
+            "scaleDenominator": 14609.340837006108,
             "cellSize": 0.0439453125,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -180.0,
-                90.0
+                90.0,
+                -180.0
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -131,12 +131,12 @@
         },
         {
             "id": "4",
-            "scaleDenominator": 7304.670418503049,
+            "scaleDenominator": 7304.670418503054,
             "cellSize": 0.02197265625,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -180.0,
-                90.0
+                90.0,
+                -180.0
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -187,12 +187,12 @@
         },
         {
             "id": "5",
-            "scaleDenominator": 3652.3352092515247,
+            "scaleDenominator": 3652.335209251527,
             "cellSize": 0.010986328125,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -180.0,
-                90.0
+                90.0,
+                -180.0
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -253,12 +253,12 @@
         },
         {
             "id": "6",
-            "scaleDenominator": 1826.1676046257624,
+            "scaleDenominator": 1826.1676046257635,
             "cellSize": 0.0054931640625,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -180.0,
-                90.0
+                90.0,
+                -180.0
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -329,12 +329,12 @@
         },
         {
             "id": "7",
-            "scaleDenominator": 913.0838023128812,
+            "scaleDenominator": 913.0838023128817,
             "cellSize": 0.00274658203125,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -180.0,
-                90.0
+                90.0,
+                -180.0
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -415,12 +415,12 @@
         },
         {
             "id": "8",
-            "scaleDenominator": 456.5419011564406,
+            "scaleDenominator": 456.5419011564409,
             "cellSize": 0.001373291015625,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -180.0,
-                90.0
+                90.0,
+                -180.0
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -511,12 +511,12 @@
         },
         {
             "id": "9",
-            "scaleDenominator": 228.2709505782203,
+            "scaleDenominator": 228.27095057822044,
             "cellSize": 0.0006866455078125,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -180.0,
-                90.0
+                90.0,
+                -180.0
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -617,12 +617,12 @@
         },
         {
             "id": "10",
-            "scaleDenominator": 114.13547528911015,
+            "scaleDenominator": 114.13547528911022,
             "cellSize": 0.00034332275390625,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -180.0,
-                90.0
+                90.0,
+                -180.0
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -733,12 +733,12 @@
         },
         {
             "id": "11",
-            "scaleDenominator": 57.06773764455507,
+            "scaleDenominator": 57.06773764455511,
             "cellSize": 0.000171661376953125,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -180.0,
-                90.0
+                90.0,
+                -180.0
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -859,12 +859,12 @@
         },
         {
             "id": "12",
-            "scaleDenominator": 28.533868822277537,
+            "scaleDenominator": 28.533868822277555,
             "cellSize": 8.58306884765625e-05,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -180.0,
-                90.0
+                90.0,
+                -180.0
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -995,12 +995,12 @@
         },
         {
             "id": "13",
-            "scaleDenominator": 14.266934411138768,
+            "scaleDenominator": 14.266934411138777,
             "cellSize": 4.291534423828125e-05,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -180.0,
-                90.0
+                90.0,
+                -180.0
             ],
             "tileWidth": 256,
             "tileHeight": 256,

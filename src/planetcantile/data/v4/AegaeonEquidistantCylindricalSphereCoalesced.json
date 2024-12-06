@@ -1,11 +1,11 @@
 {
+    "title": "AegaeonEquidistantCylindricalSphereCoalesced",
     "id": "AegaeonEquidistantCylindricalSphereCoalesced",
-    "title": "Aegaeon (2015) - Sphere EN EquidistantCylindricalSphereCoalesced",
-    "crs": "PROJCRS[\"Aegaeon (2015) - Sphere / Equidistant Cylindrical\",BASEGEOGCRS[\"Aegaeon (2015) - Sphere\",DATUM[\"Aegaeon (2015) - Sphere\",ELLIPSOID[\"Aegaeon (2015) - Sphere\",330,0,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]]],PRIMEM[\"Reference Meridian\",0,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]]],CONVERSION[\"World Equidistant Cylindrical\",METHOD[\"Equidistant Cylindrical\",ID[\"EPSG\",1028]],PARAMETER[\"Latitude of 1st standard parallel\",0,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8823]],PARAMETER[\"Longitude of natural origin\",0,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8802]],PARAMETER[\"False easting\",0,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8806]],PARAMETER[\"False northing\",0,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8807]]],CS[Cartesian,2],AXIS[\"easting (X)\",east,ORDER[1],LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],AXIS[\"northing (Y)\",north,ORDER[2],LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],USAGE[SCOPE[\"Aegaeon graticule coordinates expressed in simple Cartesian form.\"],AREA[\"Whole of Aegaeon\"],BBOX[-90,-180,90,180]],REMARK[\"Use mean radius as sphere radius for interoperability. Source of IAU Coordinate systems: doi:10.1007/s10569-017-9805-5 Coalesced\"]]",
     "orderedAxes": [
         "E",
         "N"
     ],
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/65310",
     "tileMatrices": [
         {
             "id": "0",

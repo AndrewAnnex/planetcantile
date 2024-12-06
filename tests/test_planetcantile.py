@@ -4,6 +4,8 @@ import morecantile
 from pyproj import CRS, Transformer
 import numpy as np
 from morecantile.commons import BoundingBox, Tile
+from rio_tiler.utils import CRS_to_uri
+from rasterio import crs as rcrs
 
 
 def test_planetcantile_defaults():
@@ -175,3 +177,21 @@ def test_mars_north_pole():
     assert mnps is not None
     assert mnps.xy(0.0, -90) is not None
     assert tuple(mnps.xy(0.0, -90)) == (400000.0, 400000.0)
+
+#'MarsEquidistantCylindricalSphere', 'MarsWebMercatorSphere',
+# @pytest.mark.parametrize("tms_name", ['MarsGeographicSphere',  'MarsEquidistantCylindricalOcentric'])
+# def test_rasterio_geographic_crs_to_uri(tms_name):
+#     mtms = planetcantile.planetary_tms.get(tms_name)
+#     breakpoint()
+#     assert mtms.geographic_crs.to_authority() is not None
+#     assert mtms.rasterio_geographic_crs.to_authority()  is not None
+#     assert rcrs.CRS.from_wkt(mtms.geographic_crs.to_wkt()).to_authority
+#     rgcrs = mtms.rasterio_geographic_crs
+#     uri = CRS_to_uri(rgcrs)
+#     # okay uri can be none in the rasterio_geographic_crs is not detailed enough to cleanly become a iau crs
+#     # for example CRS.from_wkt('GEOGCS["Mars (2015)",DATUM["Mars (2015)",SPHEROID["Mars (2015)",3396190,169.894447223612]],PRIMEM["Reference Meridian",0],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AXIS["Latitude",NORTH],AXIS["Longitude",EAST]]')
+#     # is too sparse 
+#     # okay I actually think now this is due to the axis ordering swaps I perform resulting in a different result from rasterio's to_authority call
+#     # although that doesn't make sense, as the geographic crs for any normal crs shouldn't depend on the axis order of the projection
+#     assert uri is not None
+#     assert 'IAU' in uri

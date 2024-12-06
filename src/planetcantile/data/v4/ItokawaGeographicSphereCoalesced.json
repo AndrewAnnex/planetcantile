@@ -1,11 +1,11 @@
 {
+    "title": "ItokawaGeographicSphereCoalesced",
     "id": "ItokawaGeographicSphereCoalesced",
-    "title": "Itokawa (2015) - Sphere LonLat GeographicSphereCoalesced",
-    "crs": "GEOGCRS[\"Itokawa (2015) - Sphere XY\",DATUM[\"Itokawa (2015) - Sphere\",ELLIPSOID[\"Itokawa (2015) - Sphere\",173,0,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],ANCHOR[\"de\ufb01ned with W0=0 : 0\"]],PRIMEM[\"Reference Meridian\",0,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],CS[ellipsoidal,2],AXIS[\"geodetic longitude (Lon)\",east,ORDER[1],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],AXIS[\"geodetic latitude (Lat)\",north,ORDER[2],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],USAGE[SCOPE[\"Itokawa\"],AREA[\"Whole of Itokawa\"],BBOX[-90,-180,90,180]],REMARK[\"Use R_m = (a+b+c)/3 as mean radius. Use mean radius as sphere radius for interoperability. Source of IAU Coordinate systems: doi:10.1007/s10569-017-9805-5 Coalesced\"]]",
     "orderedAxes": [
-        "Lon",
-        "Lat"
+        "Lat",
+        "Lon"
     ],
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/202514300",
     "tileMatrices": [
         {
             "id": "0",
@@ -13,8 +13,8 @@
             "cellSize": 0.3515625,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -180.0,
-                90.0
+                90.0,
+                -180.0
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -27,8 +27,8 @@
             "cellSize": 0.17578125,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -180.0,
-                90.0
+                90.0,
+                -180.0
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -53,8 +53,8 @@
             "cellSize": 0.087890625,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -180.0,
-                90.0
+                90.0,
+                -180.0
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -89,8 +89,8 @@
             "cellSize": 0.0439453125,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -180.0,
-                90.0
+                90.0,
+                -180.0
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -135,8 +135,8 @@
             "cellSize": 0.02197265625,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -180.0,
-                90.0
+                90.0,
+                -180.0
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -191,8 +191,8 @@
             "cellSize": 0.010986328125,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -180.0,
-                90.0
+                90.0,
+                -180.0
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -257,8 +257,8 @@
             "cellSize": 0.0054931640625,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -180.0,
-                90.0
+                90.0,
+                -180.0
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -333,8 +333,8 @@
             "cellSize": 0.00274658203125,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -180.0,
-                90.0
+                90.0,
+                -180.0
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -419,8 +419,8 @@
             "cellSize": 0.001373291015625,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -180.0,
-                90.0
+                90.0,
+                -180.0
             ],
             "tileWidth": 256,
             "tileHeight": 256,

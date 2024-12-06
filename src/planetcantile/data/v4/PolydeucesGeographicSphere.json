@@ -1,11 +1,11 @@
 {
+    "title": "PolydeucesGeographicSphere",
     "id": "PolydeucesGeographicSphere",
-    "title": "Polydeuces (2015) - Sphere LonLat GeographicSphere",
-    "crs": "GEOGCRS[\"Polydeuces (2015) - Sphere XY\",DATUM[\"Polydeuces (2015) - Sphere\",ELLIPSOID[\"Polydeuces (2015) - Sphere\",1300,0,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]]],PRIMEM[\"Reference Meridian\",0,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],CS[ellipsoidal,2],AXIS[\"geodetic longitude (Lon)\",east,ORDER[1],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],AXIS[\"geodetic latitude (Lat)\",north,ORDER[2],ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]],USAGE[SCOPE[\"Polydeuces\"],AREA[\"Whole of Polydeuces\"],BBOX[-90,-180,90,180]],REMARK[\"Use mean radius as sphere radius for interoperability. Source of IAU Coordinate systems: doi:10.1007/s10569-017-9805-5\"]]",
     "orderedAxes": [
-        "Lon",
-        "Lat"
+        "Lat",
+        "Lon"
     ],
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/63400",
     "tileMatrices": [
         {
             "id": "0",
@@ -13,8 +13,8 @@
             "cellSize": 0.703125,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -180.0,
-                90.0
+                90.0,
+                -180.0
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -27,8 +27,8 @@
             "cellSize": 0.3515625,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -180.0,
-                90.0
+                90.0,
+                -180.0
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -41,8 +41,8 @@
             "cellSize": 0.17578125,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -180.0,
-                90.0
+                90.0,
+                -180.0
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -55,8 +55,8 @@
             "cellSize": 0.087890625,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -180.0,
-                90.0
+                90.0,
+                -180.0
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -69,8 +69,8 @@
             "cellSize": 0.0439453125,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -180.0,
-                90.0
+                90.0,
+                -180.0
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -83,8 +83,8 @@
             "cellSize": 0.02197265625,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -180.0,
-                90.0
+                90.0,
+                -180.0
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -97,8 +97,8 @@
             "cellSize": 0.010986328125,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -180.0,
-                90.0
+                90.0,
+                -180.0
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -111,8 +111,8 @@
             "cellSize": 0.0054931640625,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -180.0,
-                90.0
+                90.0,
+                -180.0
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -125,8 +125,8 @@
             "cellSize": 0.00274658203125,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -180.0,
-                90.0
+                90.0,
+                -180.0
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -139,8 +139,8 @@
             "cellSize": 0.001373291015625,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -180.0,
-                90.0
+                90.0,
+                -180.0
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -153,8 +153,8 @@
             "cellSize": 0.0006866455078125,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -180.0,
-                90.0
+                90.0,
+                -180.0
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -167,8 +167,8 @@
             "cellSize": 0.00034332275390625,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -180.0,
-                90.0
+                90.0,
+                -180.0
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -181,8 +181,8 @@
             "cellSize": 0.000171661376953125,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -180.0,
-                90.0
+                90.0,
+                -180.0
             ],
             "tileWidth": 256,
             "tileHeight": 256,

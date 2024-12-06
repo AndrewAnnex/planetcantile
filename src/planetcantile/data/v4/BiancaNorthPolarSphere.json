@@ -1,11 +1,11 @@
 {
+    "title": "BiancaNorthPolarSphere",
     "id": "BiancaNorthPolarSphere",
-    "title": "Bianca (2015) - Sphere EN NorthPolarSphere",
-    "crs": "PROJCRS[\"Bianca (2015) - Sphere\",BASEGEOGCRS[\"Bianca (2015) - Sphere\",DATUM[\"Bianca (2015) - Sphere\",ELLIPSOID[\"Bianca (2015) - Sphere\",21000,0,LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]]],PRIMEM[\"Reference Meridian\",0,ANGLEUNIT[\"degree\",0.0174532925199433,ID[\"EPSG\",9122]]]],CONVERSION[\"Universal Polar Stereographic North\",METHOD[\"Polar Stereographic (variant A)\",ID[\"EPSG\",9810]],PARAMETER[\"Latitude of natural origin\",90,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8801]],PARAMETER[\"Longitude of natural origin\",0,ANGLEUNIT[\"degree\",0.0174532925199433],ID[\"EPSG\",8802]],PARAMETER[\"Scale factor at natural origin\",1,SCALEUNIT[\"unity\",1],ID[\"EPSG\",8805]],PARAMETER[\"False easting\",3000,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8806]],PARAMETER[\"False northing\",3000,LENGTHUNIT[\"metre\",1],ID[\"EPSG\",8807]]],CS[Cartesian,2],AXIS[\"(E)\",south,ORDER[1],LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],AXIS[\"(N)\",south,ORDER[2],LENGTHUNIT[\"metre\",1,ID[\"EPSG\",9001]]],USAGE[SCOPE[\"North Polar Area Bianca\"],AREA[\"Bianca between 78.46363762762356 N and 90.00 N.\"],BBOX[78.4636376276236,-180,90,180]],REMARK[\"Source of IAU Coordinate systems: doi:10.1007/s10569-017-9805-5\"]]",
     "orderedAxes": [
         "E",
         "N"
     ],
+    "crs": "http://www.opengis.net/def/crs/IAU/2015/70830",
     "tileMatrices": [
         {
             "id": "0",
@@ -13,8 +13,8 @@
             "cellSize": 33.145630368119406,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -1199.45672230712,
-                7242.640687119284
+                -4199.45672230712,
+                4242.640687119284
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -27,8 +27,8 @@
             "cellSize": 16.572815184059703,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -1199.45672230712,
-                7242.640687119284
+                -4199.45672230712,
+                4242.640687119284
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -41,8 +41,8 @@
             "cellSize": 8.286407592029851,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -1199.45672230712,
-                7242.640687119284
+                -4199.45672230712,
+                4242.640687119284
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -55,8 +55,8 @@
             "cellSize": 4.143203796014926,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -1199.45672230712,
-                7242.640687119284
+                -4199.45672230712,
+                4242.640687119284
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -69,8 +69,8 @@
             "cellSize": 2.071601898007463,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -1199.45672230712,
-                7242.640687119284
+                -4199.45672230712,
+                4242.640687119284
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -83,8 +83,8 @@
             "cellSize": 1.0358009490037314,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -1199.45672230712,
-                7242.640687119284
+                -4199.45672230712,
+                4242.640687119284
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -97,8 +97,8 @@
             "cellSize": 0.5179004745018657,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -1199.45672230712,
-                7242.640687119284
+                -4199.45672230712,
+                4242.640687119284
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -111,8 +111,8 @@
             "cellSize": 0.25895023725093286,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -1199.45672230712,
-                7242.640687119284
+                -4199.45672230712,
+                4242.640687119284
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -125,8 +125,8 @@
             "cellSize": 0.12947511862546643,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -1199.45672230712,
-                7242.640687119284
+                -4199.45672230712,
+                4242.640687119284
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -139,8 +139,8 @@
             "cellSize": 0.06473755931273321,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -1199.45672230712,
-                7242.640687119284
+                -4199.45672230712,
+                4242.640687119284
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -153,8 +153,8 @@
             "cellSize": 0.03236877965636661,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -1199.45672230712,
-                7242.640687119284
+                -4199.45672230712,
+                4242.640687119284
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -167,8 +167,8 @@
             "cellSize": 0.016184389828183304,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -1199.45672230712,
-                7242.640687119284
+                -4199.45672230712,
+                4242.640687119284
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -181,8 +181,8 @@
             "cellSize": 0.008092194914091652,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -1199.45672230712,
-                7242.640687119284
+                -4199.45672230712,
+                4242.640687119284
             ],
             "tileWidth": 256,
             "tileHeight": 256,
@@ -195,13 +195,69 @@
             "cellSize": 0.004046097457045826,
             "cornerOfOrigin": "topLeft",
             "pointOfOrigin": [
-                -1199.45672230712,
-                7242.640687119284
+                -4199.45672230712,
+                4242.640687119284
             ],
             "tileWidth": 256,
             "tileHeight": 256,
             "matrixWidth": 8192,
             "matrixHeight": 8192
+        },
+        {
+            "id": "14",
+            "scaleDenominator": 7.225174030438976,
+            "cellSize": 0.002023048728522913,
+            "cornerOfOrigin": "topLeft",
+            "pointOfOrigin": [
+                -4199.45672230712,
+                4242.640687119284
+            ],
+            "tileWidth": 256,
+            "tileHeight": 256,
+            "matrixWidth": 16384,
+            "matrixHeight": 16384
+        },
+        {
+            "id": "15",
+            "scaleDenominator": 3.612587015219488,
+            "cellSize": 0.0010115243642614565,
+            "cornerOfOrigin": "topLeft",
+            "pointOfOrigin": [
+                -4199.45672230712,
+                4242.640687119284
+            ],
+            "tileWidth": 256,
+            "tileHeight": 256,
+            "matrixWidth": 32768,
+            "matrixHeight": 32768
+        },
+        {
+            "id": "16",
+            "scaleDenominator": 1.806293507609744,
+            "cellSize": 0.0005057621821307282,
+            "cornerOfOrigin": "topLeft",
+            "pointOfOrigin": [
+                -4199.45672230712,
+                4242.640687119284
+            ],
+            "tileWidth": 256,
+            "tileHeight": 256,
+            "matrixWidth": 65536,
+            "matrixHeight": 65536
+        },
+        {
+            "id": "17",
+            "scaleDenominator": 0.903146753804872,
+            "cellSize": 0.0002528810910653641,
+            "cornerOfOrigin": "topLeft",
+            "pointOfOrigin": [
+                -4199.45672230712,
+                4242.640687119284
+            ],
+            "tileWidth": 256,
+            "tileHeight": 256,
+            "matrixWidth": 131072,
+            "matrixHeight": 131072
         }
     ]
 }
