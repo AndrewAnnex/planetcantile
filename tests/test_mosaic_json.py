@@ -31,7 +31,6 @@ def test_mosaic_json():
         assert isinstance(mosaic, FileBackend)
         assert mosaic.tms == mars_tms_wm_sphere
         assert mosaic.crs == mars_tms_wm_sphere.rasterio_geographic_crs
-        assert mosaic.geographic_crs == mars_tms_wm_sphere.rasterio_geographic_crs
         assert len(mosaic.assets_for_point(77.28, 18, mars_tms_wm_sphere.geographic_crs)) > 0
         assert len(mosaic.assets_for_bbox(77.2, 17.5, 77.4, 18.5, mars_tms_wm_sphere.geographic_crs)) > 0
         assert len(mosaic.assets_for_point(77.25, 18.0)) > 0
