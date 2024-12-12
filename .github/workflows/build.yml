@@ -15,6 +15,7 @@ jobs:
       - name: Install deps
         run: |
           python -m pip install --upgrade pip
+          python -m pip install build twine
           python -m pip install .[dev]
       - name: Run defaults script
         run: |
@@ -26,3 +27,7 @@ jobs:
       - name: run tests
         run: |
           python -m pytest .
+      - name: Build
+        run: |
+          python -m build
+          python -m twine check dist/*
