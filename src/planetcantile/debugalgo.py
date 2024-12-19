@@ -22,8 +22,6 @@ class DebugTile(BaseAlgorithm):
     output_nbands: int = 3
     output_dtype: str = "uint8"
 
-
-
     @cached_property
     def tms(self):
         return planetary_tms.get(self.input_tms)

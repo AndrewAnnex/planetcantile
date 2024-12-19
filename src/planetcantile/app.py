@@ -14,7 +14,7 @@ from typing import Callable
 
 from .defaults import planetary_tms
 from .topoalgo import TopographyQuantizer
-from .debugalgo import DebugTile
+from .debugalgo import DebugTile, fnt
 
 from io import BytesIO
 
@@ -91,13 +91,13 @@ add_exception_handlers(app, MOSAIC_STATUS_CODES)
 
 @app.get("/debug/{z}/{x}/{y}.png")
 async def debug(z: int, x: int , y: int):
-    "Serve scrambled tiles from two basemaps."
-    img = Image.new("RGBA", (254, 254))
+    "Serve tiles with xyz tile encoded onto image"
+    img = Image.new("RGBA", (256, 256))
     img = ImageOps.expand(img, border=1, fill="black")
     draw = ImageDraw.Draw(img)
-    msg = f"x/y/z: {x}/{y}/{z}"
-    w, h = 127, 127
-    draw.text(((255 - w) / 2, (255 - h) / 2), msg, fill="black")
+    msg = f"{z}-{x}-{y}"
+    w, h = 127, 256/2.5
+    draw.text((25, h), msg, fill="white", font=fnt)
     img_io = BytesIO()
     img.save(img_io, 'PNG')
     img_io.seek(0)
