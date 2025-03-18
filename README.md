@@ -1,6 +1,6 @@
 # Planetcantile
 
-[![PyPI version](https://badge.fury.io/py/planetcantile.svg)](https://badge.fury.io/py/planetcantile)
+[![PyPI version](https://img.shields.io/pypi/v/planetcantile.svg)](https://pypi.org/project/planetcantile/)
 [![Python Versions](https://img.shields.io/pypi/pyversions/planetcantile.svg)](https://pypi.org/project/planetcantile/)
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
@@ -30,8 +30,8 @@ A TileMatrixSet defines how a spatial area (like a planet) is divided into a hie
 - <strong>Multiple Projection Types:</strong>
   - Geographic (regular lat/lon) - Standard equirectangular/plate carrée projection
   - Equidistant Cylindrical - Cylindrical projection preserving distances along meridians
-  - Web Mercator - Modified Mercator projection commonly used in web mapping
-  - Mercator - Classic Mercator projection
+  - World Mercator - "Mercator (variant A)" [(EPSG 9804)](https://epsg.io/9804-method)
+  - Web Mercator - "Popular Visualisation Pseudo Mercator" [(EPSG 1024)](https://epsg.io/1024-method)
   - North Polar Stereographic - Projection centered on the North Pole
   - South Polar Stereographic - Projection centered on the South Pole
 
@@ -54,7 +54,7 @@ A TileMatrixSet defines how a spatial area (like a planet) is divided into a hie
 ### Prerequisites
 
 - Python 3.10 or higher
-- pip or conda package manager
+- Pip package manager
 
 ### Installation
 
@@ -117,6 +117,7 @@ For local files, replace the URL with the local file path: ``url=file:///home/us
 
 ### Option 2: As a Python Library
 
+#### Using planetcantile directly
 
 ```python
 # Import the planetary TMS collection
@@ -131,7 +132,40 @@ mars_tms = planetary_tms.get("MarsGeographicSphere")
 # Register a custom TMS (example)
 # planetary_tms.register(custom_tms)
 
-# Use with morecantile
+# Now use with morecantile
+from morecantile import Tile
+tile = Tile(x=0, y=0, z=0)
+bounds = mars_tms.bounds(tile)
+print(f"Bounds of Mars tile: {bounds}")
+```
+
+#### Using morecantile directly (without importing planetcantile)
+
+```python
+import os
+import sysconfig
+from pathlib import Path
+
+# Find planetcantile's TMS definitions directory
+site_packages = sysconfig.get_path('purelib')
+tms_dir = Path(site_packages) / "planetcantile" / "data" / "tms"
+
+if tms_dir.exists():
+  # Set the environment variable for morecantile
+  os.environ["TILEMATRIXSET_DIRECTORY"] = str(tms_dir)
+else:
+    print(f"Warning: TMS directory not found at {tms_dir}")
+
+# Now use morecantile directly with planetcantile's TMS definitions
+from morecantile import tms
+
+# List available TMS (including planetcantile ones)
+print(tms.list())
+
+# Get a specific planetary TMS
+mars_tms = tms.get("MarsGeographicSphere")
+
+# Use it with a tile
 from morecantile import Tile
 tile = Tile(x=0, y=0, z=0)
 bounds = mars_tms.bounds(tile)
@@ -148,10 +182,22 @@ You can set this programmatically before importing planetcantile:
 ```python
 import os
 
-# Set the environment variable
+# Option 1: Point to your custom TMS definitions
 os.environ["TILEMATRIXSET_DIRECTORY"] = "/path/to/your/custom/tms/definitions"
 
-# Import planetcantile - it will include your custom TMS
+# Option 2: Point to planetcantile's TMS definitions (for using with morecantile)
+import sysconfig
+from pathlib import Path
+site_packages = sysconfig.get_path('purelib')
+planetcantile_tms_dir = Path(site_packages) / "planetcantile" / "data" / "tms"
+if planetcantile_tms_dir.exists():
+    os.environ["TILEMATRIXSET_DIRECTORY"] = str(planetcantile_tms_dir)
+else:
+    print(f"Warning: TMS directory not found at {planetcantile_tms_dir}")
+
+# Now import and use either planetcantile or morecantile
+from morecantile import tms
+# or
 from planetcantile import planetary_tms
 ```
 
@@ -174,6 +220,8 @@ Planetcantile includes TMS definitions for:
 - Comets: Including Halley, Wild2, Churyumov-Gerasimenko, and others
 
 Each body has multiple projection types available (see Features section).
+
+All TMS definitions are based on official International Astronomical Union (IAU) Coordinate Reference Systems (CRS) registered with the Open Geospatial Consortium (OGC). The complete catalog of these CRS is available at the [VESPA-CRS Registry](http://voparis-vespa-crs.obspm.fr:8080/web/).
 
 ## Integration with Other Libraries
 
