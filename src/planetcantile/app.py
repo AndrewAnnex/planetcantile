@@ -22,7 +22,7 @@ from PIL import Image, ImageOps, ImageDraw
 from starlette.responses import Response
 
 from rio_tiler.io import STACReader
-from titiler.core.factory import TilerFactory, TMSFactory, AlgorithmFactory, MultiBaseTilerFactory
+from titiler.core.factory import TilerFactory, TMSFactory, AlgorithmFactory, MultiBaseTilerFactory, ColorMapFactory
 from titiler.core.errors import DEFAULT_STATUS_CODES, add_exception_handlers
 from titiler.extensions import cogViewerExtension, stacViewerExtension, stacExtension
 from titiler.core.algorithm import Algorithms
@@ -69,6 +69,8 @@ mosaic = MosaicTilerFactory(
     process_dependency=PostProcessParams,
 )
 
+colormap = ColorMapFactory()
+
 app = FastAPI(
     title="Planetcantile",
     description="A Cloud Optimized GeoTIFF tile server for Planetary Data"
@@ -86,6 +88,7 @@ app.include_router(stac.router, prefix="/stac", tags=["SpatioTemporal Asset Cata
 app.include_router(mosaic.router, prefix="/mosaicjson",tags=["MosaicJSON"])
 app.include_router(algos.router, tags=["Algorithms"])
 app.include_router(tms.router, tags=["Tiling Schemes"])
+app.include_router(colormap.router, tags=["ColorMaps"])
 add_exception_handlers(app, DEFAULT_STATUS_CODES)
 add_exception_handlers(app, MOSAIC_STATUS_CODES)
 
