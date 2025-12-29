@@ -11,11 +11,11 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - name: Checkout project
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: ${{ github.event.pull_request.head.sha }}
       - name: Set up Python 🐍
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
           check-latest: true
@@ -30,7 +30,7 @@ jobs:
         run: |
           python -m build
           python -m twine check dist/*
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v5
         with:
           name: wheels
           path: ./dist/*.whl
@@ -46,7 +46,7 @@ jobs:
       id-token: write  # IMPORTANT: mandatory for trusted publishing
     steps:
       - name: Download all the dists
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v5
         with:
           name: wheels
           path: dist/
@@ -70,7 +70,7 @@ jobs:
       id-token: write  # IMPORTANT: mandatory for trusted publishing
     steps:
       - name: Download all the dists
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v5
         with:
           name: wheels
           path: dist/
