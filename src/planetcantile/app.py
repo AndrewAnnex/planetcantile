@@ -27,6 +27,7 @@ from titiler.core.errors import DEFAULT_STATUS_CODES, add_exception_handlers
 from titiler.extensions import cogViewerExtension, stacViewerExtension, stacExtension
 from titiler.core.algorithm import Algorithms
 from titiler.core.algorithm import algorithms as default_algorithms
+from cogeo_mosaic.backends import MosaicBackend
 from titiler.mosaic.factory import MosaicTilerFactory
 from titiler.mosaic.errors import MOSAIC_STATUS_CODES
 from starlette.middleware.cors import CORSMiddleware
@@ -64,6 +65,7 @@ cog = TilerFactory(
     ]
 )
 mosaic = MosaicTilerFactory(
+    backend=MosaicBackend,
     router_prefix="/mosaicjson",
     supported_tms=planetary_tms,
     process_dependency=PostProcessParams,
