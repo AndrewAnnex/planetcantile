@@ -13,6 +13,7 @@ A TileMatrixSet defines how a spatial area (like a planet) is divided into a hie
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
+  - [Docker](#docker)
 - [Usage](#usage)
   - [Web API](#option-1-using-the-web-api)
   - [Python Library](#option-2-as-a-python-library)
@@ -95,9 +96,99 @@ pip install -e ".[dev]"
 uvicorn planetcantile.app:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-#### Docker Container (Experimental)
+### Docker
 
-Warning: The Docker container is currently experimental and may crash unexpectedly. It can be useful for quick exploration but is not recommended for production use: [planetcantile_docker](https://github.com/AndrewAnnex/planetcantile_docker)
+A `Dockerfile` and `docker-compose.yml` are included for running the web application in an isolated container.
+
+#### Quick start
+
+```bash
+docker compose up --build
+```
+
+> Pass `--build` whenever you update the repository (new dependencies, Dockerfile changes). Without it Docker reuses the cached image.
+
+By default no host port is exposed. Planetcantile is reachable only from other containers on the same Docker network (see [Integrating with another service](#integrating-with-another-service)).
+
+#### Local testing
+
+By default, planetcantile works without any host port exposed. This section is only needed if you want to access the API directly from your browser.
+
+To reach the production image from your browser, create a `docker-compose.override.yml` **inside the planetcantile directory**:
+
+```yaml
+services:
+  planetcantile:
+    ports:
+      - "8000:8000"
+
+networks:
+  app-net:
+    internal: false
+```
+
+Then run `docker compose up --build` as normal. The API will be available at [http://localhost:8000/docs](http://localhost:8000/docs).
+
+#### Serving local COG/STAC files
+
+Create a `.env` file in the planetcantile directory and set `DATA_PATH` to the host directory containing your GeoTIFF files:
+
+```
+# Windows
+DATA_PATH=D:/Data/titiler_custom/map
+
+# macOS / Linux
+DATA_PATH=/home/user/data/map
+```
+
+Docker Compose picks up `.env` automatically. Then start normally:
+
+```bash
+docker compose up --build
+```
+
+The directory is mounted at `/data` inside the container (read-only). Always reference files by their **container path** in tile requests:
+
+```
+# correct: container path
+http://localhost:8000/cog/tiles/MoonGeographicSphere/{z}/{x}/{y}?url=/data/moon.tif
+
+# wrong: host path, will return 500
+http://localhost:8000/cog/tiles/MoonGeographicSphere/{z}/{x}/{y}?url=file:///D:/Data/moon.tif
+```
+
+If you are integrating with another service, set that service's data URL prefix to `/data` to match the container mount point.
+
+#### Configuration
+
+All options are set via environment variables (in a `.env` file or passed directly):
+
+| Variable | Default | Description |
+|---|---|---|
+| `DATA_PATH` | `./data` | Host path mounted as `/data` (read-only) inside the container |
+| `CORS_ORIGINS` | `*` | Allowed CORS origins (e.g. `http://myapp:3000`) |
+| `INTERNAL_NETWORK` | `true` | Cuts outbound internet access. Set to `false` if planetcantile must fetch remote COG/STAC files over HTTP |
+| `WORKERS` | `1` | Number of uvicorn worker processes. Increase for higher throughput (rule of thumb: `2 × CPU cores + 1`) |
+
+#### Integrating with another service
+
+First, make sure planetcantile is running (`docker compose up` from the planetcantile directory). This creates the `planetcantile_app-net` Docker network.
+
+Then, in your own project's compose file, declare that network as external and attach your service to it (replace `your-service` with your actual service name):
+
+```yaml
+services:
+  your-service:                  # replace with your service name
+    networks:
+      - planetcantile-net        # local alias, you can name this anything
+
+networks:
+  planetcantile-net:             # must match the alias used above
+    external: true
+    name: planetcantile_app-net  # the actual Docker network created by planetcantile
+```
+
+No ports are exposed. Planetcantile is reachable only from services on the same network, via `http://planetcantile:8000`.
 
 ## Usage
 

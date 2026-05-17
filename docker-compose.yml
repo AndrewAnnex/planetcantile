@@ -1,0 +1,33 @@
+services:
+  planetcantile:
+    build: .
+    networks:
+      - app-net
+    read_only: true
+    tmpfs:
+      # uvicorn and Python need a writable /tmp; size-capped to limit resource usage
+      - /tmp:mode=1777,size=64m
+    volumes:
+      # Mount local COG/STAC data as read-only.
+      # Tile requests should reference paths under /data (e.g. /data/moon.tif).
+      # Override DATA_PATH or extend this file to change the mount path.
+      - ${DATA_PATH:-./data}:/data:ro
+    environment:
+      # Restrict CORS to the client origin. Set CORS_ORIGINS in the .env file.
+      CORS_ORIGINS: "${CORS_ORIGINS:-*}"
+      WORKERS: "${WORKERS:-1}"
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    # No ports block: not reachable from the host by default.
+    # See the local testing section in the README to expose the port for browser access.
+
+networks:
+  app-net:
+    name: planetcantile_app-net   # fixed name for external projects to reference
+    driver: bridge
+    # internal: true cuts all outbound internet access for every service on this network.
+    # Enabled by default when all COG/STAC data is mounted locally (DATA_PATH above).
+    # Set to false if planetcantile must fetch remote COG/STAC files over HTTP.
+    internal: ${INTERNAL_NETWORK:-true}
