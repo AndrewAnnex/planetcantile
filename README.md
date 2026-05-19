@@ -121,13 +121,17 @@ services:
   planetcantile:
     ports:
       - "8000:8000"
+    environment:
+      TITILER_UI_ENABLED: "true"
 
 networks:
   app-net:
     internal: false
 ```
 
-Then run `docker compose up --build` as normal. The API will be available at [http://localhost:8000/docs](http://localhost:8000/docs).
+Then run `docker compose up --build` as normal. The API will be available at [http://localhost:8000/docs](http://localhost:8000/docs) and [http://localhost:8000/redoc](http://localhost:8000/redoc).
+
+> `TITILER_UI_ENABLED` is required to activate the Swagger and ReDoc interfaces. Without it, `/docs` and `/redoc` return 404. The tile API itself works regardless.
 
 #### Serving local COG/STAC files
 
@@ -169,6 +173,7 @@ All options are set via environment variables (in a `.env` file or passed direct
 | `CORS_ORIGINS` | `*` | Allowed CORS origins (e.g. `http://myapp:3000`) |
 | `INTERNAL_NETWORK` | `true` | Cuts outbound internet access. Set to `false` if planetcantile must fetch remote COG/STAC files over HTTP |
 | `WORKERS` | `1` | Number of uvicorn worker processes. Increase for higher throughput (rule of thumb: `2 × CPU cores + 1`) |
+| `TITILER_UI_ENABLED` | `false` | Enables `/docs`, `/redoc`, and the COG/STAC viewer extensions. |
 
 #### Integrating with another service
 
@@ -194,7 +199,7 @@ No ports are exposed. Planetcantile is reachable only from services on the same 
 
 ### Option 1: Using the Web API
 
-After starting the web application, the API interface will be accessible at [http://localhost:8000/docs](http://localhost:8000/docs)
+After starting the web application with `TITILER_UI_ENABLED=true`, the API interface will be accessible at [http://localhost:8000/docs](http://localhost:8000/docs)
 
 More information about endpoints is available in the [TiTiler documentation](https://developmentseed.org/titiler/).
 

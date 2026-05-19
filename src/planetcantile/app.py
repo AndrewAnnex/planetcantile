@@ -19,7 +19,9 @@ from .debugalgo import DebugTile, fnt
 from io import BytesIO
 
 from PIL import Image, ImageOps, ImageDraw
+from starlette.requests import Request
 from starlette.responses import Response
+from starlette.middleware.base import BaseHTTPMiddleware
 
 from rio_tiler.io import STACReader
 from titiler.core.factory import TilerFactory, TMSFactory, AlgorithmFactory, MultiBaseTilerFactory, ColorMapFactory
@@ -33,6 +35,31 @@ from titiler.mosaic.errors import MOSAIC_STATUS_CODES
 from starlette.middleware.cors import CORSMiddleware
 from titiler.application.settings import ApiSettings
 from fastapi import FastAPI
+
+# When true: /docs, /redoc, and the COG/STAC viewer extensions are active.
+# Requires a CSP header on every HTML response, added by CSPMiddleware below.
+# In the proxied deployment, nginx handles
+# the CSP instead; set this only for standalone deployments.
+UI_ENABLED = os.getenv("TITILER_UI_ENABLED", "false").lower() == "true"
+
+UI_CSP = (
+    "default-src 'self'; "
+    "script-src 'self' https://cdn.jsdelivr.net 'sha256-QOOQu4W1oxGqd2nbXbxiA1Di6OHQOLQD+o+G9oWL8YY='; "
+    "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; "
+    "img-src 'self' data: blob: https://fastapi.tiangolo.com https://cdn.redoc.ly; "
+    "connect-src 'self'; "
+    "font-src 'self' https://fonts.gstatic.com; "
+    "worker-src blob:; "
+    "object-src 'none'; "
+    "frame-ancestors 'none';"
+)
+
+class CSPMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next: Callable) -> Response:
+        response = await call_next(request)
+        if "text/html" in response.headers.get("content-type", ""):
+            response.headers["Content-Security-Policy"] = UI_CSP
+        return response
 
 api_settings = ApiSettings()
 
@@ -53,14 +80,14 @@ stac = MultiBaseTilerFactory(
         process_dependency=PostProcessParams,
         extensions=[
             stacViewerExtension(),
-        ],
+        ] if UI_ENABLED else [],
     )
 cog = TilerFactory(
     router_prefix="/cog",
     supported_tms=planetary_tms,
     process_dependency=PostProcessParams,
     extensions=[
-        cogViewerExtension(),
+        *([cogViewerExtension()] if UI_ENABLED else []),
         stacExtension(),
     ]
 )
@@ -75,7 +102,9 @@ colormap = ColorMapFactory()
 
 app = FastAPI(
     title="Planetcantile",
-    description="A Cloud Optimized GeoTIFF tile server for Planetary Data"
+    description="A Cloud Optimized GeoTIFF tile server for Planetary Data",
+    docs_url="/docs" if UI_ENABLED else None,
+    redoc_url="/redoc" if UI_ENABLED else None,
 )
 app.add_middleware(
         CORSMiddleware,
@@ -84,6 +113,8 @@ app.add_middleware(
         allow_methods=["GET"],
         allow_headers=["*"],
 )
+if UI_ENABLED:
+    app.add_middleware(CSPMiddleware)
 
 app.include_router(cog.router, prefix='/cog', tags=["Cloud Optimized GeoTIFF"])
 app.include_router(stac.router, prefix="/stac", tags=["SpatioTemporal Asset Catalog"])
